@@ -6,6 +6,8 @@ public class main {
 
     public static void main(String args[]) {
 
+
+
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers();
 
