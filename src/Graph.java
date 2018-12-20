@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Graph {
 
-    private HashMap<Position, ArrayList> adjList;
+    private HashMap<Position, ArrayList<Position>> adjList;
     private ArrayList<Position> positions;
 
     public Graph(ArrayList<Position> positions) {
@@ -19,6 +19,10 @@ public class Graph {
     public void addEdge(Position src, Position dest) {
         this.adjList.get(src).add(dest);
         this.adjList.get(dest).add(src);
+    }
+
+    public HashMap<Position, ArrayList<Position>> getAdjList() {
+        return this.adjList;
     }
 
     public void printGraph(Graph graph) {

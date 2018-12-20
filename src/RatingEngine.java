@@ -8,18 +8,16 @@ public class RatingEngine {
         this.numPlayers = numPlayers;
     }
 
-    public static double getRating(ArrayList<Integer> ratings) {
+    public static double getRating(Squad squad) {
+
+        ArrayList<Integer> ratings = squad.getRatings();
 
         double playerSum = 0;
         for (int r : ratings) {
             playerSum += r;
         }
 
-//        System.out.println(playerSum);
-
         double avg = playerSum / 11;
-
-//        System.out.println(avg);
 
         double totExcess = 0.0;
         for (int r : ratings) {

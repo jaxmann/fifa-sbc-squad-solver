@@ -26,40 +26,53 @@ class F_41212 implements Formation {
 
     public F_41212() {
 
-        positions.add(Position.RB);
-        positions.add(Position.LB);
-        positions.add(Position.GK);
-        positions.add(Position.LCB);
-        positions.add(Position.RCB);
-        positions.add(Position.RB);
-        positions.add(Position.RM);
-        positions.add(Position.LM);
-        positions.add(Position.LST);
-        positions.add(Position.RST);
-        positions.add(Position.CAM);
+        Position rb = new Position("RB");
+        Position lb = new Position("LB");
+        Position gk = new Position("GK");
+        Position lcb = new Position("CB");
+        Position rcb = new Position("CB");
+        Position rm = new Position("RM");
+        Position lm = new Position("LM");
+        Position cam = new Position("CAM");
+        Position lst = new Position("ST");
+        Position rst = new Position("ST");
+        Position cdm = new Position("CDM");
+
+        positions = new ArrayList<>();
+        positions.add(rb);
+        positions.add(lb);
+        positions.add(gk);
+        positions.add(lcb);
+        positions.add(rcb);
+        positions.add(rm);
+        positions.add(cdm);
+        positions.add(lm);
+        positions.add(lst);
+        positions.add(rst);
+        positions.add(cam);
 
         this.positions = positions;
 
         graph = new Graph(this.positions);
-        graph.addEdge(Position.RB, Position.RM);
-        graph.addEdge(Position.RB, Position.RCB);
-        graph.addEdge(Position.RCB, Position.GK);
-        graph.addEdge(Position.RCB, Position.CDM);
-        graph.addEdge(Position.RCB, Position.LCB);
-        graph.addEdge(Position.LCB, Position.GK);
-        graph.addEdge(Position.LCB, Position.LB);
-        graph.addEdge(Position.LCB, Position.CDM);
-        graph.addEdge(Position.LB, Position.LM);
-        graph.addEdge(Position.RM, Position.CDM);
-        graph.addEdge(Position.RM, Position.CAM);
-        graph.addEdge(Position.RM, Position.RST);
-        graph.addEdge(Position.LM, Position.LST);
-        graph.addEdge(Position.LM, Position.CAM);
-        graph.addEdge(Position.LM, Position.CDM);
-        graph.addEdge(Position.CDM, Position.CAM);
-        graph.addEdge(Position.CAM, Position.LST);
-        graph.addEdge(Position.CAM, Position.RST);
-        graph.addEdge(Position.LST, Position.RST);
+        graph.addEdge(rb, rm);
+        graph.addEdge(rb, rcb);
+        graph.addEdge(rcb, gk);
+        graph.addEdge(rcb, cdm);
+        graph.addEdge(rcb, lcb);
+        graph.addEdge(lcb, gk);
+        graph.addEdge(lcb, lb);
+        graph.addEdge(lcb, cdm);
+        graph.addEdge(lb, lm);
+        graph.addEdge(rm, cdm);
+        graph.addEdge(rm, cam);
+        graph.addEdge(rm, rst);
+        graph.addEdge(lm, lst);
+        graph.addEdge(lm, cam);
+        graph.addEdge(lm, cdm);
+        graph.addEdge(cdm, cam);
+        graph.addEdge(cam, lst);
+        graph.addEdge(cam, rst);
+        graph.addEdge(lst, rst);
 
         this.graph = graph;
 

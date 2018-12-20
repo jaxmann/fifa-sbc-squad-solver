@@ -7,19 +7,26 @@ public class main {
     public static void main(String args[]) {
 
 
+//        FormationFactory ff = new FormationFactory();
+//        Formation f = ff.getFormation("41212");
+//
+//
+//        PlayerLoader pl = new PlayerLoader();
+//        pl.loadPlayers();
+//        ArrayList<Player> frenchies = pl.get11FrenchPlayers();
+//
+//        Squad s = new Squad(f.getPositions(), frenchies);
+//        s.printSquad();
 
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers();
-
-        HashMap<String, ArrayList<Player>> bp = pl.getByNation();
-
-        for (String name: bp.keySet()){
-
-            String key = name.toString();
-            Player value = bp.get(name).get(0);
-            System.out.println(key + " " + value.getName());
-
-        }
+//        HashMap<String, ArrayList<Player>> bp = pl.getByNation();
+//
+//        for (String name: bp.keySet()){
+//
+//            String key = name.toString();
+//            Player value = bp.get(name).get(0);
+//            System.out.println(key + " " + value.getName());
+//
+//        }
 
 
     }

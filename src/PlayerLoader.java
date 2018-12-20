@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class PlayerLoader {
 
@@ -12,6 +13,8 @@ public class PlayerLoader {
     private HashMap<String, ArrayList<Player>> byLeague;
     private HashMap<String, ArrayList<Player>> byNation;
     private HashMap<String, ArrayList<Player>> byPos;
+    private HashMap<Integer, ArrayList<Player>> byRating;
+    private ArrayList<Player> allPlayers;
 
     public void loadPlayers() {
         String csvFile = "./resources/FutBinCards19.csv";
@@ -23,44 +26,61 @@ public class PlayerLoader {
         byLeague = new HashMap<>();
         byNation = new HashMap<>();
         byPos = new HashMap<>();
+        byRating = new HashMap<>();
+        allPlayers = new ArrayList<>();
+
 
         try {
 
             br = new BufferedReader(new FileReader(csvFile));
             while ((line = br.readLine()) != null) {
 
-                // use comma as separator
                 String[] player = line.split(cvsSplitBy);
 
-                String pos = player[4];
-                String name = player[1];
-                String team = player[0];
-                String league = player[2];
-                String nation = player[3];
-                String price = player[6];
-                String version = player[5];
+                if (player.length == 8) {
 
-                Player p = new Player(name, team, nation, league, pos, version, price);
+                    String pos = player[5];
+                    String name = player[1];
+                    String team = player[0];
+                    String league = player[2];
+                    String nation = player[3];
+                    String price = player[7];
+                    String version = player[6];
+                    int rating = Integer.parseInt(player[4]);
 
-                if (!byTeam.containsKey(team)) {
-                    byTeam.put(team, new ArrayList<>());
+                    if (!team.equals("Icons")) {
+
+                        Player p = new Player(name, team, nation, league, pos, version, price, rating, false);
+
+                        allPlayers.add(p);
+
+                        if (!byTeam.containsKey(team)) {
+                            byTeam.put(team, new ArrayList<>());
+                        }
+                        byTeam.get(team).add(p);
+
+                        if (!byLeague.containsKey(league)) {
+                            byLeague.put(league, new ArrayList<>());
+                        }
+                        byLeague.get(league).add(p);
+
+                        if (!byNation.containsKey(nation)) {
+                            byNation.put(nation, new ArrayList<>());
+                        }
+                        byNation.get(nation).add(p);
+
+                        if (!byPos.containsKey(pos)) {
+                            byPos.put(pos, new ArrayList<>());
+                        }
+                        byPos.get(pos).add(p);
+
+                        if (!byRating.containsKey(rating)) {
+                            byRating.put(rating, new ArrayList<>());
+                        }
+                        byRating.get(rating).add(p);
+                    }
+
                 }
-                byTeam.get(team).add(p);
-
-                if (!byLeague.containsKey(league)) {
-                    byLeague.put(league, new ArrayList<>());
-                }
-                byLeague.get(league).add(p);
-
-                if (!byNation.containsKey(nation)) {
-                    byNation.put(nation, new ArrayList<>());
-                }
-                byNation.get(nation).add(p);
-
-                if (!byPos.containsKey(pos)) {
-                    byPos.put(pos, new ArrayList<>());
-                }
-                byPos.get(pos).add(p);
 
             }
 
@@ -78,6 +98,40 @@ public class PlayerLoader {
             }
         }
 
+    }
+
+    public ArrayList<Player> get11FrenchPlayers() {
+        ArrayList<Player> frenchPlayers = new ArrayList<>();
+
+        for (int i=0; i<11; i++) {
+            frenchPlayers.add(byNation.get("France").get(i));
+        }
+
+        return frenchPlayers;
+    }
+
+    public ArrayList<Player> get11RandomGoldPlayers() {
+        ArrayList<Player> randomGolds = new ArrayList<>();
+        Random randomGenerator = new Random();
+        randomGenerator.setSeed(10);
+
+        while (randomGolds.size() != 11) {
+            int index = randomGenerator.nextInt(allPlayers.size());
+            Player candidate = allPlayers.get(index);
+            if (!randomGolds.contains(candidate) && candidate.getRating() >= 75) {
+                randomGolds.add(candidate);
+            }
+        }
+
+        return randomGolds;
+    }
+
+    public ArrayList<Player> getAllPlayers() {
+        return allPlayers;
+    }
+
+    public HashMap<Integer, ArrayList<Player>> getByRating() {
+        return byRating;
     }
 
     public HashMap<String, ArrayList<Player>> getByTeam() {
@@ -105,16 +159,40 @@ class Player {
     private String league;
     private String pos;
     private String price;
+    private int rating;
     private String version;
+    private boolean loyalty;
 
-    public Player(String name, String team, String nation, String league, String pos, String version, String price) {
+    public Player(String name, String team, String nation, String league, String pos, String version, String price, int rating, boolean loyalty) {
         this.name = name;
         this.team = team;
         this.nation = nation;
         this.league = league;
         this.pos = pos;
+        this.rating = rating;
         this.version = version;
         this.price = price;
+        this.loyalty = loyalty;
+    }
+
+    public Player(int rating) {
+        this.rating = rating;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public boolean isLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(boolean loyalty) {
+        this.loyalty = loyalty;
     }
 
     public String getName() {
