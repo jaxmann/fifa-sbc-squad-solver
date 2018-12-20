@@ -13,7 +13,7 @@ class ChemistryEngineTest {
         ArrayList<Player> frenchies = pl.get11RandomGoldPlayers();
         Squad s = new Squad(frenchies);
 
-        ChemistryEngine.calculateChemistry(s);
+        System.out.println(ChemistryEngine.calculateChemistry(s));
 
     }
 

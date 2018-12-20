@@ -54,7 +54,7 @@ public class Squad {
             Position pos = entry.getKey();
             Player player = entry.getValue();
 
-            System.out.println("pos: " + pos.getPos() + " player: " + player.getName());
+            System.out.println("pos: " + pos.getActual() + " player: " + player.getName());
 
         }
     }

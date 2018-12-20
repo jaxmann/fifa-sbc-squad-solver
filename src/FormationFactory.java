@@ -29,13 +29,13 @@ class F_41212 implements Formation {
         Position rb = new Position("RB");
         Position lb = new Position("LB");
         Position gk = new Position("GK");
-        Position lcb = new Position("CB");
-        Position rcb = new Position("CB");
+        Position lcb = new Position("CB", "LCB");
+        Position rcb = new Position("CB", "RCB");
         Position rm = new Position("RM");
         Position lm = new Position("LM");
         Position cam = new Position("CAM");
-        Position lst = new Position("ST");
-        Position rst = new Position("ST");
+        Position lst = new Position("ST", "LST");
+        Position rst = new Position("ST", "RST");
         Position cdm = new Position("CDM");
 
         positions = new ArrayList<>();

@@ -10,10 +10,14 @@ public class ChemistryEngine {
         //check links for each position and add
 
         squad.printSquad();
+
+        int totalChem = 0;
         for(HashMap.Entry<Position, Player> entry : squad.getLineup().entrySet()) {
 
             Position pos = entry.getKey();
             Player player = entry.getValue();
+
+            int playerChem = 0;
 
             Position cur_pos = new Position(player.getPos());
             int init_positional_chem = positionChem(pos, cur_pos);
@@ -22,19 +26,131 @@ public class ChemistryEngine {
 
             ArrayList<Position> neighbors = squad.getGraph().getAdjList().get(pos);
 
+            int linksNeeded = neighbors.size();
+
             for (Position neighbor : neighbors) {
-                System.out.println("pos: " + pos.getPos() + " links to " + neighbor.getPos());
+//                System.out.println("pos: " + pos.getPos() + " links to " + neighbor.getPos());
                 Player neighbor_player = squad.getLineup().get(neighbor);
-                links += numSharedLinks(player, neighbor_player);
+                links = Math.min(linksNeeded, links + numSharedLinks(player, neighbor_player));
             }
 
+            if (init_positional_chem == 0) {
+                if (linksNeeded - links == 0) {
+                    playerChem = 2;
+                } else if (links == 0) {
+                    playerChem = 0;
+                } else if (linksNeeded == 2) {
+                    if (links == 1) {
+                        playerChem = 1;
+                    }
+                } else if (linksNeeded == 3) {
+                    if (links == 1 || links == 2) {
+                        playerChem = 1;
+                    }
+                } else if (linksNeeded == 4) {
+                    if (links == 1) {
+                        playerChem = 0;
+                    } else if (links == 2 || links == 3) {
+                        playerChem = 1;
+                    }
+                } else if (linksNeeded == 5) {
+                    if (links == 1) {
+                        playerChem = 0;
+                    } else if (links == 2 || links == 3 || links == 4) {
+                        playerChem = 1;
+                    }
+                }
+            } else if (init_positional_chem == 1) {
+                if (linksNeeded - links == 0) {
+                    playerChem = 5;
+                } else if (links == 0) {
+                    playerChem = 1;
+                } else if (linksNeeded == 2) {
+                    if (links == 1) {
+                        playerChem = 3;
+                    }
+                } else if (linksNeeded == 3) {
+                    if (links == 1 || links == 2) {
+                        playerChem = 3;
+                    }
+                } else if (linksNeeded == 4) {
+                    if (links == 1) {
+                        playerChem = 1;
+                    } else if (links == 2 || links == 3) {
+                        playerChem = 3;
+                    } else if (linksNeeded == 5) {
+                        if (links == 1) {
+                            playerChem = 1;
+                        } else if (links == 2 || links == 3 || links == 4) {
+                            playerChem = 3;
+                        }
+                    }
+                }
+            } else if (init_positional_chem == 2) {
+                if (linksNeeded - links == 0) {
+                    playerChem = 8;
+                } else if (links == 0) {
+                    playerChem = 2;
+                } else if (linksNeeded == 2) {
+                    if (links == 1) {
+                        playerChem = 5;
+                    }
+                } else if (linksNeeded == 3) {
+                    if (links == 1 || links == 2) {
+                        playerChem = 5;
+                    }
+                } else if (linksNeeded == 4) {
+                    if (links == 1) {
+                        playerChem = 2;
+                    } else if (links == 2 || links == 3) {
+                        playerChem = 5;
+                    }
+                } else if (linksNeeded == 5) {
+                    if (links == 1) {
+                        playerChem = 2;
+                    } else if (links == 2 || links == 3 || links == 4) {
+                        playerChem = 5;
+                    }
+                }
+            } else if (init_positional_chem == 3) {
+                if (linksNeeded - links == 0) {
+                    playerChem = 9;
+                } else if (links == 0) {
+                    playerChem = 3;
+                } else if (linksNeeded == 2) {
+                    if (links == 1) {
+                        playerChem = 6;
+                    }
+                } else if (linksNeeded == 3) {
+                    if (links == 1 || links == 2) {
+                        playerChem = 6;
+                    }
+                } else if (linksNeeded == 4) {
+                    if (links == 1) {
+                        playerChem = 3;
+                    } else if (links == 2 || links == 3) {
+                        playerChem = 6;
+                    }
+                } else if (linksNeeded == 5) {
+                    if (links == 1) {
+                        playerChem = 3;
+                    } else if (links == 2 || links == 3 || links == 4) {
+                        playerChem = 6;
+                    }
+                }
+            }
+
+            //work in progress
             System.out.println("player: " + player.getName() + " has " + links + "/" + neighbors.size());
+            System.out.println("player: " + player.getName() + " at position " + pos.getActual() + " on " + playerChem + " chem");
+
+
+            totalChem += playerChem;
+
 
         }
 
-
-
-        return 0;
+        return totalChem;
     }
 
     public static int numSharedLinks(Player p1, Player p2) {
