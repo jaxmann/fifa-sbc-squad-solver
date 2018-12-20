@@ -48,6 +48,20 @@ public class Squad {
         return ratings;
     }
 
+    public double getSquadPrice() {
+
+        double totalPrice = 0.0;
+        for(HashMap.Entry<Position, Player> entry : this.lineup.entrySet()) {
+            Player player = entry.getValue();
+
+            totalPrice += player.getPrice();
+
+        }
+
+        return totalPrice;
+    }
+
+
     public void printSquad() {
         System.out.println("----------SQUAD-------------");
         for(HashMap.Entry<Position, Player> entry : this.lineup.entrySet()) {

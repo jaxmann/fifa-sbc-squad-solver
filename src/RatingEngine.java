@@ -4,9 +4,9 @@ public class RatingEngine {
 
     private int numPlayers;
 
-    public RatingEngine(int numPlayers) {
-        this.numPlayers = numPlayers;
-    }
+//    public RatingEngine(int numPlayers) {
+//        this.numPlayers = numPlayers;
+//    }
 
     public static double getRating(Squad squad) {
 

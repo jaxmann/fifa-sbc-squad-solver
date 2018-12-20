@@ -1,20 +1,57 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChemistryEngineTest {
 
     @Test
-    void calculateChemistry() {
+    void calculateChemistryRandom11_v1() {
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers();
-        ArrayList<Player> frenchies = pl.get11RandomGoldPlayers();
-        Squad s = new Squad(frenchies);
+        long seed = new Long(10);
+        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
+        Squad s = new Squad(randos);
 
-        System.out.println(ChemistryEngine.calculateChemistry(s));
+        //this could change as new player dataset is imported
+        assertEquals(6, ChemistryEngine.calculateChemistry(s));
+    }
 
+    @Test
+    void calculateChemistryRandom11_v2() {
+        PlayerLoader pl = new PlayerLoader();
+        pl.loadPlayers();
+        long seed = new Long(11);
+        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
+        Squad s = new Squad(randos);
+
+        //this could change as new player dataset is imported
+        assertEquals(10, ChemistryEngine.calculateChemistry(s));
+    }
+
+    @Test
+    void calculateChemistryRandomNation11_v1() {
+        PlayerLoader pl = new PlayerLoader();
+        pl.loadPlayers();
+        long seed = new Long(13);
+        ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
+        Squad s = new Squad(randos);
+
+        assertEquals(53, ChemistryEngine.calculateChemistry(s));
+
+    }
+
+    @Test
+    void calculateChemistryRandom11_v4() {
+        PlayerLoader pl = new PlayerLoader();
+        pl.loadPlayers();
+        long seed = new Long(10);
+        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
+        Squad s = new Squad(randos);
+
+        assertEquals(6, ChemistryEngine.calculateChemistry(s));
     }
 
     @Test

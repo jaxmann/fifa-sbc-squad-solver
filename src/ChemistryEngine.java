@@ -7,8 +7,6 @@ public class ChemistryEngine {
 
     public static int calculateChemistry(Squad squad) {
 
-        //check links for each position and add
-
         squad.printSquad();
 
         int totalChem = 0;
@@ -31,11 +29,11 @@ public class ChemistryEngine {
             for (Position neighbor : neighbors) {
 //                System.out.println("pos: " + pos.getPos() + " links to " + neighbor.getPos());
                 Player neighbor_player = squad.getLineup().get(neighbor);
-                links = Math.min(linksNeeded, links + numSharedLinks(player, neighbor_player));
+                links += numSharedLinks(player, neighbor_player);
             }
 
             if (init_positional_chem == 0) {
-                if (linksNeeded - links == 0) {
+                if (linksNeeded - links <= 0) {
                     playerChem = 2;
                 } else if (links == 0) {
                     playerChem = 0;
@@ -61,7 +59,7 @@ public class ChemistryEngine {
                     }
                 }
             } else if (init_positional_chem == 1) {
-                if (linksNeeded - links == 0) {
+                if (linksNeeded - links <= 0) {
                     playerChem = 5;
                 } else if (links == 0) {
                     playerChem = 1;
@@ -89,6 +87,8 @@ public class ChemistryEngine {
             } else if (init_positional_chem == 2) {
                 if (linksNeeded - links == 0) {
                     playerChem = 8;
+                } else if (linksNeeded - links < 0) {
+                    playerChem = 9;
                 } else if (links == 0) {
                     playerChem = 2;
                 } else if (linksNeeded == 2) {
@@ -115,6 +115,8 @@ public class ChemistryEngine {
             } else if (init_positional_chem == 3) {
                 if (linksNeeded - links == 0) {
                     playerChem = 9;
+                } else if (linksNeeded - links < 0) {
+                    playerChem = 10;
                 } else if (links == 0) {
                     playerChem = 3;
                 } else if (linksNeeded == 2) {
@@ -156,7 +158,7 @@ public class ChemistryEngine {
     public static int numSharedLinks(Player p1, Player p2) {
         int links = 0;
 
-        if (p1.getNation().equals(p2.getName())) {
+        if (p1.getNation().equals(p2.getNation())) {
             links += 1;
         }
         if (p1.getLeague().equals(p2.getLeague())) {
@@ -165,6 +167,7 @@ public class ChemistryEngine {
         if (p1.getTeam().equals(p2.getTeam())) {
             links += 1;
         }
+
 
         return links;
     }
@@ -252,7 +255,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getPos().equals("RW")) {
                 return 2;
-            } else if (actual.getPos().equals("RF") || actual.getPos().equals("RB")) {
+            } else if (actual.getPos().equals("RF") || actual.getPos().equals("RB") || actual.getPos().equals("CM")) {
                 return 1;
             }
         } else if (slot.getPos().equals("LM")) {
@@ -260,7 +263,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getPos().equals("LW")) {
                 return 2;
-            } else if (actual.getPos().equals("LF") || actual.getPos().equals("LB")) {
+            } else if (actual.getPos().equals("LF") || actual.getPos().equals("LB") || actual.getPos().equals("CM")) {
                 return 1;
             }
         } else if (slot.getPos().equals("LW")) {

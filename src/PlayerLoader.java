@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class PlayerLoader {
 
@@ -44,7 +45,7 @@ public class PlayerLoader {
                     String team = player[0];
                     String league = player[2];
                     String nation = player[3];
-                    String price = player[7];
+                    double price = convertStringPriceToDouble(player[7]);
                     String version = player[6];
                     int rating = Integer.parseInt(player[4]);
 
@@ -100,6 +101,25 @@ public class PlayerLoader {
 
     }
 
+    public static double convertStringPriceToDouble(String price) {
+
+        double price_stripped = 0.0;
+        if (price.contains("M")) {
+            String price_temp = price.replace("M","");
+            price_stripped = 1000000*Double.parseDouble(price_temp);
+        } else if (price.contains("K")) {
+            String price_temp = price.replace("K", "");
+            price_stripped = 1000*Double.parseDouble(price_temp);
+        } else if (price.matches(".*[a-zA-Z].*")) {
+            price_stripped = 0.0;
+        } else {
+            price_stripped = Double.parseDouble(price);
+        }
+
+        return price_stripped;
+
+    }
+
     public ArrayList<Player> get11FrenchPlayers() {
         ArrayList<Player> frenchPlayers = new ArrayList<>();
 
@@ -110,15 +130,31 @@ public class PlayerLoader {
         return frenchPlayers;
     }
 
-    public ArrayList<Player> get11RandomGoldPlayers() {
+    public ArrayList<Player> get11RandomGoldPlayers(long seed) {
         ArrayList<Player> randomGolds = new ArrayList<>();
         Random randomGenerator = new Random();
-        randomGenerator.setSeed(10);
+        randomGenerator.setSeed(seed);
 
         while (randomGolds.size() != 11) {
             int index = randomGenerator.nextInt(allPlayers.size());
             Player candidate = allPlayers.get(index);
             if (!randomGolds.contains(candidate) && candidate.getRating() >= 75) {
+                randomGolds.add(candidate);
+            }
+        }
+
+        return randomGolds;
+    }
+
+    public ArrayList<Player> get11RandomPlayersFromNation(long seed, String nation) {
+        ArrayList<Player> randomGolds = new ArrayList<>();
+        Random randomGenerator = new Random();
+        randomGenerator.setSeed(seed);
+
+        while (randomGolds.size() != 11) {
+            int index = randomGenerator.nextInt(allPlayers.size());
+            Player candidate = allPlayers.get(index);
+            if (!randomGolds.contains(candidate) && candidate.getRating() >= 75 && candidate.getNation().equals(nation)) {
                 randomGolds.add(candidate);
             }
         }
@@ -158,12 +194,12 @@ class Player {
     private String nation;
     private String league;
     private String pos;
-    private String price;
+    private double price;
     private int rating;
     private String version;
     private boolean loyalty;
 
-    public Player(String name, String team, String nation, String league, String pos, String version, String price, int rating, boolean loyalty) {
+    public Player(String name, String team, String nation, String league, String pos, String version, double price, int rating, boolean loyalty) {
         this.name = name;
         this.team = team;
         this.nation = nation;
@@ -199,11 +235,11 @@ class Player {
         return name;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
