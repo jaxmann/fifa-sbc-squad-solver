@@ -14,7 +14,7 @@ class SquadTest {
     void getSquadPrice() {
 
         PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers();
+        pl.loadPlayers(true);
         long seed = new Long(13);
         ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
         Squad s = new Squad(randos);

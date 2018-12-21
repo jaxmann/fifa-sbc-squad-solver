@@ -10,7 +10,7 @@ class ChemistryEngineTest {
     @Test
     void calculateChemistryRandom11_v1() {
         PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers();
+        pl.loadPlayers(true);
         long seed = new Long(10);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -22,7 +22,7 @@ class ChemistryEngineTest {
     @Test
     void calculateChemistryRandom11_v2() {
         PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers();
+        pl.loadPlayers(true);
         long seed = new Long(11);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -34,7 +34,7 @@ class ChemistryEngineTest {
     @Test
     void calculateChemistryRandomNation11_v1() {
         PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers();
+        pl.loadPlayers(true);
         long seed = new Long(13);
         ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
         Squad s = new Squad(randos);
@@ -46,7 +46,7 @@ class ChemistryEngineTest {
     @Test
     void calculateChemistryRandom11_v4() {
         PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers();
+        pl.loadPlayers(true);
         long seed = new Long(10);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
