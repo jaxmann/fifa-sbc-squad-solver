@@ -14,7 +14,7 @@ public class SBChallenge {
 
     public double getFitnessScore() {
 
-        double thisRating = RatingEngine.getRating(this.squad);
+        double thisRating = Squad.getSquadRating(this.squad);
         int thisChem = ChemistryEngine.calculateChemistry(this.squad);
 
         if (thisRating < minRating || thisChem < minChem) {

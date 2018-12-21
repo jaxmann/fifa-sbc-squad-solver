@@ -61,6 +61,32 @@ public class Squad {
         return totalPrice;
     }
 
+    public double getSquadRating() {
+
+        ArrayList<Integer> ratings = this.getRatings();
+
+        double playerSum = 0;
+        for (int r : ratings) {
+            playerSum += r;
+        }
+
+        double avg = playerSum / 11;
+
+        double totExcess = 0.0;
+        for (int r : ratings) {
+            if (r >= avg) {
+                totExcess += (r - avg);
+            }
+        }
+
+        double teamTot = Math.round(playerSum + totExcess) / 11;
+
+        double finalRating = Math.floor(teamTot);
+
+        return finalRating;
+
+    }
+
     public static Squad createDefaultSquad() {
 
         PlayerLoader pl = new PlayerLoader();

@@ -38,7 +38,7 @@ class RatingEngineTest {
 
         Squad s = new Squad(r1);
 
-        assertEquals(83.0, RatingEngine.getRating(s));
+        assertEquals(83.0, s.getSquadRating());
 
     }
 
@@ -75,7 +75,7 @@ class RatingEngineTest {
 
         Squad s = new Squad(r2);
 
-        assertEquals(84.0, RatingEngine.getRating(s));
+        assertEquals(84.0, s.getSquadRating());
 
     }
 
