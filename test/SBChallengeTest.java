@@ -11,18 +11,39 @@ class SBChallengeTest {
     void solver() {
 
         Squad s = Squad.createDefaultSquad();
+        PlayerLoader pl = new PlayerLoader();
+        pl.loadPlayers(true);
 
         //initialize best cost as infinity
         double minCost = 1000000;
 
-        Integer[] idxs = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int k = 2;
+//        Integer[] idxs = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//        int k = 2;
+//        Combinations c = new Combinations();
+//        c.combinations(idxs, k, 0, new Integer[k]);
+//        ArrayList<Object[]> list = c.getCombos();
+//
+//        System.out.println(list.size());
+//
+//
+//        for (Object[] o: list) {
+//            System.out.println(Arrays.toString(o));
+//        }
+
+
+        int eSize = pl.getAll83Plus().size();
+        Integer[] idxs = new Integer[eSize];
+
+        for (int i=0; i<eSize; i++) {
+            idxs[i] = i;
+        }
+
+        int k = 3;
         Combinations c = new Combinations();
         c.combinations(idxs, k, 0, new Integer[k]);
         ArrayList<Object[]> list = c.getCombos();
 
         System.out.println(list.size());
-
 
         for (Object[] o: list) {
             System.out.println(Arrays.toString(o));

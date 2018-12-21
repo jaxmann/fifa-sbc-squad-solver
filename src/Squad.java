@@ -160,6 +160,16 @@ public class Squad {
         return players;
     }
 
+    public ArrayList<String> getPlayersAsString() {
+        ArrayList<String> asString = new ArrayList<>();
+
+        for (Player p: players) {
+            asString.add(p.getName());
+        }
+
+        return asString;
+    }
+
     public Graph getGraph() {
         return graph;
     }
