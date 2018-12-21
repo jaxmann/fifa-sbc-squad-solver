@@ -1,23 +1,31 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Combinations {
 
 
-//    public class Combination {
-//        public static void main(String[] args){
-//            String[] arr = {"A","B","C","D","E","F"};
-//            combinations2(arr, 3, 0, new String[3]);
-//        }
+    public ArrayList<Object[]> combos;
 
-    static void combinations2(Object[] arr, int len, int startPosition, Object[] result){
-        if (len == 0){
-            System.out.println(Arrays.toString(result));
+    public Combinations() {
+        this.combos = new ArrayList<>();
+    }
+
+
+    public void combinations(Object[] arr, int len, int startPosition, Object[] result) {
+        if (len == 0) {
+            this.combos.add(result);
+//            System.out.println(Arrays.toString(result));
             return;
         }
-        for (int i = startPosition; i <= arr.length-len; i++){
+        for (int i = startPosition; i <= arr.length - len; i++) {
             result[result.length - len] = arr[i];
-            combinations2(arr, len-1, i+1, result);
+            combinations(arr, len - 1, i + 1, result.clone());
         }
+
+    }
+
+    public ArrayList<Object[]> getCombos() {
+        return this.combos;
     }
 
 }

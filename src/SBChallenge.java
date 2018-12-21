@@ -12,18 +12,18 @@ public class SBChallenge {
     }
 
 
-    public double getFitnessScore() {
-
-        double thisRating = Squad.getSquadRating(this.squad);
-        int thisChem = ChemistryEngine.calculateChemistry(this.squad);
-
-        if (thisRating < minRating || thisChem < minChem) {
-            return 0.0;
-        } else {
-            return 1000/this.squad.getSquadPrice();
-        }
-
-    }
+//    public double getFitnessScore() {
+//
+//        double thisRating = Squad.getSquadRating(this.squad);
+//        int thisChem = ChemistryEngine.calculateChemistry(this.squad);
+//
+//        if (thisRating < minRating || thisChem < minChem) {
+//            return 0.0;
+//        } else {
+//            return 1000/this.squad.getSquadPrice();
+//        }
+//
+//    }
 
     public Squad getSquad() {
         return squad;

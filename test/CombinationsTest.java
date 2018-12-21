@@ -10,7 +10,9 @@ class CombinationsTest {
         Squad s = Squad.createDefaultSquad();
         Object[] p = s.getPlayers().toArray();
         int k = 2;
-        Combinations.combinations2(p, k, 0, new Object[k]);
+        Combinations c = new Combinations();
+//        c.combinations(p, k, 0, new Object[k]);
+
 
     }
 }
