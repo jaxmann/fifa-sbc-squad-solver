@@ -7,7 +7,7 @@ public class ChemistryEngine {
 
     public static int calculateChemistry(Squad squad) {
 
-        squad.printSquad();
+//        squad.printSquad();
 
         int totalChem = 0;
         for(HashMap.Entry<Position, Player> entry : squad.getLineup().entrySet()) {
@@ -143,8 +143,8 @@ public class ChemistryEngine {
             }
 
             //work in progress
-            System.out.println("player: " + player.getName() + " has " + links + "/" + neighbors.size());
-            System.out.println("player: " + player.getName() + " at position " + pos.getActual() + " on " + playerChem + " chem");
+//            System.out.println("player: " + player.getName() + " has " + links + "/" + neighbors.size());
+//            System.out.println("player: " + player.getName() + " at position " + pos.getActual() + " on " + playerChem + " chem");
 
 
             totalChem += playerChem;

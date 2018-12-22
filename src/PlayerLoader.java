@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -111,9 +108,13 @@ public class PlayerLoader {
             String price_temp = price.replace("K", "");
             price_stripped = 1000*Double.parseDouble(price_temp);
         } else if (price.matches(".*[a-zA-Z].*")) {
-            price_stripped = 0.0;
+            price_stripped = 1000000;
         } else {
             price_stripped = Double.parseDouble(price);
+        }
+
+        if (price_stripped < 50) {
+            price_stripped = 1000000;
         }
 
         return price_stripped;
@@ -333,7 +334,7 @@ class PlayerNotFoundException extends Exception {
     }
 }
 
-class Player {
+class Player implements Serializable {
 
     private String name;
     private String team;
@@ -355,6 +356,24 @@ class Player {
         this.version = version;
         this.price = price;
         this.loyalty = loyalty;
+    }
+
+    public Player deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Player) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String toString() {

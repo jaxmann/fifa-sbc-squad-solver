@@ -1,7 +1,13 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class Squad {
+public class Squad implements Serializable {
 
     private HashMap<Position, Player> lineup;
     private ArrayList<Position> positions;
@@ -34,6 +40,49 @@ public class Squad {
 
     }
 
+    public Squad deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Squad) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Squad newAtPos(Squad currentSquad, int i, Player p) {
+
+        Squad copy = currentSquad.deepClone();
+//        copy.printSquad();
+        copy.players.set(i, p);
+
+        for (int j = 0; j < copy.getPositions().size(); j++) {
+            copy.getLineup().put(copy.getPositions().get(j), copy.getPlayers().get(j));
+        }
+
+        return copy;
+    }
+
+    public void updateAtPos(int i, Player p) {
+        this.players.set(i, p);
+        this.updateLineup();
+    }
+
+
+
+    public void updateLineup() {
+        for (int i = 0; i < this.positions.size(); i++) {
+            this.lineup.put(this.positions.get(i), this.players.get(i));
+        }
+    }
 
 
     public ArrayList<Integer> getRatings() {
@@ -143,7 +192,7 @@ public class Squad {
             Position pos = entry.getKey();
             Player player = entry.getValue();
 
-            System.out.println("pos: " + pos.getActual() + " player: " + player.getName());
+            System.out.println("pos: " + pos.getActual() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price:" + player.getPrice());
 
         }
     }

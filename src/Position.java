@@ -1,4 +1,6 @@
-public class Position {
+import java.io.*;
+
+public class Position implements Serializable {
 
     private String pos;
     private String actual;
@@ -6,6 +8,24 @@ public class Position {
     public Position(String pos, String actual) {
         this.pos = pos;
         this.actual = actual;
+    }
+
+    public Position deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Position) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Position(String pos) {

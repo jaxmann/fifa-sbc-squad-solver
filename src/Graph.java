@@ -1,7 +1,8 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Graph {
+public class Graph implements Serializable {
 
     private HashMap<Position, ArrayList<Position>> adjList;
     private ArrayList<Position> positions;
@@ -13,6 +14,24 @@ public class Graph {
 
         for (Position p : positions) {
             adjList.put(p, new ArrayList<Position>());
+        }
+    }
+
+    public Graph deepClone() {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(this);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            return (Graph) ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
