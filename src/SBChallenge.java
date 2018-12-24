@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SBChallenge {
@@ -25,6 +26,68 @@ public class SBChallenge {
         } else {
             return 100000000/squad.getSquadPrice(); //100 million times 1/price
         }
+
+    }
+
+    //pass in an "Annealing Params" instead of a bunch of variables
+    public void runSimulatedAnnealing(Squad current, ArrayList<Player> availablePlayers, boolean simAnnealing, boolean hillClimbing) {
+
+        Squad bestSquad = current;
+
+        double T = 1.0;
+        double Tmin = 0.0001;
+        double alpha = 0.95;
+        int numIterations = 1000;
+
+        double bestScore = this.getFitnessScore(current);
+
+        System.out.println(this.getFitnessScore(current));
+        System.out.println(current.getSquadPrice());
+
+        while (T  > Tmin) {
+            for (int i=0; i<numIterations; i++) {
+
+                double currentScore = this.getFitnessScore(current);
+
+                if (currentScore > bestScore) {
+                    System.out.println("updated bestscore with: " + currentScore + ", previously: " + bestScore);
+                    bestScore = currentScore;
+                    bestSquad = current;
+                }
+
+                int randomInd = SBChallenge.getRandomNumber(11);
+                int randomPlayer = SBChallenge.getRandomNumber(availablePlayers.size());
+                Squad newSquad = Squad.newAtPos(current, randomInd, availablePlayers.get(randomPlayer));
+
+                double newScore = this.getFitnessScore(newSquad);
+
+                if (simAnnealing) {
+                    double ap = Math.pow(Math.E, (currentScore - newScore)/T);
+
+                    if (ap > Math.random()) {
+//                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
+                        current = newSquad;
+                    }
+                } else if (hillClimbing) {
+
+                    if (newScore > currentScore) {
+//                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
+                        current = newSquad; //hill climbing
+                    }
+                }
+
+            }
+            T *= alpha;
+        }
+
+        System.out.println(bestScore);
+        bestSquad.printSquad();
+        System.out.println("PRICE:" + bestSquad.getSquadPrice());
+        System.out.println("CHEM: " + ChemistryEngine.calculateChemistry(bestSquad));
+        System.out.println("RATING: " + bestSquad.getSquadRating());
+        System.out.println("SCORE: " + this.getFitnessScore(bestSquad));
+
+
 
     }
 

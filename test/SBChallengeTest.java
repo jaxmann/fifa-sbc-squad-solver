@@ -16,85 +16,12 @@ class SBChallengeTest {
         pl.loadPlayers(true);
         ArrayList<Player> players83Plus = pl.getAll83Plus();
 
-        double minCost = current.getSquadPrice();
-
-        boolean simAnnealing = true;
-        boolean hillClimbing =false;
 
         int minRating = 87;
-        int minChem = 70;
-        Squad bestSquad = current;
-
-        double T = 1.0;
-        double Tmin = 0.0001;
-        double alpha = 0.95;
-        int numIterations = 10000;
+        int minChem = 10;
 
         SBChallenge sbc = new SBChallenge(minRating, minChem);
-        double bestScore = sbc.getFitnessScore(current);
-        System.out.println(sbc.getFitnessScore(current));
-        System.out.println(current.getSquadPrice());
-
-
-        while (T  > Tmin) {
-            for (int i=0; i<numIterations; i++) {
-
-                double currentScore = sbc.getFitnessScore(current);
-
-                if (currentScore > bestScore) {
-                    System.out.println("updated bestscore with: " + currentScore + ", previously: " + bestScore);
-                    bestScore = currentScore;
-                    bestSquad = current;
-                }
-
-                int randomInd = SBChallenge.getRandomNumber(11);
-                int randomPlayer = SBChallenge.getRandomNumber(players83Plus.size());
-                Squad newSquad = Squad.newAtPos(current, randomInd, players83Plus.get(randomPlayer));
-
-                double newScore = sbc.getFitnessScore(newSquad);
-
-                if (simAnnealing) {
-                    double ap = Math.pow(Math.E, (currentScore - newScore)/T);
-
-                    if (ap > Math.random()) {
-//                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
-                        current = newSquad;
-                    }
-                } else if (hillClimbing) {
-
-                    if (newScore > currentScore) {
-//                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
-                        current = newSquad; //hill climbing
-                    }
-                }
-
-            }
-            T *= alpha;
-        }
-
-        System.out.println(bestScore);
-        bestSquad.printSquad();
-        System.out.println(bestSquad.getSquadPrice());
-        System.out.println("CHEM: " + ChemistryEngine.calculateChemistry(bestSquad));
-        System.out.println("RATING: " + bestSquad.getSquadRating());
-        System.out.println("SCORE: " + sbc.getFitnessScore(bestSquad));
-
-//        for (int i=0; i<50000; i++) {
-//            Squad temp = last;
-//
-//            int randomInd = SBChallenge.getRandomNumber(11);
-//            int randomPlayer = SBChallenge.getRandomNumber(players83Plus.size());
-//            temp.updateAtPos(randomInd, players83Plus.get(randomPlayer));
-//
-//            if (true) { //simulated annealing said accept
-//                last = temp;
-//            }
-//
-//        }
-
-
-
-
+        sbc.runSimulatedAnnealing(current, players83Plus, true, false);
 
 
     }
