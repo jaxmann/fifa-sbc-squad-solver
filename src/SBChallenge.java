@@ -16,16 +16,23 @@ public class SBChallenge {
 
     public double getFitnessScore(Squad squad) {
 
-        double thisRating = squad.getSquadRating();
-        int thisChem = ChemistryEngine.calculateChemistry(squad);
+        double thisRating = squad.getFractionalSquadRating();
+        double thisChem = ChemistryEngine.calculateChemistry(squad);
 
-        //come up with better fitness function
-//        double score = (minRating - thisRating)
+        double ratingDiff = Math.abs(thisRating - this.minRating);
+        double chemDiff = Math.abs(thisChem - this.minChem);
+
+        double ratingScore = 50 - ratingDiff;
+        double chemScore = 50 - chemDiff;
+        double priceScore = squad.getSquadPrice();
+
+
         if (thisRating < minRating || thisChem < minChem) {
-            return 0.0;
+            return (ratingScore + chemScore);
         } else {
-            return 100000000/squad.getSquadPrice(); //100 million times 1/price
+            return (1000000/priceScore);
         }
+
 
     }
 
@@ -39,15 +46,15 @@ public class SBChallenge {
         double alpha = 0.95;
         int numIterations = 1000;
 
-        double bestScore = this.getFitnessScore(current);
+        double bestScore = getFitnessScore(current);
 
-        System.out.println(this.getFitnessScore(current));
-        System.out.println(current.getSquadPrice());
+        System.out.println("INIT fitness score: " + getFitnessScore(current));
+        System.out.println("INIT squad price: " + current.getSquadPrice());
 
         while (T  > Tmin) {
             for (int i=0; i<numIterations; i++) {
 
-                double currentScore = this.getFitnessScore(current);
+                double currentScore = getFitnessScore(current);
 
                 if (currentScore > bestScore) {
                     System.out.println("updated bestscore with: " + currentScore + ", previously: " + bestScore);
@@ -57,9 +64,9 @@ public class SBChallenge {
 
                 int randomInd = SBChallenge.getRandomNumber(11);
                 int randomPlayer = SBChallenge.getRandomNumber(availablePlayers.size());
-                Squad newSquad = Squad.newAtPos(current, randomInd, availablePlayers.get(randomPlayer));
+                Squad newSquad = Squad.newAtPos(current, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
 
-                double newScore = this.getFitnessScore(newSquad);
+                double newScore = getFitnessScore(newSquad);
 
                 if (simAnnealing) {
                     double ap = Math.pow(Math.E, (currentScore - newScore)/T);
@@ -85,7 +92,7 @@ public class SBChallenge {
         System.out.println("PRICE:" + bestSquad.getSquadPrice());
         System.out.println("CHEM: " + ChemistryEngine.calculateChemistry(bestSquad));
         System.out.println("RATING: " + bestSquad.getSquadRating());
-        System.out.println("SCORE: " + this.getFitnessScore(bestSquad));
+        System.out.println("SCORE: " + getFitnessScore(bestSquad));
 
 
 

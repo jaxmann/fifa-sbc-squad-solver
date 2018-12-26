@@ -7,7 +7,7 @@ class CombinationsTest {
     @Test
     void combinations2() {
 
-        Squad s = Squad.createDefaultSquad();
+        Squad s = Squad.create87DefaultSquad();
         Object[] p = s.getPlayers().toArray();
         int k = 2;
         Combinations c = new Combinations();

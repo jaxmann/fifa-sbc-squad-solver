@@ -5,11 +5,11 @@ public class ChemistryEngine {
 
     private Squad squad;
 
-    public static int calculateChemistry(Squad squad) {
+    public static double calculateChemistry(Squad squad) {
 
 //        squad.printSquad();
 
-        int totalChem = 0;
+        double totalChem = 0;
         for(HashMap.Entry<Position, Player> entry : squad.getLineup().entrySet()) {
 
             Position pos = entry.getKey();
@@ -151,6 +151,8 @@ public class ChemistryEngine {
 
 
         }
+
+
 
         return totalChem;
     }

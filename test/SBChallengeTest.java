@@ -11,17 +11,17 @@ class SBChallengeTest {
     @Test
     void simulatedAnnealing() {
 
-        Squad current = Squad.createDefaultSquad();
+        Squad current = Squad.create75DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
         ArrayList<Player> players83Plus = pl.getAll83Plus();
 
 
-        int minRating = 87;
-        int minChem = 10;
+        int minRating = 88;
+        int minChem = 30;
 
         SBChallenge sbc = new SBChallenge(minRating, minChem);
-        sbc.runSimulatedAnnealing(current, players83Plus, true, false);
+        sbc.runSimulatedAnnealing(current, players83Plus, false, true);
 
 
     }
@@ -29,7 +29,7 @@ class SBChallengeTest {
     @Test
     void solver() {
 
-        Squad s = Squad.createDefaultSquad();
+        Squad s = Squad.create87DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
         ArrayList<Player> allPlayers = pl.getAllPlayers();
@@ -95,6 +95,42 @@ class SBChallengeTest {
 
 
 
+    }
+
+    @Test
+    void get87defaultSquadTest() {
+        Squad s = Squad.create87DefaultSquad();
+
+        for (Player p: s.getPlayers()) {
+            System.out.println(p.toString());
+        }
+    }
+
+    @Test
+    void get85defaultSquadTest() {
+        Squad s = Squad.create85DefaultSquad();
+
+        for (Player p: s.getPlayers()) {
+            System.out.println(p.toString());
+        }
+    }
+
+    @Test
+    void get83defaultSquadTest() {
+        Squad s = Squad.create83DefaultSquad();
+
+        for (Player p: s.getPlayers()) {
+            System.out.println(p.toString());
+        }
+    }
+
+    @Test
+    void get75defaultSquadTest() {
+        Squad s = Squad.create75DefaultSquad();
+
+        for (Player p: s.getPlayers()) {
+            System.out.println(p.toString());
+        }
     }
 
     @Test
