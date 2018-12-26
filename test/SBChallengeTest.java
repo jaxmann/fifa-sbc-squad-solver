@@ -21,7 +21,7 @@ class SBChallengeTest {
         int minChem = 30;
 
         SBChallenge sbc = new SBChallenge(minRating, minChem);
-        sbc.runSimulatedAnnealing(current, players83Plus, false, true);
+        sbc.runSimulatedAnnealing(current, players83Plus, true, false);
 
 
     }

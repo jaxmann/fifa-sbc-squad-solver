@@ -71,7 +71,7 @@ public class SBChallenge {
                 if (simAnnealing) {
                     double ap = Math.pow(Math.E, (currentScore - newScore)/T);
 
-                    if (ap > Math.random()) {
+                    if (ap < Math.random()) {
 //                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
                         current = newSquad;
                     }
