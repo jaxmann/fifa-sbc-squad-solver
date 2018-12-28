@@ -368,7 +368,7 @@ public class Squad implements Serializable {
             Position pos = entry.getKey();
             Player player = entry.getValue();
 
-            System.out.println("pos: " + pos.getActual() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price:" + player.getPrice());
+            System.out.println("pos: " + pos.getActual() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
 
         }
     }

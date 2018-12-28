@@ -17,7 +17,7 @@ class SBChallengeTest {
         ArrayList<Player> players83Plus = pl.getAll83Plus();
 
 
-        int minRating = 88;
+        int minRating = 81;
         int minChem = 30;
 
         SBChallenge sbc = new SBChallenge(minRating, minChem);

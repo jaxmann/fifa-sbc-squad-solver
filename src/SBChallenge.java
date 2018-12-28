@@ -28,9 +28,9 @@ public class SBChallenge {
 
 
         if (thisRating < minRating || thisChem < minChem) {
-            return (ratingScore + chemScore);
+            return (ratingScore + chemScore)/100;
         } else {
-            return (1000000/priceScore);
+            return (10000/priceScore);
         }
 
 
@@ -55,9 +55,10 @@ public class SBChallenge {
             for (int i=0; i<numIterations; i++) {
 
                 double currentScore = getFitnessScore(current);
+                System.out.println("CUR: " + currentScore);
 
                 if (currentScore > bestScore) {
-                    System.out.println("updated bestscore with: " + currentScore + ", previously: " + bestScore);
+                    System.out.println("updated bestscore with: " + currentScore);
                     bestScore = currentScore;
                     bestSquad = current;
                 }
@@ -69,17 +70,21 @@ public class SBChallenge {
                 double newScore = getFitnessScore(newSquad);
 
                 if (simAnnealing) {
-                    double ap = Math.pow(Math.E, (currentScore - newScore)/T);
-
-                    if (ap < Math.random()) {
-//                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
-                        current = newSquad;
-                    }
-                } else if (hillClimbing) {
-
+                    double delta = newScore - currentScore;
+                    double ap = Math.pow(Math.E, delta/T);
                     if (newScore > currentScore) {
-//                        System.out.println("update because new score is: " + newScore + " and old is: " + currentScore);
-                        current = newSquad; //hill climbing
+                        current = newSquad;
+                    } else {
+                        if (ap < Math.random()) {
+                            current = newSquad;
+                        } else {
+                            //keep what we had
+                        }
+                    }
+
+                } else if (hillClimbing) {
+                    if (newScore > currentScore) {
+                        current = newSquad;
                     }
                 }
 

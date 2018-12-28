@@ -5,9 +5,8 @@ public class ChemistryEngine {
 
     private Squad squad;
 
+    //make this an object that is attached to a Squad
     public static double calculateChemistry(Squad squad) {
-
-//        squad.printSquad();
 
         double totalChem = 0;
         for(HashMap.Entry<Position, Player> entry : squad.getLineup().entrySet()) {
