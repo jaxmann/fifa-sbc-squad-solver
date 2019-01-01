@@ -502,3 +502,141 @@ class F_412122 implements Formation {
     }
 
 }
+
+class F_4141 implements Formation {
+
+    private Graph graph;
+    private ArrayList<Position> positions;
+
+    public F_4141() {
+
+        Position rb = new Position("RB");
+        Position lb = new Position("LB");
+        Position gk = new Position("GK");
+        Position lcb = new Position("CB", "LCB");
+        Position rcb = new Position("CB", "RCB");
+        Position cdm = new Position("CDM");
+        Position lcm = new Position("CM", "LCM");
+        Position rcm = new Position("CM", "RCM");
+        Position rm = new Position("RM");
+        Position lm = new Position("LM");
+        Position st = new Position("ST");
+
+        positions = new ArrayList<>();
+        positions.add(rb);
+        positions.add(lb);
+        positions.add(gk);
+        positions.add(lcb);
+        positions.add(rcb);
+        positions.add(rcm);
+        positions.add(cdm);
+        positions.add(lcm);
+        positions.add(lm);
+        positions.add(rm);
+        positions.add(st);
+
+        this.positions = positions;
+
+        graph = new Graph(this.positions);
+        graph.addEdge(rcb, rcm);
+        graph.addEdge(rcb, gk);
+        graph.addEdge(rcb, cdm);
+        graph.addEdge(rcb, rb);
+        graph.addEdge(rcb, lcb);
+        graph.addEdge(lcb, lcm);
+        graph.addEdge(lcb, gk);
+        graph.addEdge(lcb, cdm);
+        graph.addEdge(lcb, lb);
+        graph.addEdge(lb, lm);
+        graph.addEdge(rb, rm);
+        graph.addEdge(cdm, lcm);
+        graph.addEdge(cdm, rcm);
+        graph.addEdge(lcm, lm);
+        graph.addEdge(lcm, st);
+        graph.addEdge(lcm, rcm);
+        graph.addEdge(rcm, rm);
+        graph.addEdge(rcm, st);
+        graph.addEdge(lm, st);
+        graph.addEdge(rm, st);
+
+        this.graph = graph;
+
+    }
+
+    public ArrayList<Position> getPositions() {
+        return this.positions;
+    }
+
+    public Graph getGraph() {
+        return this.graph;
+    }
+
+}
+
+class F_4231 implements Formation {
+
+    private Graph graph;
+    private ArrayList<Position> positions;
+
+    public F_4231() {
+
+        Position rb = new Position("RB");
+        Position lb = new Position("LB");
+        Position gk = new Position("GK");
+        Position lcb = new Position("CB", "LCB");
+        Position rcb = new Position("CB", "RCB");
+        Position lcdm = new Position("CDM", "LCDM");
+        Position rcdm = new Position("CDM", "RCDM");
+        Position ccam = new Position("CAM", "CCAM");
+        Position lcam = new Position("CAM", "LCAM");
+        Position rcam = new Position("CAM", "RCAM");
+        Position st = new Position("ST");
+
+        positions = new ArrayList<>();
+        positions.add(rb);
+        positions.add(lb);
+        positions.add(gk);
+        positions.add(lcb);
+        positions.add(rcb);
+        positions.add(rcdm);
+        positions.add(lcdm);
+        positions.add(ccam);
+        positions.add(lcam);
+        positions.add(rcam);
+        positions.add(st);
+
+        this.positions = positions;
+
+        graph = new Graph(this.positions);
+        graph.addEdge(rcb, rb);
+        graph.addEdge(rcb, rcdm);
+        graph.addEdge(rcb, gk);
+        graph.addEdge(rcb, lcb);
+        graph.addEdge(lcb, lb);
+        graph.addEdge(lcb, lcdm);
+        graph.addEdge(lcb, gk);
+        graph.addEdge(lb, lcdm);
+        graph.addEdge(rb, rcdm);
+        graph.addEdge(lcdm, ccam);
+        graph.addEdge(lcdm, lcam);
+        graph.addEdge(rcdm, ccam);
+        graph.addEdge(rcdm, rcam);
+        graph.addEdge(ccam, rcam);
+        graph.addEdge(ccam, lcam);
+        graph.addEdge(ccam, st);
+        graph.addEdge(lcam, st);
+        graph.addEdge(rcam, st);
+
+        this.graph = graph;
+
+    }
+
+    public ArrayList<Position> getPositions() {
+        return this.positions;
+    }
+
+    public Graph getGraph() {
+        return this.graph;
+    }
+
+}
