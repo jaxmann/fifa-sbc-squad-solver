@@ -16,21 +16,23 @@ public class SBChallenge {
 
     public double getFitnessScore(Squad squad) {
 
-        double thisRating = squad.getFractionalSquadRating();
-        double thisChem = ChemistryEngine.calculateChemistry(squad);
+        double curSquadRating = squad.getFractionalSquadRating();
+        double curSquadChem = ChemistryEngine.calculateChemistry(squad);
 
-        double ratingDiff = Math.abs(thisRating - this.minRating);
-        double chemDiff = Math.abs(thisChem - this.minChem);
+        double ratingDiff = Math.min(curSquadRating - this.minRating, 0);
+        double chemDiff = Math.min(curSquadChem - this.minChem, 0);
 
-        double ratingScore = 50 - ratingDiff;
-        double chemScore = 50 - chemDiff;
+        double ratingScore = 50 + ratingDiff;
+        double chemScore = 50 + chemDiff;
         double priceScore = squad.getSquadPrice();
 
 
-        if (thisRating < minRating || thisChem < minChem) {
-            return (ratingScore + chemScore)/100;
+        if (curSquadRating < minRating || curSquadChem < minChem) {
+            return (ratingScore + chemScore);
         } else {
-            return (10000/priceScore);
+            return 299 - 14.4*Math.log(priceScore);
+//            return 1050 - 0.001*priceScore;
+//            return (priceScore/100);
         }
 
 
@@ -66,6 +68,10 @@ public class SBChallenge {
                 int randomInd = SBChallenge.getRandomNumber(11);
                 int randomPlayer = SBChallenge.getRandomNumber(availablePlayers.size());
                 Squad newSquad = Squad.newAtPos(current, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
+
+//                int randomInd2 = SBChallenge.getRandomNumber(11);
+//                int randomPlayer2 = SBChallenge.getRandomNumber(availablePlayers.size());
+//                Squad newSquad2 = Squad.newAtPos(newSquad, randomInd2, availablePlayers.get(randomPlayer2)); //does a deep copy
 
                 double newScore = getFitnessScore(newSquad);
 
