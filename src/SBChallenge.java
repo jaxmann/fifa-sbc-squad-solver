@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class SBChallenge {
 
@@ -30,7 +32,8 @@ public class SBChallenge {
         if (curSquadRating < minRating || curSquadChem < minChem) {
             return (ratingScore + chemScore);
         } else {
-            return 299 - 14.4*Math.log(priceScore);
+            return 320.3 - 16.7*Math.log(priceScore);
+            //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 150), (15000, 160), (10000, 170), (5000, 180)}
 //            return 1050 - 0.001*priceScore;
 //            return (priceScore/100);
         }
@@ -47,6 +50,8 @@ public class SBChallenge {
         double Tmin = 0.0001;
         double alpha = 0.95;
         int numIterations = 1000;
+        int maxSwaps = 3;
+
 
         double bestScore = getFitnessScore(current);
 
@@ -57,7 +62,7 @@ public class SBChallenge {
             for (int i=0; i<numIterations; i++) {
 
                 double currentScore = getFitnessScore(current);
-                System.out.println("CUR: " + currentScore);
+//                System.out.println("CUR: " + currentScore);
 
                 if (currentScore > bestScore) {
                     System.out.println("updated bestscore with: " + currentScore);
@@ -65,13 +70,17 @@ public class SBChallenge {
                     bestSquad = current;
                 }
 
-                int randomInd = SBChallenge.getRandomNumber(11);
-                int randomPlayer = SBChallenge.getRandomNumber(availablePlayers.size());
-                Squad newSquad = Squad.newAtPos(current, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
+                int numSwaps = ThreadLocalRandom.current().nextInt(1, maxSwaps + 1);
+                Squad newSquad = current;
+                while (numSwaps > 0) {
 
-//                int randomInd2 = SBChallenge.getRandomNumber(11);
-//                int randomPlayer2 = SBChallenge.getRandomNumber(availablePlayers.size());
-//                Squad newSquad2 = Squad.newAtPos(newSquad, randomInd2, availablePlayers.get(randomPlayer2)); //does a deep copy
+                    int randomInd = SBChallenge.getRandomNumber(11);
+                    int randomPlayer = SBChallenge.getRandomNumber(availablePlayers.size());
+                    newSquad = Squad.newAtPos(newSquad, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
+
+                    numSwaps--;
+
+                }
 
                 double newScore = getFitnessScore(newSquad);
 
