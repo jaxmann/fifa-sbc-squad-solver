@@ -14,14 +14,26 @@ class SBChallengeTest {
         Squad current = Squad.create75DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
-        ArrayList<Player> players83Plus = pl.getAll83Plus();
+        ArrayList<Player> availablePlayers = pl.getAll81Plus();
 
+        int minRating = 83;
+        int minChem = 0;
 
-        int minRating = 84;
-        int minChem = 30;
+        //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
+        //CONSTRAINTS
+        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
+        c1.setMinChem(0);
+        Constraint c2 = new Constraint(ConstraintType.MINRATING);
+        c2.setMinRating(84);
 
-        SBChallenge sbc = new SBChallenge(minRating, minChem);
-        sbc.runSimulatedAnnealing(current, players83Plus, true, false);
+        Constraints constraints = new Constraints();
+        constraints.addConstraint(c1);
+        constraints.addConstraint(c2);
+
+        //END CONSTRAINTS
+
+        SBChallenge sbc = new SBChallenge(constraints);
+        sbc.runSimulatedAnnealing(current, availablePlayers, true, false);
 
 
     }

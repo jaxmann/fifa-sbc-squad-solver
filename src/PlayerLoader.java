@@ -296,6 +296,19 @@ public class PlayerLoader {
 
     }
 
+    public ArrayList<Player> getAll81Plus() {
+        ArrayList<Player> all87Plus = new ArrayList<>();
+
+        for (Player p: this.allPlayers) {
+            if (p.getRating() >= 81) {
+                all87Plus.add(p);
+            }
+        }
+
+        return all87Plus;
+
+    }
+
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }

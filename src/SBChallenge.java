@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -5,14 +7,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SBChallenge {
 
+    private Constraints constraints;
 
-    private int minRating;
-    private int minChem;
-
-
-    public SBChallenge(int minRating, int minChem) {
-        this.minRating = minRating;
-        this.minChem = minChem;
+    public SBChallenge(Constraints constraints) {
+        this.constraints = constraints;
     }
 
 
@@ -21,8 +19,11 @@ public class SBChallenge {
         double curSquadRating = squad.getFractionalSquadRating();
         double curSquadChem = ChemistryEngine.calculateChemistry(squad);
 
-        double ratingDiff = Math.min(curSquadRating - this.minRating, 0);
-        double chemDiff = Math.min(curSquadChem - this.minChem, 0);
+        int minRating = this.constraints.getMinRating();
+        int minChem = this.constraints.getMinChem();
+
+        double ratingDiff = Math.min(curSquadRating - minRating, 0);
+        double chemDiff = Math.min(curSquadChem - minChem, 0);
 
         double ratingScore = 50 + ratingDiff;
         double chemScore = 50 + chemDiff;
@@ -32,9 +33,8 @@ public class SBChallenge {
         if (curSquadRating < minRating || curSquadChem < minChem) {
             return (ratingScore + chemScore);
         } else {
-            return 320.3 - 16.7*Math.log(priceScore);
-            //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 150), (15000, 160), (10000, 170), (5000, 180)}
-//            return 1050 - 0.001*priceScore;
+            return 381.1 - 21.5*Math.log(priceScore);
+            //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}//            return 1050 - 0.001*priceScore;
 //            return (priceScore/100);
         }
 
@@ -50,7 +50,7 @@ public class SBChallenge {
         double Tmin = 0.0001;
         double alpha = 0.95;
         int numIterations = 1000;
-        int maxSwaps = 3;
+        int maxSwaps = 5; //max number is 11 (potentially swap all 11 players during an iteration)
 
 
         double bestScore = getFitnessScore(current);
@@ -141,20 +141,4 @@ public class SBChallenge {
         return randomGenerator.nextInt(maxValExclusive);
     }
 
-
-    public int getMinRating() {
-        return minRating;
-    }
-
-    public void setMinRating(int minRating) {
-        this.minRating = minRating;
-    }
-
-    public int getMinChem() {
-        return minChem;
-    }
-
-    public void setMinChem(int minChem) {
-        this.minChem = minChem;
-    }
 }
