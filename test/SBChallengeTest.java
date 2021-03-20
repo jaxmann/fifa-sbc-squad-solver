@@ -16,18 +16,15 @@ class SBChallengeTest {
         pl.loadPlayers(true);
         ArrayList<Player> availablePlayers = pl.getAll81Plus();
 
-        int minRating = 83;
-        int minChem = 0;
-
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
-        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
-        c1.setMinChem(0);
+//        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
+//        c1.setMinChem(80);
         Constraint c2 = new Constraint(ConstraintType.MINRATING);
-        c2.setMinRating(84);
+        c2.setMinRating(88);
 
         Constraints constraints = new Constraints();
-        constraints.addConstraint(c1);
+//        constraints.addConstraint(c1);
         constraints.addConstraint(c2);
 
         //END CONSTRAINTS

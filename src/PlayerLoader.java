@@ -77,9 +77,7 @@ public class PlayerLoader {
                         }
                         byRating.get(rating).add(p);
                     }
-
                 }
-
             }
 
         } catch (FileNotFoundException e) {

@@ -1,4 +1,4 @@
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+//import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +13,6 @@ public class SBChallenge {
         this.constraints = constraints;
     }
 
-
     public double getFitnessScore(Squad squad) {
 
         double curSquadRating = squad.getFractionalSquadRating();
@@ -22,18 +21,21 @@ public class SBChallenge {
         int minRating = this.constraints.getMinRating();
         int minChem = this.constraints.getMinChem();
 
-        double ratingDiff = Math.min(curSquadRating - minRating, 0);
-        double chemDiff = Math.min(curSquadChem - minChem, 0);
+        double ratingDiff = Math.abs(curSquadRating - minRating);
+        double chemDiff = Math.abs(curSquadChem - minChem);
 
-        double ratingScore = 50 + ratingDiff;
-        double chemScore = 50 + chemDiff;
+//        double ratingScore = 50 + ratingDiff;
+//        double chemScore = 50 + chemDiff;
+        double combinedDifference = ratingDiff + chemDiff;
         double priceScore = squad.getSquadPrice();
+
+//        System.out.println("ratingScore: " + ratingScore + " chemScore: " + chemScore + " priceScore: " + priceScore);
 
 
         if (curSquadRating < minRating || curSquadChem < minChem) {
-            return (ratingScore + chemScore);
+            return (200 - combinedDifference);
         } else {
-            return 381.1 - 21.5*Math.log(priceScore);
+            return 481.1 - 21.5*Math.log(priceScore) + 100;
             //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}//            return 1050 - 0.001*priceScore;
 //            return (priceScore/100);
         }
@@ -49,8 +51,8 @@ public class SBChallenge {
         double T = 1.0;
         double Tmin = 0.0001;
         double alpha = 0.95;
-        int numIterations = 1000;
-        int maxSwaps = 5; //max number is 11 (potentially swap all 11 players during an iteration)
+        int numIterations = 10000;
+        int maxSwaps = 8; //max number is 11 (potentially swap all 11 players during an iteration)
 
 
         double bestScore = getFitnessScore(current);
@@ -107,14 +109,16 @@ public class SBChallenge {
             T *= alpha;
         }
 
-        System.out.println(bestScore);
-        bestSquad.printSquad();
-        System.out.println("PRICE:" + bestSquad.getSquadPrice());
-        System.out.println("CHEM: " + ChemistryEngine.calculateChemistry(bestSquad));
-        System.out.println("RATING: " + bestSquad.getSquadRating());
-        System.out.println("SCORE: " + getFitnessScore(bestSquad));
-
-
+        if (bestScore < 200) {
+            System.out.println("No solution found that satisfies CSP");
+        } else {
+            System.out.println(bestScore);
+            bestSquad.printSquad();
+            System.out.println("PRICE:" + bestSquad.getSquadPrice());
+            System.out.println("CHEM: " + ChemistryEngine.calculateChemistry(bestSquad));
+            System.out.println("RATING: " + bestSquad.getSquadRating());
+            System.out.println("SCORE: " + getFitnessScore(bestSquad));
+        }
 
     }
 

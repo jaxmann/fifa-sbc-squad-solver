@@ -185,7 +185,6 @@ public class Squad implements Serializable {
             Player diego = pl.getPlayer("costa", 85);
             Player isco = pl.getPlayer("isco", 89);
 
-
             players.add(neto); //rb
             players.add(kagawa); //lb
             players.add(navas); //gk
