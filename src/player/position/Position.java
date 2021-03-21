@@ -45,6 +45,44 @@ public class Position implements Serializable {
         }
     }
 
+    public Position(String pos)  {
+        this.pos = translateStringPosToBasePosEnum(pos);
+    }
+
+    public Position(BasePosition pos)  {
+        this.pos = pos;
+    }
+
+    public BasePosition getBasePos() {
+        return pos;
+    }
+
+    //unique value (i.e. if there are 2 CBs, will return RCB or LCB), so can uniquely identify player by position in a lineup with this func
+    public ActualPosition getActualPosition() {
+        if (this.actual != null) {
+            return actual;
+        } else {
+            // BasePositions all exist in ActualPositions, but not vice versa
+            return translateStringPosToActualPosEnum(this.pos.toString());
+        }
+    }
+
+    public void setPos(String pos) {
+        this.pos = translateStringPosToBasePosEnum(pos);
+    }
+
+    public void setPos(BasePosition pos) {
+        this.pos = pos;
+    }
+
+    public void setActual(ActualPosition actual) {
+        this.actual = actual;
+    }
+
+    public void setActual(String actual) {
+        this.actual = translateStringPosToActualPosEnum(actual);
+    }
+
     public static BasePosition translateStringPosToBasePosEnum(String pos) {
         switch(pos.toLowerCase()) {
             case "st":
@@ -153,44 +191,6 @@ public class Position implements Serializable {
             default:
                 return ActualPosition.INVALID;
         }
-    }
-
-    public Position(String pos)  {
-        this.pos = translateStringPosToBasePosEnum(pos);
-    }
-
-    public Position(BasePosition pos)  {
-        this.pos = pos;
-    }
-
-    public BasePosition getBasePos() {
-        return pos;
-    }
-
-    //unique value (i.e. if there are 2 CBs, will return RCB or LCB), so can uniquely identify player by position in a lineup with this func
-    public ActualPosition getActualPosition() {
-        if (this.actual != null) {
-            return actual;
-        } else {
-            // BasePositions all exist in ActualPositions, but not vice versa
-            return translateStringPosToActualPosEnum(this.pos.toString());
-        }
-    }
-
-    public void setPos(String pos) {
-        this.pos = translateStringPosToBasePosEnum(pos);
-    }
-
-    public void setPos(BasePosition pos) {
-        this.pos = pos;
-    }
-
-    public void setActual(ActualPosition actual) {
-        this.actual = actual;
-    }
-
-    public void setActual(String actual) {
-        this.actual = translateStringPosToActualPosEnum(actual);
     }
 
 }

@@ -1,5 +1,8 @@
 import chemistry.ChemistryEngine;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import player.Player;
+import player.PlayerLoader;
 import player.position.Position;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
@@ -10,10 +13,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ChemistryEngineTest {
 
-    @Test
-    void calculateChemistryRandom11_v1() {
+    PlayerLoader pl;
+
+    @BeforeEach
+    public void setUp() {
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
+    }
+
+    @Test
+    void calculateChemistryRandom11_v1() {
         long seed = new Long(10);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -24,8 +33,6 @@ class ChemistryEngineTest {
 
     @Test
     void calculateChemistryRandom11_v2() {
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers(true);
         long seed = new Long(11);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -36,8 +43,6 @@ class ChemistryEngineTest {
 
     @Test
     void calculateChemistryRandomNation11_v1() {
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers(true);
         long seed = new Long(13);
         ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
         Squad s = new Squad(randos);
@@ -48,8 +53,6 @@ class ChemistryEngineTest {
 
     @Test
     void calculateChemistryRandom11_v4() {
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers(true);
         long seed = new Long(10);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);

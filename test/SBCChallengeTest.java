@@ -2,19 +2,22 @@ import chemistry.ChemistryEngine;
 import constraint.Constraint;
 import constraint.ConstraintType;
 import constraint.Constraints;
+import org.junit.Ignore;
 import player.Player;
+import player.PlayerLoader;
 import solver.Combinations;
 import solver.SBCChallenge;
 import squad.Squad;
 import squad.SquadHelper;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 import java.util.ArrayList;
 
-class SBChallengeTest {
 
+public class SBCChallengeTest {
+
+    @Ignore
     @Test
-    void simulatedAnnealing() {
+    public void test_simulatedAnnealing() {
 
         Squad current = SquadHelper.create75DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
@@ -40,7 +43,7 @@ class SBChallengeTest {
     }
 
     @Test
-    void solver() {
+    public void solver() {
 
         Squad s = SquadHelper.create87DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
@@ -111,7 +114,7 @@ class SBChallengeTest {
     }
 
     @Test
-    void get87defaultSquadTest() {
+    public void get87defaultSquadTest() {
         Squad s = SquadHelper.create87DefaultSquad();
 
         for (Player p: s.getPlayers()) {
@@ -120,7 +123,7 @@ class SBChallengeTest {
     }
 
     @Test
-    void get85defaultSquadTest() {
+    public void get85defaultSquadTest() {
         Squad s = SquadHelper.create85DefaultSquad();
 
         for (Player p: s.getPlayers()) {
@@ -129,7 +132,7 @@ class SBChallengeTest {
     }
 
     @Test
-    void get83defaultSquadTest() {
+    public void get83defaultSquadTest() {
         Squad s = SquadHelper.create83DefaultSquad();
 
         for (Player p: s.getPlayers()) {
@@ -138,7 +141,7 @@ class SBChallengeTest {
     }
 
     @Test
-    void get75defaultSquadTest() {
+    public void get75defaultSquadTest() {
         Squad s = SquadHelper.create75DefaultSquad();
 
         for (Player p: s.getPlayers()) {
@@ -147,30 +150,30 @@ class SBChallengeTest {
     }
 
     @Test
-    void getFitnessScore() {
+    public void getFitnessScore() {
     }
 
     @Test
-    void getSquad() {
+    public void getSquad() {
     }
 
     @Test
-    void setSquad() {
+    public void setSquad() {
     }
 
     @Test
-    void getMinRating() {
+    public void getMinRating() {
     }
 
     @Test
-    void setMinRating() {
+    public void setMinRating() {
     }
 
     @Test
-    void getMinChem() {
+    public void getMinChem() {
     }
 
     @Test
-    void setMinChem() {
+    public void setMinChem() {
     }
 }

@@ -1,4 +1,7 @@
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import player.Player;
+import player.PlayerLoader;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SquadTest {
 
+    PlayerLoader pl;
+
+    @BeforeEach
+    public void setUp() {
+        pl = new PlayerLoader();
+        pl.loadPlayers(true);
+    }
+
     @Test
     void getRatings() {
     }
@@ -15,14 +26,11 @@ class SquadTest {
     @Test
     void getSquadPrice() {
 
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers(true);
         long seed = new Long(13);
         ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
         Squad s = new Squad(randos);
 
-        assertEquals(96550.0, s.getSquadPrice());
-
+        assertEquals(189200.0, s.getSquadPrice());
     }
 
     @Test

@@ -1,5 +1,8 @@
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import player.Player;
 import org.junit.jupiter.api.Test;
+import player.PlayerLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,19 +14,19 @@ class PlayerLoaderTest {
     private static boolean setUpIsDone = false;
     private PlayerLoader pl;
 
-    @Test
-    void loadPlayers() {
+    @BeforeEach
+    public void setUp() {
         pl = new PlayerLoader();
         pl.loadPlayers(true);
+    }
 
-        System.out.println(pl.getAllPlayers().size());
+    @Test
+    void loadPlayers() {
         assertNotNull(pl);
     }
 
     @Test
     void getAll82PlusTest() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         System.out.println(pl.getAll82Plus().size());
         assertNotNull(pl);
@@ -31,8 +34,6 @@ class PlayerLoaderTest {
 
     @Test
     void getAll83PlusTest() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         System.out.println(pl.getAll83Plus().size());
         assertNotNull(pl);
@@ -40,8 +41,6 @@ class PlayerLoaderTest {
 
     @Test
     void getAll84PlusTest() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         System.out.println(pl.getAll84Plus().size());
         assertNotNull(pl);
@@ -49,8 +48,6 @@ class PlayerLoaderTest {
 
     @Test
     void getAll85PlusTest() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         System.out.println(pl.getAll85Plus().size());
         assertNotNull(pl);
@@ -58,8 +55,6 @@ class PlayerLoaderTest {
 
     @Test
     void getAll86PlusTest() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         System.out.println(pl.getAll86Plus().size());
         assertNotNull(pl);
@@ -67,8 +62,6 @@ class PlayerLoaderTest {
 
     @Test
     void getAll87PlusTest() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         System.out.println(pl.getAll87Plus().size());
         assertNotNull(pl);
@@ -76,8 +69,6 @@ class PlayerLoaderTest {
 
     @Test
     void get11FrenchPlayers() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         ArrayList<Player> frenchies = pl.get11FrenchPlayers();
         for (Player p: frenchies) {
@@ -87,12 +78,8 @@ class PlayerLoaderTest {
 
     @Test
     void getByTeam() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         HashMap<String, ArrayList<Player>> byTeam = pl.getByTeam();
-
-        assertTrue(byTeam.containsKey("Icons"));
 
         assertTrue(byTeam.containsKey("Borussia Dortmund"));
         assertTrue(byTeam.containsKey("Juventus"));
@@ -103,8 +90,6 @@ class PlayerLoaderTest {
 
     @Test
     void getByLeague() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         HashMap<String, ArrayList<Player>> byLeague = pl.getByLeague();
 
@@ -117,8 +102,6 @@ class PlayerLoaderTest {
 
     @Test
     void getByNation() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         HashMap<String, ArrayList<Player>> byNation = pl.getByNation();
 
@@ -131,8 +114,6 @@ class PlayerLoaderTest {
 
     @Test
     void getByPos() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         HashMap<String, ArrayList<Player>> byPos = pl.getByPos();
 
@@ -146,8 +127,6 @@ class PlayerLoaderTest {
 
     @Test
     void getByRating() {
-        pl = new PlayerLoader();
-        pl.loadPlayers(true);
 
         HashMap<Integer, ArrayList<Player>> byRating = pl.getByRating();
 

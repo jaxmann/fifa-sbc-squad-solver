@@ -1,8 +1,14 @@
+import constraint.Brick;
 import constraint.Constraint;
+import constraint.ConstraintType;
+import player.CardType;
 import player.Player;
+import player.position.ActualPosition;
+import player.position.BasePosition;
 import player.position.Position;
 import squad.Squad;
 import org.junit.Test;
+import squad.SquadHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
