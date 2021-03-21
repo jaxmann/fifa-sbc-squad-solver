@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Squad implements Serializable {
 
-    private static final String BRICKED_PLAYER_NAME = "brickedPlayer";
+    public static final String BRICKED_PLAYER_NAME = "brickedPlayer";
 
     private HashMap<Position, Player> lineup;
     private ArrayList<Position> positions;
@@ -47,7 +47,7 @@ public class Squad implements Serializable {
     public boolean setBrick(Brick brick) {
         Player brickPlayer = new Player(BRICKED_PLAYER_NAME, brick.getClub(), brick.getNation(), brick.getLeague(), brick.getPos().getBasePos());
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
-            if (entry.getKey().getActual().equals(brick.getPos().getActual())) {
+            if (entry.getKey().getActualPosition().equals(brick.getPos().getActualPosition())) {
                 this.getLineup().put(brick.getPos(), brickPlayer);
                 return true;
             }
@@ -95,6 +95,14 @@ public class Squad implements Serializable {
     public void updateAtPos(int i, Player p) {
         this.players.set(i, p);
         this.updateLineup();
+    }
+
+    public void updateAtPos(String uniqueActualPos, Player p) {
+        for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
+            if (entry.getKey().getActualPosition().equals(uniqueActualPos)) {
+                this.getLineup().put(entry.getKey(), p);
+            }
+        }
     }
 
 
@@ -188,7 +196,7 @@ public class Squad implements Serializable {
             Position pos = entry.getKey();
             Player player = entry.getValue();
 
-            System.out.println("pos: " + pos.getActual() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
+            System.out.println("pos: " + pos.getActualPosition() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
 
         }
     }
@@ -215,16 +223,16 @@ public class Squad implements Serializable {
         return asString;
     }
 
-    public Player getPlayerAtPosition(BasePosition basePosition) {
+    public Player getPlayerAtPosition(String position) {
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
-            if (entry.getKey().getBasePos() == basePosition) {
+            if (entry.getKey().getActualPosition().equals(position)) {
                 return entry.getValue();
             }
         }
         return null;
     }
 
-    public boolean doesSquadSatisfyConstraint(Constraint constraint) {
+    public boolean doesSquadSatisfyConstraints(Constraint constraint) {
         switch(constraint.getConstraintType()) {
             case MINCHEM:
                 return ChemistryEngine.calculateChemistry(this) >= constraint.getMinChem();
@@ -232,7 +240,17 @@ public class Squad implements Serializable {
                 return this.getSquadRating() >= constraint.getMinRating();
             case BRICKS:
                 for (int i=0; i<constraint.getBricks().size(); i++) {
-                    if (!this.getPlayerAtPosition(constraint.getBricks().get(i).getPos().getBasePos()).getName().equals(BRICKED_PLAYER_NAME)) {
+                    Player playerAtPos = this.getPlayerAtPosition(constraint.getBricks().get(i).getPos().getActualPosition());
+                    if (!playerAtPos.getName().equals(BRICKED_PLAYER_NAME)) {
+                        return false;
+                    }
+                    if (playerAtPos.getNation() != null && !playerAtPos.getNation().equals(constraint.getBricks().get(i).getNation())) {
+                        return false;
+                    }
+                    if (playerAtPos.getLeague() != null && !playerAtPos.getLeague().equals(constraint.getBricks().get(i).getLeague())) {
+                        return false;
+                    }
+                    if (playerAtPos.getTeam() != null && !playerAtPos.getTeam().equals(constraint.getBricks().get(i).getTeam())) {
                         return false;
                     }
                 }

@@ -308,4 +308,13 @@ class Brick {
     public void setClub(String club) {
         this.club = club;
     }
+
+    // alias to getClub because idk why i wasn't consistent earlier
+    public String getTeam() {
+        return club;
+    }
+
+    public void setTeam(String club) {
+        this.club = club;
+    }
 }

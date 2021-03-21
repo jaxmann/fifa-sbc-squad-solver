@@ -14,7 +14,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create71ChemSquad();
 
-        assertTrue(s.doesSquadSatisfyConstraint(minChemConstraint));
+        assertTrue(s.doesSquadSatisfyConstraints(minChemConstraint));
     }
 
     @Test
@@ -24,7 +24,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create71ChemSquad();
 
-        assertFalse(s.doesSquadSatisfyConstraint(minChemConstraint));
+        assertFalse(s.doesSquadSatisfyConstraints(minChemConstraint));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create87DefaultSquad();
 
-        assertTrue(s.doesSquadSatisfyConstraint(minRatingConstraint));
+        assertTrue(s.doesSquadSatisfyConstraints(minRatingConstraint));
     }
 
     @Test
@@ -44,11 +44,11 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create87DefaultSquad();
 
-        assertFalse(s.doesSquadSatisfyConstraint(minRatingConstraint));
+        assertFalse(s.doesSquadSatisfyConstraints(minRatingConstraint));
     }
 
     @Test
-    public void test_singleBrickConstraintSatisfied() {
+    public void test_singleSimpleBrickConstraintSatisfied() {
         Constraint brickConstraint = new Constraint(ConstraintType.BRICKS);
         Brick brick = new Brick(new Position(BasePosition.GK));
         brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
@@ -56,18 +56,45 @@ public class ConstraintTest {
         Squad s = SquadHelper.create87DefaultSquad();
         s.setBrick(brick);
 
-        assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
+        assertTrue(s.doesSquadSatisfyConstraints(brickConstraint));
     }
 
     @Test
-    public void test_singleBrickConstraintNotSatisfied() {
+    public void test_singleSimpleBrickConstraintNotSatisfied() {
         Constraint brickConstraint = new Constraint(ConstraintType.BRICKS);
         Brick brick = new Brick(new Position(BasePosition.GK));
         brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
 
         Squad s = SquadHelper.create87DefaultSquad();
 
-        assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
+        assertFalse(s.doesSquadSatisfyConstraints(brickConstraint));
     }
+
+    @Test
+    public void test_singleComplexBrickConstraintSatisfied() {
+        Constraint brickConstraint = new Constraint(ConstraintType.BRICKS);
+        Brick brick = new Brick(new Position(BasePosition.GK), "Germany", "Bundesliga", "Bayern");
+        brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
+
+        Squad s = SquadHelper.create75DefaultSquad();
+        s.setBrick(brick);
+
+        assertTrue(s.doesSquadSatisfyConstraints(brickConstraint));
+    }
+
+    @Test
+    public void test_singleComplexBrickConstraintNotSatisfied() {
+        Constraint brickConstraint = new Constraint(ConstraintType.BRICKS);
+        Brick brick = new Brick(new Position(BasePosition.GK), "Germany", "Bundesliga", "Bayern");
+        brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
+
+        Squad s = SquadHelper.create75DefaultSquad();
+        Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
+        s.updateAtPos(BasePosition.GK.toString(), incorrectBrickedPlayer);
+
+        assertFalse(s.doesSquadSatisfyConstraints(brickConstraint));
+    }
+
+
 
 }

@@ -121,7 +121,8 @@ public class Position implements Serializable {
         return pos;
     }
 
-    public String getActual() {
+    //unique value (i.e. if there are 2 CBs, will return RCB or LCB), so can uniquely identify player by position in a lineup with this func
+    public String getActualPosition() {
         if (this.actual != null) {
             return actual;
         } else {
