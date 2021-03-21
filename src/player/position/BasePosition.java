@@ -1,4 +1,6 @@
-enum BasePosition {
+package player.position;
+
+public enum BasePosition {
     ST,
     LF,
     GK,

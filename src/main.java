@@ -7,23 +7,23 @@ public class main {
     public static void main(String args[]) {
 
 
-//        FormationFactory ff = new FormationFactory();
-//        Formation f = ff.getFormation("41212");
+//        Squad.Formation.FormationFactory ff = new Squad.Formation.FormationFactory();
+//        Squad.Formation.Squad.Formation f = ff.getFormation("41212");
 //
 //
-//        PlayerLoader pl = new PlayerLoader();
+//        Player.PlayerLoader pl = new Player.PlayerLoader();
 //        pl.loadPlayers();
-//        ArrayList<Player> frenchies = pl.get11FrenchPlayers();
+//        ArrayList<Player.Player> frenchies = pl.get11FrenchPlayers();
 //
-//        Squad s = new Squad(f.getPositions(), frenchies);
+//        Squad.Squad s = new Squad.Squad(f.getPositions(), frenchies);
 //        s.printSquad();
 
-//        HashMap<String, ArrayList<Player>> bp = pl.getByNation();
+//        HashMap<String, ArrayList<Player.Player>> bp = pl.getByNation();
 //
 //        for (String name: bp.keySet()){
 //
 //            String key = name.toString();
-//            Player value = bp.get(name).get(0);
+//            Player.Player value = bp.get(name).get(0);
 //            System.out.println(key + " " + value.getName());
 //
 //        }

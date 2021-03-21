@@ -1,3 +1,5 @@
+package player.position;
+
 import java.io.*;
 
 public class Position implements Serializable {

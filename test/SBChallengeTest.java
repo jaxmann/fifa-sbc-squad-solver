@@ -1,10 +1,15 @@
+import chemistry.ChemistryEngine;
+import constraint.Constraint;
+import constraint.ConstraintType;
+import constraint.Constraints;
+import player.Player;
+import solver.Combinations;
+import solver.SBCChallenge;
+import squad.Squad;
+import squad.SquadHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SBChallengeTest {
 
@@ -18,10 +23,10 @@ class SBChallengeTest {
 
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
-//        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
+//        Constraint.Constraint c1 = new Constraint.Constraint(Constraint.ConstraintType.MINCHEM);
 //        c1.setMinChem(80);
         Constraint c2 = new Constraint(ConstraintType.MINRATING);
-        c2.setMinRating(88);
+        c2.setMinRating(85);
 
         Constraints constraints = new Constraints();
 //        constraints.addConstraint(c1);
@@ -29,7 +34,7 @@ class SBChallengeTest {
 
         //END CONSTRAINTS
 
-        SBChallenge sbc = new SBChallenge(constraints);
+        SBCChallenge sbc = new SBCChallenge(constraints);
         sbc.runSimulatedAnnealing(current, availablePlayers, true, false);
 
     }
@@ -88,7 +93,7 @@ class SBChallengeTest {
 
 
 
-//        Combinations.combinations(idx, k, 0, new Integer[k]);
+//        Solver.Combinations.combinations(idx, k, 0, new Integer[k]);
         //get first n choose 2 indices
             //get every combination of 2 players, check chem/rating and and update min price if valid chem/rating and better min
         //get next n choose 2 indices
@@ -96,7 +101,7 @@ class SBChallengeTest {
 
 
 //        System.out.println(s.getSquadPrice());
-//        System.out.println(ChemistryEngine.calculateChemistry(s));
+//        System.out.println(Chemistry.ChemistryEngine.calculateChemistry(s));
 //        System.out.println(s.getSquadRating());
 
 

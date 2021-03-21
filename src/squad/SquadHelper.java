@@ -1,7 +1,16 @@
+package squad;
+
+import player.CardType;
+import player.PlayerLoader;
+import player.PlayerNotFoundException;
+import player.position.BasePosition;
+import squad.formation.Formation;
+import squad.formation.FormationFactory;
+import player.Player;
+import player.position.Position;
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SquadHelper implements Serializable {
 

@@ -1,3 +1,9 @@
+package chemistry;
+
+import player.Player;
+import player.position.*;
+import squad.Squad;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -317,4 +323,5 @@ public class ChemistryEngine {
         }
         return 0;
     }
+
 }

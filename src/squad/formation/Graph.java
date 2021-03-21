@@ -1,3 +1,7 @@
+package squad.formation;
+
+import player.position.Position;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;

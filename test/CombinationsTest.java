@@ -1,6 +1,7 @@
+import solver.Combinations;
+import squad.Squad;
+import squad.SquadHelper;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CombinationsTest {
 

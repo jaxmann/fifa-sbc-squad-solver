@@ -1,3 +1,7 @@
+package squad.formation;
+
+import player.position.Position;
+
 import java.util.ArrayList;
 
 public class FormationFactory {
@@ -6,17 +10,12 @@ public class FormationFactory {
         if (formationName.equals("41212")) {
             return new F_41212();
         } else if (formationName.equals("4231")) {
-//            return new F_4231
+//            return new Squad.Formation.F_4231
         }
 
         return null;
     }
 
-}
-
-interface Formation {
-    ArrayList<Position> getPositions();
-    Graph getGraph();
 }
 
 class F_41212 implements Formation {

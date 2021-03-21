@@ -1,3 +1,18 @@
+package squad;
+
+import chemistry.ChemistryEngine;
+import constraint.Brick;
+import constraint.Constraint;
+import constraint.ConstraintType;
+import constraint.Constraints;
+import player.CardType;
+import player.position.ActualPosition;
+import squad.formation.Formation;
+import squad.formation.FormationFactory;
+import squad.formation.Graph;
+import player.Player;
+import player.position.Position;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +22,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
+
+
 
 public class Squad implements Serializable {
 
@@ -290,7 +307,11 @@ public class Squad implements Serializable {
         return getNumOfTeam(club);
     }
 
-    public boolean doesSquadSatisfyConstraints(Constraint constraint) {
+    public boolean doesSquadSatisfyAllConstaints(Constraints constraints) {
+        return constraints.getConstraints().stream().allMatch(constraint -> this.doesSquadSatisfyConstraint(constraint));
+    }
+
+    public boolean doesSquadSatisfyConstraint(Constraint constraint) {
         switch(constraint.getConstraintType()) {
             case MINCHEM:
                 return ChemistryEngine.calculateChemistry(this) >= constraint.getMinChem();

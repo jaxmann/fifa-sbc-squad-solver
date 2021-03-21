@@ -1,4 +1,6 @@
-enum CardType {
+package player;
+
+public enum CardType {
     UCL_COMMON,
     UCL_RARE,
     GOLD_NON_RARE,
@@ -13,5 +15,5 @@ enum CardType {
     OTW,
     SCREAM,
     UCL_LIVE,
-    UNKNOWN //includes all SBC, MOTM, untradeable, TOTY etc cards since they wouldn't be used in SBC
+    UNKNOWN //includes all SBC, MOTM, untradeable, TOTY, Icon etc cards since they wouldn't be used in SBC
 }

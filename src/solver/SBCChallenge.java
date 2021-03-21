@@ -1,15 +1,20 @@
-//import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+package solver;//import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
+import chemistry.ChemistryEngine;
+import constraint.Constraints;
+import player.Player;
+import squad.Squad;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class SBChallenge {
+public class SBCChallenge {
 
     private Constraints constraints;
 
-    public SBChallenge(Constraints constraints) {
+    public SBCChallenge(Constraints constraints) {
         this.constraints = constraints;
     }
 
@@ -32,8 +37,9 @@ public class SBChallenge {
 
 //        System.out.println("ratingScore: " + ratingScore + " chemScore: " + chemScore + " priceScore: " + priceScore);
 
-//        if (this.constraints.getConstraints())
-        if (curSquadRating < minRating || curSquadChem < minChem) {
+        if (!squad.doesSquadSatisfyAllConstaints(this.constraints)) {
+            return 0;
+        } else if (curSquadRating < minRating || curSquadChem < minChem) {
             return (200 - combinedDifference);
         } else {
             return 481.1 - 21.5*Math.log(priceScore) + 100;
@@ -77,8 +83,8 @@ public class SBChallenge {
                 Squad newSquad = current;
                 while (numSwaps > 0) {
 
-                    int randomInd = SBChallenge.getRandomNumber(11);
-                    int randomPlayer = SBChallenge.getRandomNumber(availablePlayers.size());
+                    int randomInd = SBCChallenge.getRandomNumber(11);
+                    int randomPlayer = SBCChallenge.getRandomNumber(availablePlayers.size());
                     newSquad = Squad.newAtPos(newSquad, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
 
                     numSwaps--;

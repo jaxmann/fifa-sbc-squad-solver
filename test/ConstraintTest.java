@@ -1,3 +1,7 @@
+import constraint.Constraint;
+import player.Player;
+import player.position.Position;
+import squad.Squad;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -14,7 +18,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create71ChemSquad();
 
-        assertTrue(s.doesSquadSatisfyConstraints(minChemConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(minChemConstraint));
     }
 
     @Test
@@ -24,7 +28,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create71ChemSquad();
 
-        assertFalse(s.doesSquadSatisfyConstraints(minChemConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(minChemConstraint));
     }
 
     @Test
@@ -34,7 +38,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create87DefaultSquad();
 
-        assertTrue(s.doesSquadSatisfyConstraints(minRatingConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(minRatingConstraint));
     }
 
     @Test
@@ -44,7 +48,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create87DefaultSquad();
 
-        assertFalse(s.doesSquadSatisfyConstraints(minRatingConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(minRatingConstraint));
     }
 
     @Test
@@ -56,7 +60,7 @@ public class ConstraintTest {
         Squad s = SquadHelper.create87DefaultSquad();
         s.setBrick(brick);
 
-        assertTrue(s.doesSquadSatisfyConstraints(brickConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
     @Test
@@ -67,7 +71,7 @@ public class ConstraintTest {
 
         Squad s = SquadHelper.create87DefaultSquad();
 
-        assertFalse(s.doesSquadSatisfyConstraints(brickConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
     @Test
@@ -79,7 +83,7 @@ public class ConstraintTest {
         Squad s = SquadHelper.create75GoldNonRareTestSquad();
         s.setBrick(brick);
 
-        assertTrue(s.doesSquadSatisfyConstraints(brickConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
     @Test
@@ -92,7 +96,7 @@ public class ConstraintTest {
         Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
         s.updateAtPos(ActualPosition.GK, incorrectBrickedPlayer);
 
-        assertFalse(s.doesSquadSatisfyConstraints(brickConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
     @Test
@@ -109,7 +113,7 @@ public class ConstraintTest {
         s.setBrick(brick1);
         s.setBrick(brick2);
 
-        assertTrue(s.doesSquadSatisfyConstraints(brickConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
     @Test
@@ -129,7 +133,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.GK, incorrectBrickedPlayer1);
         s.updateAtPos(ActualPosition.RCB, incorrectBrickedPlayer2);
 
-        assertFalse(s.doesSquadSatisfyConstraints(brickConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
     @Test
@@ -147,7 +151,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(minOfCardTypeConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(minOfCardTypeConstraint));
     }
 
     @Test
@@ -165,7 +169,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(minOfCardTypeConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(minOfCardTypeConstraint));
     }
 
     @Test
@@ -183,7 +187,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(exactOfCardTypeConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(exactOfCardTypeConstraint));
     }
 
     @Test
@@ -201,7 +205,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(exactOfCardTypeConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(exactOfCardTypeConstraint));
     }
 
     @Test
@@ -219,7 +223,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(minOfCardTypeConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(minOfCardTypeConstraint));
     }
 
     @Test
@@ -237,7 +241,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(minOfCardTypeConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(minOfCardTypeConstraint));
     }
 
     @Test
@@ -255,7 +259,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(exactOfClubConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(exactOfClubConstraint));
     }
 
     @Test
@@ -273,7 +277,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(exactOfClubConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(exactOfClubConstraint));
     }
 
     @Test
@@ -291,7 +295,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(minOfNationConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(minOfNationConstraint));
     }
 
     @Test
@@ -309,7 +313,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(minOfNationConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(minOfNationConstraint));
     }
 
     @Test
@@ -327,7 +331,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(exactOfClubConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(exactOfClubConstraint));
     }
 
     @Test
@@ -345,7 +349,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(exactOfClubConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(exactOfClubConstraint));
     }
 
     @Test
@@ -363,7 +367,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(minOfLeagueConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(minOfLeagueConstraint));
     }
 
     @Test
@@ -381,7 +385,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(minOfLeagueConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(minOfLeagueConstraint));
     }
 
     @Test
@@ -399,7 +403,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertTrue(s.doesSquadSatisfyConstraints(exactOfLeagueConstraint));
+        assertTrue(s.doesSquadSatisfyConstraint(exactOfLeagueConstraint));
     }
 
     @Test
@@ -417,7 +421,7 @@ public class ConstraintTest {
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
 
-        assertFalse(s.doesSquadSatisfyConstraints(exactOfLeagueConstraint));
+        assertFalse(s.doesSquadSatisfyConstraint(exactOfLeagueConstraint));
     }
 
 }

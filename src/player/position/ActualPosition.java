@@ -1,4 +1,6 @@
-enum ActualPosition {
+package player.position;
+
+public enum ActualPosition {
     ST,
     LF,
     GK,

@@ -1,3 +1,7 @@
+package constraint;
+
+import player.CardType;
+
 import java.util.ArrayList;
 
 public class Constraint {
@@ -5,7 +9,7 @@ public class Constraint {
     private int minRating;
     private int minChem;
 
-    //if constraintType==MIN_OF_CARDTYPE, then min_of_cardtype is some int and CardType should be set
+    //if constraintType==MIN_OF_CARDTYPE, then min_of_cardtype is some int and Player.CardType should be set
     private CardType cardType;
     private int min_of_cardtype;
     private int exact_of_cardtype;
@@ -159,134 +163,5 @@ public class Constraint {
 
     public void setConstraintType(ConstraintType type) {
         this.type = type;
-    }
-}
-
-class Constraints {
-
-    private ArrayList<Constraint> constraints;
-
-    public Constraints() {
-        this.constraints = new ArrayList<>();
-    }
-
-    public ArrayList<Constraint> getConstraints() {
-        return constraints;
-    }
-
-    public void addConstraint(Constraint constraint) {
-        this.constraints.add(constraint);
-    }
-
-    // just for min rating and chem - helper methods that searches through all constraints so can call it on constraints array
-    public int getMinRating() {
-        for (Constraint c: this.constraints) {
-            if (c.getConstraintType() == ConstraintType.MINRATING) {
-                return c.getMinRating();
-            }
-        }
-        return 0;
-    }
-
-    public int getMinChem() {
-        for (Constraint c: this.constraints) {
-            if (c.getConstraintType() == ConstraintType.MINCHEM) {
-                return c.getMinChem();
-            }
-        }
-        return 0;
-    }
-
-    public void setConstraints(ArrayList<Constraint> constraints) {
-        this.constraints = constraints;
-    }
-}
-
-enum ConstraintType {
-
-    MINRATING,
-    MINCHEM,
-    BRICKS,
-    MIN_OF_CARDTYPE,
-    EXACT_OF_CARDTYPE,
-    MIN_OF_LEAGUE,
-    EXACT_OF_LEAGUE,
-    MIN_OF_NATION,
-    EXACT_OF_NATION,
-    MIN_OF_CLUB,
-    EXACT_OF_CLUB,
-    NUMPLAYERS,
-}
-
-
-
-class Brick {
-
-    private Position pos;
-    private String nation;
-    private String league;
-    private String club;
-
-    public Brick(Position pos) {
-        this.pos = pos;
-    }
-
-    public Brick(Position pos, String nation) {
-        this.pos = pos;
-        this.nation = nation;
-    }
-
-    public Brick(Position pos, String nation, String league) {
-        this.pos = pos;
-        this.nation = nation;
-        this.league = league;
-    }
-
-    public Brick(Position pos, String nation, String league, String club) {
-        this.pos = pos;
-        this.nation = nation;
-        this.league = league;
-        this.club = club;
-    }
-
-    public Position getPos() {
-        return pos;
-    }
-
-    public void setPos(Position pos) {
-        this.pos = pos;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation;
-    }
-
-    public String getLeague() {
-        return league;
-    }
-
-    public void setLeague(String league) {
-        this.league = league;
-    }
-
-    public String getClub() {
-        return club;
-    }
-
-    public void setClub(String club) {
-        this.club = club;
-    }
-
-    // alias to getClub because idk why i wasn't consistent earlier
-    public String getTeam() {
-        return club;
-    }
-
-    public void setTeam(String club) {
-        this.club = club;
     }
 }
