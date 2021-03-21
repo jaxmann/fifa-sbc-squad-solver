@@ -13,6 +13,7 @@ public class SBChallenge {
         this.constraints = constraints;
     }
 
+    // "fitness" of squad is a measure of how "good" the result is
     public double getFitnessScore(Squad squad) {
 
         double curSquadRating = squad.getFractionalSquadRating();
@@ -31,7 +32,7 @@ public class SBChallenge {
 
 //        System.out.println("ratingScore: " + ratingScore + " chemScore: " + chemScore + " priceScore: " + priceScore);
 
-
+//        if (this.constraints.getConstraints())
         if (curSquadRating < minRating || curSquadChem < minChem) {
             return (200 - combinedDifference);
         } else {
@@ -51,7 +52,7 @@ public class SBChallenge {
         double T = 1.0;
         double Tmin = 0.0001;
         double alpha = 0.95;
-        int numIterations = 10000;
+        int numIterations = 1000;
         int maxSwaps = 8; //max number is 11 (potentially swap all 11 players during an iteration)
 
 

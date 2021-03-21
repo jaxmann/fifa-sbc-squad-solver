@@ -175,144 +175,144 @@ public class ChemistryEngine {
 
     public static int positionChem(Position slot, Position actual) {
 
-        if (slot.getPos().equals("GK")) {
-            if (actual.getPos().equals("GK")) {
+        if (slot.getBasePos().equals(BasePosition.GK)) {
+            if (actual.getBasePos().equals(BasePosition.GK)) {
               return 3;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("CB")) {
-            if (actual.getPos().equals("CB")) {
+        } else if (slot.getBasePos().equals(BasePosition.CB)) {
+            if (actual.getBasePos().equals(BasePosition.CB)) {
                 return 3;
-            } else if (actual.getPos().equals("LB") || actual.getPos().equals("RB")) {
+            } else if (actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.RB)) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("RB")) {
-            if (actual.getPos().equals("RB")) {
+        } else if (slot.getBasePos().equals(BasePosition.RB)) {
+            if (actual.getBasePos().equals(BasePosition.RB)) {
                 return 3;
-            } else if (actual.getPos().equals("CB") || actual.getPos().equals("LB") || actual.getPos().equals("RM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CB) || actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.RM)) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("LB")) {
-            if (actual.getPos().equals("LB")) {
+        } else if (slot.getBasePos().equals(BasePosition.LB)) {
+            if (actual.getBasePos().equals(BasePosition.LB)) {
                 return 3;
-            } else if (actual.getPos().equals("CB") || actual.getPos().equals("RB") || actual.getPos().equals("LM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CB) || actual.getBasePos().equals(BasePosition.RB) || actual.getBasePos().equals(BasePosition.LM)) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("CDM")) {
-            if (actual.getPos().equals("CDM")) {
+        } else if (slot.getBasePos().equals(BasePosition.CDM)) {
+            if (actual.getBasePos().equals(BasePosition.CDM)) {
                 return 3;
-            } else if (actual.getPos().equals("CB") || actual.getPos().equals("CAM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CB) || actual.getBasePos().equals(BasePosition.CAM)) {
                 return 1;
-            } else if (actual.getPos().equals("CM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CM)) {
                 return 2;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("CAM")) {
-            if (actual.getPos().equals("CAM")) {
+        } else if (slot.getBasePos().equals(BasePosition.CAM)) {
+            if (actual.getBasePos().equals(BasePosition.CAM)) {
                 return 3;
-            } else if (actual.getPos().equals("CF") || actual.getPos().equals("CM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CF) || actual.getBasePos().equals(BasePosition.CM)) {
                 return 2;
-            } else if (actual.getPos().equals("CDM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CDM)) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("CM")) {
-            if (actual.getPos().equals("CM")) {
+        } else if (slot.getBasePos().equals(BasePosition.CM)) {
+            if (actual.getBasePos().equals(BasePosition.CM)) {
                 return 3;
-            } else if (actual.getPos().equals("CAM") || actual.getPos().equals("CDM")) {
+            } else if (actual.getBasePos().equals(BasePosition.CAM) || actual.getBasePos().equals(BasePosition.CDM)) {
                 return 2;
-            } else if (actual.getPos().equals("LM") || actual.getPos().equals("RM")) {
+            } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.RM)) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("CF")) {
-            if (actual.getPos().equals("ST") || actual.getPos().equals("CAM")) {
+        } else if (slot.getBasePos().equals(BasePosition.CF)) {
+            if (actual.getBasePos().equals(BasePosition.ST) || actual.getBasePos().equals(BasePosition.CAM)) {
                 return 2;
-            } else if (actual.getPos().equals("CF")) {
+            } else if (actual.getBasePos().equals(BasePosition.CF)) {
                 return 3;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("ST")) {
-            if (actual.getPos().equals("ST")) {
+        } else if (slot.getBasePos().equals(BasePosition.ST)) {
+            if (actual.getBasePos().equals(BasePosition.ST)) {
                 return 3;
-            } else if (actual.getPos().equals("CF")) {
+            } else if (actual.getBasePos().equals(BasePosition.CF)) {
                 return 2;
             } else {
                 return 0;
             }
-        } else if (slot.getPos().equals("RM")) {
-            if (actual.getPos().equals("RM")) {
+        } else if (slot.getBasePos().equals(BasePosition.RM)) {
+            if (actual.getBasePos().equals(BasePosition.RM)) {
                 return 3;
-            } else if (actual.getPos().equals("RW")) {
+            } else if (actual.getBasePos().equals(BasePosition.RW)) {
                 return 2;
-            } else if (actual.getPos().equals("RF") || actual.getPos().equals("RB") || actual.getPos().equals("CM")) {
+            } else if (actual.getBasePos().equals(BasePosition.RF) || actual.getBasePos().equals(BasePosition.RB) || actual.getBasePos().equals(BasePosition.CM)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("LM")) {
-            if (actual.getPos().equals("LM")) {
+        } else if (slot.getBasePos().equals(BasePosition.LM)) {
+            if (actual.getBasePos().equals(BasePosition.LM)) {
                 return 3;
-            } else if (actual.getPos().equals("LW")) {
+            } else if (actual.getBasePos().equals(BasePosition.LW)) {
                 return 2;
-            } else if (actual.getPos().equals("LF") || actual.getPos().equals("LB") || actual.getPos().equals("CM")) {
+            } else if (actual.getBasePos().equals(BasePosition.LF) || actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.CM)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("LW")) {
-            if (actual.getPos().equals("LW")) {
+        } else if (slot.getBasePos().equals(BasePosition.LW)) {
+            if (actual.getBasePos().equals(BasePosition.LW)) {
                 return 3;
-            } else if (actual.getPos().equals("LM") || actual.getPos().equals("LF")) {
+            } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.LF)) {
                 return 2;
-            } else if (actual.getPos().equals("LWB")) {
+            } else if (actual.getBasePos().equals(BasePosition.LWB)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("RW")) {
-            if (actual.getPos().equals("RW")) {
+        } else if (slot.getBasePos().equals(BasePosition.RW)) {
+            if (actual.getBasePos().equals(BasePosition.RW)) {
                 return 3;
-            } else if (actual.getPos().equals("RM") || actual.getPos().equals("RF")) {
+            } else if (actual.getBasePos().equals(BasePosition.RM) || actual.getBasePos().equals(BasePosition.RF)) {
                 return 2;
-            } else if (actual.getPos().equals("RWB")) {
+            } else if (actual.getBasePos().equals(BasePosition.RWB)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("LF")) {
-            if (actual.getPos().equals("LF")) {
+        } else if (slot.getBasePos().equals(BasePosition.LF)) {
+            if (actual.getBasePos().equals(BasePosition.LF)) {
                 return 3;
-            } else if (actual.getPos().equals("LW")) {
+            } else if (actual.getBasePos().equals(BasePosition.LW)) {
                 return 2;
-            } else if (actual.getPos().equals("LM") || actual.getPos().equals("ST")) {
+            } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.ST)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("RF")) {
-            if (actual.getPos().equals("RF")) {
+        } else if (slot.getBasePos().equals(BasePosition.RF)) {
+            if (actual.getBasePos().equals(BasePosition.RF)) {
                 return 3;
-            } else if (actual.getPos().equals("RW")) {
+            } else if (actual.getBasePos().equals(BasePosition.RW)) {
                 return 2;
-            } else if (actual.getPos().equals("RM") || actual.getPos().equals("ST")) {
+            } else if (actual.getBasePos().equals(BasePosition.RM) || actual.getBasePos().equals(BasePosition.ST)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("RWB")) {
-            if (actual.getPos().equals("RWB")) {
+        } else if (slot.getBasePos().equals(BasePosition.RWB)) {
+            if (actual.getBasePos().equals(BasePosition.RWB)) {
                 return 3;
-            } else if (actual.getPos().equals("RB")) {
+            } else if (actual.getBasePos().equals(BasePosition.RB)) {
                 return 2;
-            } else if (actual.getPos().equals("RW") || actual.getPos().equals("RM")) {
+            } else if (actual.getBasePos().equals(BasePosition.RW) || actual.getBasePos().equals(BasePosition.RM)) {
                 return 1;
             }
-        } else if (slot.getPos().equals("LWB")) {
-            if (actual.getPos().equals("LWB")) {
+        } else if (slot.getBasePos().equals(BasePosition.LWB)) {
+            if (actual.getBasePos().equals(BasePosition.LWB)) {
                 return 3;
-            } else if (actual.getPos().equals("LB")) {
+            } else if (actual.getBasePos().equals(BasePosition.LB)) {
                 return 2;
-            } else if (actual.getPos().equals("LW") || actual.getPos().equals("LM")) {
+            } else if (actual.getBasePos().equals(BasePosition.LW) || actual.getBasePos().equals(BasePosition.LM)) {
                 return 1;
             }
         } else {

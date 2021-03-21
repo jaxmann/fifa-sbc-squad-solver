@@ -11,10 +11,10 @@ class SBChallengeTest {
     @Test
     void simulatedAnnealing() {
 
-        Squad current = Squad.create75DefaultSquad();
+        Squad current = SquadHelper.create75DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
-        ArrayList<Player> availablePlayers = pl.getAll81Plus();
+        ArrayList<Player> availablePlayers = pl.getAll84Plus();
 
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
@@ -32,13 +32,12 @@ class SBChallengeTest {
         SBChallenge sbc = new SBChallenge(constraints);
         sbc.runSimulatedAnnealing(current, availablePlayers, true, false);
 
-
     }
 
     @Test
     void solver() {
 
-        Squad s = Squad.create87DefaultSquad();
+        Squad s = SquadHelper.create87DefaultSquad();
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
         ArrayList<Player> allPlayers = pl.getAllPlayers();
@@ -108,7 +107,7 @@ class SBChallengeTest {
 
     @Test
     void get87defaultSquadTest() {
-        Squad s = Squad.create87DefaultSquad();
+        Squad s = SquadHelper.create87DefaultSquad();
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
@@ -117,7 +116,7 @@ class SBChallengeTest {
 
     @Test
     void get85defaultSquadTest() {
-        Squad s = Squad.create85DefaultSquad();
+        Squad s = SquadHelper.create85DefaultSquad();
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
@@ -126,7 +125,7 @@ class SBChallengeTest {
 
     @Test
     void get83defaultSquadTest() {
-        Squad s = Squad.create83DefaultSquad();
+        Squad s = SquadHelper.create83DefaultSquad();
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
@@ -135,7 +134,7 @@ class SBChallengeTest {
 
     @Test
     void get75defaultSquadTest() {
-        Squad s = Squad.create75DefaultSquad();
+        Squad s = SquadHelper.create75DefaultSquad();
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());

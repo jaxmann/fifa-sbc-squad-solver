@@ -259,6 +259,24 @@ class Brick {
         this.pos = pos;
     }
 
+    public Brick(Position pos, String nation) {
+        this.pos = pos;
+        this.nation = nation;
+    }
+
+    public Brick(Position pos, String nation, String league) {
+        this.pos = pos;
+        this.nation = nation;
+        this.league = league;
+    }
+
+    public Brick(Position pos, String nation, String league, String club) {
+        this.pos = pos;
+        this.nation = nation;
+        this.league = league;
+        this.club = club;
+    }
+
     public Position getPos() {
         return pos;
     }

@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class PlayerLoader {
 
@@ -151,7 +150,7 @@ public class PlayerLoader {
             if ((!namePresent || player.getName().toLowerCase().contains(name.toLowerCase())) &&
                     (!ratingPresent || player.getRating() == rating) &&
                     (!nationPresent || player.getNation().toLowerCase().contains(nation.toLowerCase()) &&
-                            (!positionPresent || player.getPos().toLowerCase().equals(position.toLowerCase())) &&
+                            (!positionPresent || player.getPos().toString().toLowerCase().equals(position.toLowerCase())) &&
                             (!teamPresent || player.getTeam().toLowerCase().contains(team.toLowerCase())) &&
                             (!leaguePresent || player.getLeague().toLowerCase().contains(league.toLowerCase())
             ))) {
@@ -351,13 +350,13 @@ class Player implements Serializable {
     private String team;
     private String nation;
     private String league;
-    private String pos;
+    private BasePosition pos;
     private double price;
     private int rating;
     private String version;
     private boolean loyalty;
 
-    public Player(String name, String team, String nation, String league, String pos, String version, double price, int rating, boolean loyalty) {
+    public Player(String name, String team, String nation, String league, BasePosition pos, String version, double price, int rating, boolean loyalty) {
         this.name = name;
         this.team = team;
         this.nation = nation;
@@ -367,6 +366,27 @@ class Player implements Serializable {
         this.version = version;
         this.price = price;
         this.loyalty = loyalty;
+    }
+
+    public Player(String name, String team, String nation, String league, String pos, String version, double price, int rating, boolean loyalty) {
+        this.name = name;
+        this.team = team;
+        this.nation = nation;
+        this.league = league;
+        this.pos = Position.translateStringPosToEnum(pos);
+        this.rating = rating;
+        this.version = version;
+        this.price = price;
+        this.loyalty = loyalty;
+    }
+
+    // for bricks - league/nation/team can be null - make sure to handle this in chem engine
+    public Player(String name, String team, String nation, String league, BasePosition pos) {
+        this.name = name;
+        this.team = team;
+        this.nation = nation;
+        this.league = league;
+        this.pos = pos;
     }
 
     public Player deepClone() {
@@ -431,11 +451,11 @@ class Player implements Serializable {
         this.version = version;
     }
 
-    public String getPos() {
+    public BasePosition getPos() {
         return pos;
     }
 
-    public void setPos(String pos) {
+    public void setPos(BasePosition pos) {
         this.pos = pos;
     }
 
