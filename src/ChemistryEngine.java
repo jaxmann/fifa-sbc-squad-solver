@@ -3,9 +3,6 @@ import java.util.HashMap;
 
 public class ChemistryEngine {
 
-    private Squad squad;
-
-    //make this an object that is attached to a Squad
     public static double calculateChemistry(Squad squad) {
 
         double totalChem = 0;
@@ -318,10 +315,6 @@ public class ChemistryEngine {
         } else {
             return 0;
         }
-
         return 0;
-
     }
-
-
 }

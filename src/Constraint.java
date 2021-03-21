@@ -178,6 +178,7 @@ class Constraints {
         this.constraints.add(constraint);
     }
 
+    // just for min rating and chem - helper methods that searches through all constraints so can call it on constraints array
     public int getMinRating() {
         for (Constraint c: this.constraints) {
             if (c.getConstraintType() == ConstraintType.MINRATING) {
@@ -199,35 +200,6 @@ class Constraints {
     public void setConstraints(ArrayList<Constraint> constraints) {
         this.constraints = constraints;
     }
-}
-
-enum CardType {
-
-    FUTMAS,
-    ICON,
-    UCL_COMMON,
-    UCL_RARE,
-    TOTY,
-    TOTY_NOMINEE,
-    GOLD_NON_RARE,
-    GOLD_RARE,
-    SILVER_NON_RARE,
-    SILVER_RARE,
-    BRONZE_NON_RARE,
-    BRONZE_RARE,
-    GOLD_IF,
-    SILVER_IF,
-    BRONZE_IF,
-    OTW,
-    SCREAM,
-    SBC,
-    AWARD_WINNER,
-    MOTM,
-    HERO,
-    RECORD_BREAKER,
-    NON_IF,
-    FUT_CHAMPS,
-
 }
 
 enum ConstraintType {

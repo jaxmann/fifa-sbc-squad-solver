@@ -48,6 +48,7 @@ public class Squad implements Serializable {
         Player brickPlayer = new Player(BRICKED_PLAYER_NAME, brick.getClub(), brick.getNation(), brick.getLeague(), brick.getPos().getBasePos());
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
             if (entry.getKey().getActualPosition().equals(brick.getPos().getActualPosition())) {
+                this.getLineup().remove(entry.getKey());
                 this.getLineup().put(brick.getPos(), brickPlayer);
                 return true;
             }
@@ -97,7 +98,7 @@ public class Squad implements Serializable {
         this.updateLineup();
     }
 
-    public void updateAtPos(String uniqueActualPos, Player p) {
+    public void updateAtPos(ActualPosition uniqueActualPos, Player p) {
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
             if (entry.getKey().getActualPosition().equals(uniqueActualPos)) {
                 this.getLineup().put(entry.getKey(), p);
@@ -196,7 +197,7 @@ public class Squad implements Serializable {
             Position pos = entry.getKey();
             Player player = entry.getValue();
 
-            System.out.println("pos: " + pos.getActualPosition() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
+            System.out.println("pos: " + pos.getActualPosition().toString() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
 
         }
     }
@@ -225,11 +226,68 @@ public class Squad implements Serializable {
 
     public Player getPlayerAtPosition(String position) {
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
-            if (entry.getKey().getActualPosition().equals(position)) {
+            if (entry.getKey().getActualPosition().toString().equals(position)) {
                 return entry.getValue();
             }
         }
         return null;
+    }
+
+    public int getNumOfCardType(CardType cardType) {
+        int numOfCardType = 0;
+        for (Player player : this.getLineup().values()) {
+            if (player.getVersion().equals(cardType)) {
+                numOfCardType++;
+            }
+        }
+        return numOfCardType;
+    }
+
+    public int getNumOfNation(String nation) {
+        int numOfNation = 0;
+        for (Player player : this.getLineup().values()) {
+            if (player.getNation().equals(nation)) {
+                numOfNation++;
+            }
+        }
+        return numOfNation;
+    }
+
+    public int getNumOfLeague(String league) {
+        int numOfLeague = 0;
+        for (Player player : this.getLineup().values()) {
+            if (player.getLeague().equals(league)) {
+                numOfLeague++;
+            }
+        }
+        return numOfLeague;
+    }
+
+    public int getNumOfTeam(String team) {
+        int numOfTeam = 0;
+        for (Player player : this.getLineup().values()) {
+            if (player.getTeam().equals(team)) {
+                numOfTeam++;
+            }
+        }
+        return numOfTeam;
+    }
+
+    // get number of non-bricked players
+    public int getNumPlayers() {
+        int numPlayers = 0;
+        for (Player player : this.getLineup().values()) {
+            // bricked players have reserved name
+            if (!player.getName().equals(BRICKED_PLAYER_NAME)) {
+                numPlayers++;
+            }
+        }
+        return numPlayers;
+    }
+
+    // alias because i'll forget
+    public int getNumOfClub(String club) {
+        return getNumOfTeam(club);
     }
 
     public boolean doesSquadSatisfyConstraints(Constraint constraint) {
@@ -240,7 +298,7 @@ public class Squad implements Serializable {
                 return this.getSquadRating() >= constraint.getMinRating();
             case BRICKS:
                 for (int i=0; i<constraint.getBricks().size(); i++) {
-                    Player playerAtPos = this.getPlayerAtPosition(constraint.getBricks().get(i).getPos().getActualPosition());
+                    Player playerAtPos = this.getPlayerAtPosition(constraint.getBricks().get(i).getPos().getActualPosition().toString());
                     if (!playerAtPos.getName().equals(BRICKED_PLAYER_NAME)) {
                         return false;
                     }
@@ -256,25 +314,27 @@ public class Squad implements Serializable {
                 }
                 return true;
             case EXACT_OF_CARDTYPE:
-                return true;
+                return getNumOfCardType(constraint.getCardType()) == constraint.getExact_of_cardtype();
             case EXACT_OF_CLUB:
-                return true;
+                return getNumOfClub(constraint.getClub()) == constraint.getExact_of_club();
             case EXACT_OF_LEAGUE:
-                return true;
+                return getNumOfLeague(constraint.getLeague()) == constraint.getExact_of_league();
             case EXACT_OF_NATION:
-                return true;
+                return getNumOfNation(constraint.getNation()) == constraint.getExact_of_nation();
             case MIN_OF_CARDTYPE:
-                return true;
+                return getNumOfCardType(constraint.getCardType()) >= constraint.getMin_of_cardtype();
             case MIN_OF_CLUB:
-                return true;
+                return getNumOfClub(constraint.getClub()) >= constraint.getMin_of_club();
             case MIN_OF_LEAGUE:
-                return true;
+                return getNumOfLeague(constraint.getLeague()) >= constraint.getMin_of_league();
             case MIN_OF_NATION:
-                return true;
+                return getNumOfNation(constraint.getNation()) >= constraint.getMin_of_nation();
             case NUMPLAYERS:
+                // this constraint should really just be created by bricking any unavailable player slots
+                return true;
+            default:
                 return true;
         }
-        return true;
     }
 
     public Graph getGraph() {

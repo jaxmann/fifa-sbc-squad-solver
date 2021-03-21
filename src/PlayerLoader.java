@@ -42,8 +42,9 @@ public class PlayerLoader {
                     String league = player[2];
                     String nation = player[3];
                     double price = convertStringPriceToDouble(player[7]);
-                    String version = player[6];
                     int rating = Integer.parseInt(player[4]);
+                    CardType version = mapVersionToCardType(player[6], rating);
+
 
                     if (!team.equals("Icons") && ((price < 100000 && exclude100kPlus) || !exclude100kPlus)) {
 
@@ -93,6 +94,42 @@ public class PlayerLoader {
             }
         }
 
+    }
+
+    public static CardType mapVersionToCardType(String version, int rating) {
+        // TODO: will need to heavily modify this depending on incoming data
+        switch(version) {
+            case "Normal":
+                if (rating >= 75) {
+                    // TODO: differentiate between rare and non-rare
+                    return CardType.GOLD_RARE;
+                } else if (rating >= 65) {
+                    return CardType.SILVER_RARE;
+                } else {
+                    return CardType.BRONZE_RARE;
+                }
+            case "IF":
+            case "SIF":
+            case "TIF":
+                if (rating >= 75) {
+                    return CardType.GOLD_IF;
+                } else if (rating >= 65) {
+                    return CardType.SILVER_IF;
+                } else {
+                    return CardType.BRONZE_IF;
+                }
+            case "CL":
+                // TODO: differentiate between rare and non-rare
+                return CardType.UCL_RARE;
+            case "OTW":
+                return CardType.OTW;
+            case "UCL-LIVE":
+                return CardType.UCL_LIVE;
+            case "SCREAM":
+                return CardType.SCREAM;
+            default:
+                return CardType.UNKNOWN;
+        }
     }
 
     public static double convertStringPriceToDouble(String price) {
@@ -353,10 +390,10 @@ class Player implements Serializable {
     private BasePosition pos;
     private double price;
     private int rating;
-    private String version;
+    private CardType version;
     private boolean loyalty;
 
-    public Player(String name, String team, String nation, String league, BasePosition pos, String version, double price, int rating, boolean loyalty) {
+    public Player(String name, String team, String nation, String league, BasePosition pos, CardType version, double price, int rating, boolean loyalty) {
         this.name = name;
         this.team = team;
         this.nation = nation;
@@ -368,12 +405,12 @@ class Player implements Serializable {
         this.loyalty = loyalty;
     }
 
-    public Player(String name, String team, String nation, String league, String pos, String version, double price, int rating, boolean loyalty) {
+    public Player(String name, String team, String nation, String league, String pos, CardType version, double price, int rating, boolean loyalty) {
         this.name = name;
         this.team = team;
         this.nation = nation;
         this.league = league;
-        this.pos = Position.translateStringPosToEnum(pos);
+        this.pos = Position.translateStringPosToBasePosEnum(pos);
         this.rating = rating;
         this.version = version;
         this.price = price;
@@ -443,11 +480,11 @@ class Player implements Serializable {
         this.price = price;
     }
 
-    public String getVersion() {
+    public CardType getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(CardType version) {
         this.version = version;
     }
 

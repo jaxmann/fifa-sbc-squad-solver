@@ -1,52 +1,27 @@
 import java.io.*;
 
-enum BasePosition {
-    ST,
-    LF,
-    GK,
-    LCB,
-    RCB,
-    MCB,
-    RB,
-    RWB,
-    LB,
-    LWB,
-    RCDM,
-    LCDM,
-    MCDM,
-    RCM,
-    LCM,
-    CM,
-    MCM,
-    LCAM,
-    RCAM,
-    MCAM,
-    CAM,
-    RW,
-    RM,
-    RF,
-    LW,
-    LM,
-    CF,
-    LST,
-    RST,
-    CDM,
-    CB,
-    INVALID //couldn't be bothered handling exception there rn
-}
-
 public class Position implements Serializable {
 
     private BasePosition pos;
-    private String actual;
+    private ActualPosition actual;
 
     public Position(String pos, String actual) {
-        this.pos = translateStringPosToEnum(pos);
-        this.actual = actual;
+        this.pos = translateStringPosToBasePosEnum(pos);
+        this.actual = translateStringPosToActualPosEnum(actual);
     }
 
     public Position(BasePosition pos, String actual) {
         this.pos = pos;
+        this.actual = translateStringPosToActualPosEnum(actual);
+    }
+
+    public Position(BasePosition pos, ActualPosition actual) {
+        this.pos = pos;
+        this.actual = actual;
+    }
+
+    public Position(String pos, ActualPosition actual) {
+        this.pos = translateStringPosToBasePosEnum(pos);
         this.actual = actual;
     }
 
@@ -68,7 +43,7 @@ public class Position implements Serializable {
         }
     }
 
-    public static BasePosition translateStringPosToEnum(String pos) {
+    public static BasePosition translateStringPosToBasePosEnum(String pos) {
         switch(pos.toLowerCase()) {
             case "st":
                 return BasePosition.ST;
@@ -109,8 +84,77 @@ public class Position implements Serializable {
         }
     }
 
+    public static ActualPosition translateStringPosToActualPosEnum(String pos) {
+        switch(pos.toLowerCase()) {
+            case "st":
+                return ActualPosition.ST;
+            case "rst":
+                return ActualPosition.RST;
+            case "lst":
+                return ActualPosition.LST;
+            case "lf":
+                return ActualPosition.LF;
+            case "gk":
+                return ActualPosition.GK;
+            case "cb":
+                return ActualPosition.CB;
+            case "rcb":
+                return ActualPosition.RCB;
+            case "lcb":
+                return ActualPosition.LCB;
+            case "mcb":
+                return ActualPosition.MCB;
+            case "rb":
+                return ActualPosition.RB;
+            case "lb":
+                return ActualPosition.LB;
+            case "cm":
+                return ActualPosition.CM;
+            case "rcm":
+                return ActualPosition.RCM;
+            case "lcm":
+                return ActualPosition.LCM;
+            case "mcm":
+                return ActualPosition.MCM;
+            case "cdm":
+                return ActualPosition.CDM;
+            case "rcdm":
+                return ActualPosition.RCDM;
+            case "lcdm":
+                return ActualPosition.LCDM;
+            case "mcdm":
+                return ActualPosition.MCDM;
+            case "cam":
+                return ActualPosition.CAM;
+            case "rcam":
+                return ActualPosition.RCAM;
+            case "lcam":
+                return ActualPosition.LCAM;
+            case "mcam":
+                return ActualPosition.MCAM;
+            case "lw":
+                return ActualPosition.LW;
+            case "rw":
+                return ActualPosition.RW;
+            case "lm":
+                return ActualPosition.LM;
+            case "rm":
+                return ActualPosition.RM;
+            case "cf":
+                return ActualPosition.CF;
+            case "rf":
+                return ActualPosition.RF;
+            case "rwb":
+                return ActualPosition.RWB;
+            case "lwb":
+                return ActualPosition.LWB;
+            default:
+                return ActualPosition.INVALID;
+        }
+    }
+
     public Position(String pos)  {
-        this.pos = translateStringPosToEnum(pos);
+        this.pos = translateStringPosToBasePosEnum(pos);
     }
 
     public Position(BasePosition pos)  {
@@ -122,22 +166,29 @@ public class Position implements Serializable {
     }
 
     //unique value (i.e. if there are 2 CBs, will return RCB or LCB), so can uniquely identify player by position in a lineup with this func
-    public String getActualPosition() {
+    public ActualPosition getActualPosition() {
         if (this.actual != null) {
             return actual;
         } else {
-            return this.pos.toString();
+            // BasePositions all exist in ActualPositions, but not vice versa
+            return translateStringPosToActualPosEnum(this.pos.toString());
         }
     }
 
     public void setPos(String pos) {
-        this.pos = translateStringPosToEnum(pos);
+        this.pos = translateStringPosToBasePosEnum(pos);
     }
 
-    public void setActual(String actual) {
+    public void setPos(BasePosition pos) {
+        this.pos = pos;
+    }
+
+    public void setActual(ActualPosition actual) {
         this.actual = actual;
     }
 
-//    GK, LCB, RCB, MCB, RB, RWB, LB, LWB, RCDM, LCDM, MCDM, RCM, LCM, CM, MCM, LCAM, RCAM, MCAM, CAM,
-//    RW, RM, RF, LW, LM, LF, CF, LST, RST, CDM, CB
+    public void setActual(String actual) {
+        this.actual = translateStringPosToActualPosEnum(actual);
+    }
+
 }

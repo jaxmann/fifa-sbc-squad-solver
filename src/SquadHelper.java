@@ -196,9 +196,7 @@ public class SquadHelper implements Serializable {
             e.printName();
         }
 
-        Squad s = new Squad(positions, players, f);
-
-        return s;
+        return new Squad(positions, players, f);
 
     }
 
@@ -210,7 +208,6 @@ public class SquadHelper implements Serializable {
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
-
 
         try {
             Player rb = pl.getPlayer("toljan", 75); //rb
@@ -224,7 +221,6 @@ public class SquadHelper implements Serializable {
             Player lst = pl.getPlayer("niasse", 75); //lst
             Player rst = pl.getPlayer("diaby", 75); //rst
             Player cam = pl.getPlayer("winks", 75); //cam
-
 
             players.add(rb); //rb
             players.add(lb); //lb
@@ -245,10 +241,46 @@ public class SquadHelper implements Serializable {
             e.printName();
         }
 
-        Squad s = new Squad(positions, players, f);
+        return new Squad(positions, players, f);
+    }
 
-        return s;
+    // useful for testing - otherwise can run into assertion issues asserting n german players etc
+    public static Squad create75GoldNonRareTestSquad() {
 
+        ArrayList<Player> players = new ArrayList<>();
+        FormationFactory ff = new FormationFactory();
+        Formation f = ff.getFormation("41212");
+        ArrayList<Position> positions = f.getPositions();
+
+        Player rb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rb
+        Player lb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lb
+        Player gk = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //gk
+        Player lcb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lcb
+        Player rcb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rcb
+        Player rm = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rm
+        Player cdm = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //cdm
+        Player lm = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lm
+        Player lst = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lst
+        Player rst = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rst
+        Player cam = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //cam
+
+        players.add(rb); //rb
+        players.add(lb); //lb
+        players.add(gk); //gk
+        players.add(lcb); //lcb
+        players.add(rcb); //rcb
+        players.add(rm); //rm
+        players.add(cdm); //cdm
+        players.add(lm); //lm
+        players.add(lst); //lst
+        players.add(rst); //rst
+        players.add(cam); //cam
+
+        for (Player p : players) {
+            System.out.println(p.toString());
+        }
+
+        return new Squad(positions, players, f);
     }
 
 
