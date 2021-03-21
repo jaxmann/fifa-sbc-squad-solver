@@ -62,6 +62,8 @@ public class ConstraintTest {
     @Test
     public void test_singleBrickConstraintNotSatisfied() {
         Constraint brickConstraint = new Constraint(ConstraintType.BRICKS);
+        Brick brick = new Brick(new Position(BasePosition.GK));
+        brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
 
         Squad s = SquadHelper.create87DefaultSquad();
 

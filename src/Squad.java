@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class Squad implements Serializable {
 
+    private static final String BRICKED_PLAYER_NAME = "brickedPlayer";
+
     private HashMap<Position, Player> lineup;
     private ArrayList<Position> positions;
     private ArrayList<Player> players;
@@ -43,7 +45,7 @@ public class Squad implements Serializable {
 
     // return true if match found
     public boolean setBrick(Brick brick) {
-        Player brickPlayer = new Player("brickedPlayer", brick.getClub(), brick.getNation(), brick.getLeague(), brick.getPos().getBasePos());
+        Player brickPlayer = new Player(BRICKED_PLAYER_NAME, brick.getClub(), brick.getNation(), brick.getLeague(), brick.getPos().getBasePos());
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
             if (entry.getKey().getActual().equals(brick.getPos().getActual())) {
                 this.getLineup().put(brick.getPos(), brickPlayer);
@@ -178,7 +180,6 @@ public class Squad implements Serializable {
 //        double finalRating = Math.floor(teamTot);
 
         return teamTot;
-
     }
 
     public void printSquad() {
@@ -214,6 +215,15 @@ public class Squad implements Serializable {
         return asString;
     }
 
+    public Player getPlayerAtPosition(BasePosition basePosition) {
+        for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
+            if (entry.getKey().getBasePos() == basePosition) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
     public boolean doesSquadSatisfyConstraint(Constraint constraint) {
         switch(constraint.getConstraintType()) {
             case MINCHEM:
@@ -221,6 +231,11 @@ public class Squad implements Serializable {
             case MINRATING:
                 return this.getSquadRating() >= constraint.getMinRating();
             case BRICKS:
+                for (int i=0; i<constraint.getBricks().size(); i++) {
+                    if (!this.getPlayerAtPosition(constraint.getBricks().get(i).getPos().getBasePos()).getName().equals(BRICKED_PLAYER_NAME)) {
+                        return false;
+                    }
+                }
                 return true;
             case EXACT_OF_CARDTYPE:
                 return true;
