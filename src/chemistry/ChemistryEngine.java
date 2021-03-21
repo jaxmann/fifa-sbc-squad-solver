@@ -29,7 +29,6 @@ public class ChemistryEngine {
             int linksNeeded = neighbors.size();
 
             for (Position neighbor : neighbors) {
-//                System.out.println("pos: " + pos.getPos() + " links to " + neighbor.getPos());
                 Player neighbor_player = squad.getLineup().get(neighbor);
                 links += numSharedLinks(player, neighbor_player);
             }

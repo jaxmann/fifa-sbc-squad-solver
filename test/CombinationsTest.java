@@ -3,12 +3,19 @@ import squad.Squad;
 import squad.SquadHelper;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 class CombinationsTest {
 
     @Test
-    void combinations2() {
+    void test_combinations2() {
 
-        Squad s = SquadHelper.create87DefaultSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         Object[] p = s.getPlayers().toArray();
         int k = 2;
         Combinations c = new Combinations();

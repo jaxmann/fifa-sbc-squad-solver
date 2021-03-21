@@ -5,6 +5,7 @@ import player.PlayerLoader;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +15,7 @@ class SquadTest {
     PlayerLoader pl;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         pl = new PlayerLoader();
         pl.loadPlayers(true);
     }

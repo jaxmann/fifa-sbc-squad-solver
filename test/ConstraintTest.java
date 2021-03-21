@@ -22,7 +22,12 @@ public class ConstraintTest {
         Constraint minChemConstraint = new Constraint(ConstraintType.MINCHEM);
         minChemConstraint.setMinChem(71);
 
-        Squad s = SquadHelper.create71ChemSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create71ChemSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         assertTrue(s.doesSquadSatisfyConstraint(minChemConstraint));
     }
@@ -32,8 +37,12 @@ public class ConstraintTest {
         Constraint minChemConstraint = new Constraint(ConstraintType.MINCHEM);
         minChemConstraint.setMinChem(85);
 
-        Squad s = SquadHelper.create71ChemSquad();
-
+        Squad s = null;
+        try {
+            s = SquadHelper.create71ChemSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         assertFalse(s.doesSquadSatisfyConstraint(minChemConstraint));
     }
 
@@ -42,8 +51,12 @@ public class ConstraintTest {
         Constraint minRatingConstraint = new Constraint(ConstraintType.MINRATING);
         minRatingConstraint.setMinRating(87);
 
-        Squad s = SquadHelper.create87DefaultSquad();
-
+        Squad s = null;
+        try {
+            s = SquadHelper.create87DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         assertTrue(s.doesSquadSatisfyConstraint(minRatingConstraint));
     }
 
@@ -52,8 +65,12 @@ public class ConstraintTest {
         Constraint minRatingConstraint = new Constraint(ConstraintType.MINRATING);
         minRatingConstraint.setMinRating(88);
 
-        Squad s = SquadHelper.create87DefaultSquad();
-
+        Squad s = null;
+        try {
+            s = SquadHelper.create87DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         assertFalse(s.doesSquadSatisfyConstraint(minRatingConstraint));
     }
 
@@ -63,8 +80,12 @@ public class ConstraintTest {
         Brick brick = new Brick(new Position(BasePosition.GK));
         brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
 
-        Squad s = SquadHelper.create87DefaultSquad();
-        s.setBrick(brick);
+        Squad s = null;
+        try {
+            s = SquadHelper.create87DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }        s.setBrick(brick);
 
         assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
     }
@@ -75,8 +96,12 @@ public class ConstraintTest {
         Brick brick = new Brick(new Position(BasePosition.GK));
         brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
 
-        Squad s = SquadHelper.create87DefaultSquad();
-
+        Squad s = null;
+        try {
+            s = SquadHelper.create87DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
     }
 
@@ -86,7 +111,12 @@ public class ConstraintTest {
         Brick brick = new Brick(new Position(BasePosition.GK), "Germany", "Bundesliga", "Bayern");
         brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.setBrick(brick);
 
         assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
@@ -98,8 +128,12 @@ public class ConstraintTest {
         Brick brick = new Brick(new Position(BasePosition.GK), "Germany", "Bundesliga", "Bayern");
         brickConstraint.setBricks(new ArrayList<>(Arrays.asList(brick)));
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
-        Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }          Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
         s.updateAtPos(ActualPosition.GK, incorrectBrickedPlayer);
 
         assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
@@ -115,8 +149,12 @@ public class ConstraintTest {
         bricks.add(brick2);
         brickConstraint.setBricks(bricks);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
-        s.setBrick(brick1);
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }          s.setBrick(brick1);
         s.setBrick(brick2);
 
         assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
@@ -132,7 +170,12 @@ public class ConstraintTest {
         bricks.add(brick2);
         brickConstraint.setBricks(bricks);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         Player incorrectBrickedPlayer1 = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
         Player incorrectBrickedPlayer2 = new Player(Squad.BRICKED_PLAYER_NAME, null, "Germany", "Premier League", BasePosition.CB);
 
@@ -152,7 +195,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -170,7 +218,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -188,7 +241,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -206,7 +264,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -224,7 +287,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -242,7 +310,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -260,7 +333,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -278,7 +356,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -296,7 +379,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -314,7 +402,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -332,7 +425,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -350,7 +448,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -368,7 +471,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -386,7 +494,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -404,7 +517,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);
@@ -422,7 +540,12 @@ public class ConstraintTest {
         Player validPlayer2 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
         Player validPlayer3 = new Player("test player", "Bayern", "Germany", "Bundesliga", BasePosition.CB, CardType.GOLD_IF, 800, 85, false);
 
-        Squad s = SquadHelper.create75GoldNonRareTestSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75GoldNonRareTestSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         s.updateAtPos(ActualPosition.GK, validPlayer1);
         s.updateAtPos(ActualPosition.LCB, validPlayer2);
         s.updateAtPos(ActualPosition.RCB, validPlayer3);

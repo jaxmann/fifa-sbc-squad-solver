@@ -1,9 +1,11 @@
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import player.Player;
 import org.junit.jupiter.api.Test;
 import player.PlayerLoader;
+import player.position.ActualPosition;
+import player.position.BasePosition;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +17,7 @@ class PlayerLoaderTest {
     private PlayerLoader pl;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         pl = new PlayerLoader();
         pl.loadPlayers(true);
     }
@@ -26,59 +28,50 @@ class PlayerLoaderTest {
     }
 
     @Test
-    void getAll82PlusTest() {
-
-        System.out.println(pl.getAll82Plus().size());
-        assertNotNull(pl);
+    void test_getAll82Plus() {
+        ArrayList<Player> above82 = pl.getAll82Plus();
+        assertTrue(above82.stream().allMatch(player -> player.getRating() >= 82));
     }
 
     @Test
-    void getAll83PlusTest() {
-
-        System.out.println(pl.getAll83Plus().size());
-        assertNotNull(pl);
+    void test_getAll83Plus() {
+        ArrayList<Player> above83 = pl.getAll83Plus();
+        assertTrue(above83.stream().allMatch(player -> player.getRating() >= 83));
     }
 
     @Test
-    void getAll84PlusTest() {
-
-        System.out.println(pl.getAll84Plus().size());
-        assertNotNull(pl);
+    void test_getAll84Plus() {
+        ArrayList<Player> above84 = pl.getAll84Plus();
+        assertTrue(above84.stream().allMatch(player -> player.getRating() >= 84));
     }
 
     @Test
-    void getAll85PlusTest() {
-
-        System.out.println(pl.getAll85Plus().size());
-        assertNotNull(pl);
+    void test_getAll85Plus() {
+        ArrayList<Player> above85 = pl.getAll85Plus();
+        assertTrue(above85.stream().allMatch(player -> player.getRating() >= 85));
     }
 
     @Test
-    void getAll86PlusTest() {
+    void test_getAll86Plus() {
 
-        System.out.println(pl.getAll86Plus().size());
-        assertNotNull(pl);
+        ArrayList<Player> above86 = pl.getAll86Plus();
+        assertTrue(above86.stream().allMatch(player -> player.getRating() >= 86));
     }
 
     @Test
-    void getAll87PlusTest() {
-
-        System.out.println(pl.getAll87Plus().size());
-        assertNotNull(pl);
+    void test_getAll87PlusTest() {
+        ArrayList<Player> above87 = pl.getAll87Plus();
+        assertTrue(above87.stream().allMatch(player -> player.getRating() >= 87));
     }
 
     @Test
-    void get11FrenchPlayers() {
-
+    void test_get11FrenchPlayers() {
         ArrayList<Player> frenchies = pl.get11FrenchPlayers();
-        for (Player p: frenchies) {
-            assertEquals(p.getNation(), "France");
-        }
+        assertTrue(frenchies.stream().allMatch(player -> player.getNation().equals("France")));
     }
 
     @Test
-    void getByTeam() {
-
+    void test_getByTeam() {
         HashMap<String, ArrayList<Player>> byTeam = pl.getByTeam();
 
         assertTrue(byTeam.containsKey("Borussia Dortmund"));
@@ -89,8 +82,7 @@ class PlayerLoaderTest {
     }
 
     @Test
-    void getByLeague() {
-
+    void test_getByLeague() {
         HashMap<String, ArrayList<Player>> byLeague = pl.getByLeague();
 
         assertTrue(byLeague.containsKey("Serie A TIM"));
@@ -101,8 +93,7 @@ class PlayerLoaderTest {
     }
 
     @Test
-    void getByNation() {
-
+    void test_getByNation() {
         HashMap<String, ArrayList<Player>> byNation = pl.getByNation();
 
         assertTrue(byNation.containsKey("France"));
@@ -113,21 +104,23 @@ class PlayerLoaderTest {
     }
 
     @Test
-    void getByPos() {
-
+    void test_getByPos() {
         HashMap<String, ArrayList<Player>> byPos = pl.getByPos();
 
-        assertTrue(byPos.containsKey("RB"));
+        // validate default positions exist
+        assertTrue(byPos.containsKey(BasePosition.RB.toString()));
         assertTrue(byPos.containsKey("GK"));
         assertTrue(byPos.containsKey("CB"));
         assertTrue(byPos.containsKey("CF"));
         assertTrue(byPos.containsKey("LM"));
 
+        // validate custom positions do not exist
+        assertFalse(byPos.containsKey(ActualPosition.MCAM));
+        assertFalse(byPos.containsKey(ActualPosition.RCDM));
     }
 
     @Test
-    void getByRating() {
-
+    void test_getByRating() {
         HashMap<Integer, ArrayList<Player>> byRating = pl.getByRating();
 
         assertTrue(byRating.containsKey(85));
@@ -137,6 +130,4 @@ class PlayerLoaderTest {
         assertTrue(byRating.containsKey(54));
 
     }
-
-
 }

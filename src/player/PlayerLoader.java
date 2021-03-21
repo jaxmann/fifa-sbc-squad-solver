@@ -16,8 +16,8 @@ public class PlayerLoader {
     private HashMap<Integer, ArrayList<Player>> byRating;
     private ArrayList<Player> allPlayers;
 
-    public void loadPlayers(boolean exclude100kPlus) {
-        String csvFile = "./resources/FutBinCards19.csv";
+    public void loadPlayers(boolean exclude100kPlus) throws IOException {
+        String csvFile = "./resources/fifa19/FutBinCards19.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -85,8 +85,10 @@ public class PlayerLoader {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw e;
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
         } finally {
             if (br != null) {
                 try {
@@ -96,7 +98,6 @@ public class PlayerLoader {
                 }
             }
         }
-
     }
 
     public static CardType mapVersionToCardType(String version, int rating) {

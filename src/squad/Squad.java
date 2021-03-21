@@ -23,8 +23,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-
-
 public class Squad implements Serializable {
 
     public static final String BRICKED_PLAYER_NAME = "brickedPlayer";
@@ -57,7 +55,6 @@ public class Squad implements Serializable {
         for (int i = 0; i < this.positions.size(); i++) {
             this.lineup.put(this.positions.get(i), this.players.get(i));
         }
-
     }
 
     // return true if match found
@@ -100,7 +97,6 @@ public class Squad implements Serializable {
             return currentSquad;
         }
         Squad copy = currentSquad.deepClone();
-//        copy.printSquad();
         copy.getPlayers().set(i, p);
 
         for (int j = 0; j < copy.getPositions().size(); j++) {
@@ -136,29 +132,23 @@ public class Squad implements Serializable {
         ArrayList<Integer> ratings = new ArrayList<>();
         for(HashMap.Entry<Position, Player> entry : this.lineup.entrySet()) {
             Player player = entry.getValue();
-
             ratings.add(player.getRating());
-
         }
-
         return ratings;
     }
 
+    // get total price of squad
     public double getSquadPrice() {
-
         double totalPrice = 0.0;
         for(HashMap.Entry<Position, Player> entry : this.lineup.entrySet()) {
             Player player = entry.getValue();
 
             totalPrice += player.getPrice();
-
         }
-
         return totalPrice;
     }
 
     public double getSquadRating() {
-
         ArrayList<Integer> ratings = this.getRatings();
 
         double playerSum = 0;
@@ -176,15 +166,12 @@ public class Squad implements Serializable {
         }
 
         double teamTot = Math.round(playerSum + totExcess) / 11;
-
         double finalRating = Math.floor(teamTot);
 
         return finalRating;
-
     }
 
     public double getFractionalSquadRating() {
-
         ArrayList<Integer> ratings = this.getRatings();
 
         double playerSum = 0;
@@ -215,7 +202,6 @@ public class Squad implements Serializable {
             Player player = entry.getValue();
 
             System.out.println("pos: " + pos.getActualPosition().toString() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
-
         }
     }
 

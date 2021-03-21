@@ -12,6 +12,8 @@ import squad.SquadHelper;
 import org.junit.Test;
 import java.util.ArrayList;
 
+import static org.junit.Assert.fail;
+
 
 public class SBCChallengeTest {
 
@@ -19,10 +21,16 @@ public class SBCChallengeTest {
     @Test
     public void test_simulatedAnnealing() {
 
-        Squad current = SquadHelper.create75DefaultSquad();
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers(true);
-        ArrayList<Player> availablePlayers = pl.getAll84Plus();
+        Squad current = null;
+        ArrayList<Player> availablePlayers = null;
+        try {
+            current = SquadHelper.create75DefaultSquad();
+            PlayerLoader pl = new PlayerLoader();
+            pl.loadPlayers(true);
+            availablePlayers = pl.getAll84Plus();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
@@ -45,10 +53,18 @@ public class SBCChallengeTest {
     @Test
     public void solver() {
 
-        Squad s = SquadHelper.create87DefaultSquad();
-        PlayerLoader pl = new PlayerLoader();
-        pl.loadPlayers(true);
-        ArrayList<Player> allPlayers = pl.getAllPlayers();
+        Squad s = null;
+        ArrayList<Player> allPlayers = null;
+        PlayerLoader pl = null;
+
+        try {
+            s = SquadHelper.create87DefaultSquad();
+            pl = new PlayerLoader();
+            pl.loadPlayers(true);
+            allPlayers = pl.getAllPlayers();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         //initialize best cost as infinity
         double minCost = 1000000;
@@ -107,15 +123,16 @@ public class SBCChallengeTest {
 //        System.out.println(Chemistry.ChemistryEngine.calculateChemistry(s));
 //        System.out.println(s.getSquadRating());
 
-
-
-
-
     }
 
     @Test
     public void get87defaultSquadTest() {
-        Squad s = SquadHelper.create87DefaultSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create87DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
@@ -124,7 +141,12 @@ public class SBCChallengeTest {
 
     @Test
     public void get85defaultSquadTest() {
-        Squad s = SquadHelper.create85DefaultSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create85DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
@@ -133,7 +155,12 @@ public class SBCChallengeTest {
 
     @Test
     public void get83defaultSquadTest() {
-        Squad s = SquadHelper.create83DefaultSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create83DefaultSquad();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
@@ -142,7 +169,13 @@ public class SBCChallengeTest {
 
     @Test
     public void get75defaultSquadTest() {
-        Squad s = SquadHelper.create75DefaultSquad();
+        Squad s = null;
+        try {
+            s = SquadHelper.create75DefaultSquad();
+        } catch (Exception e) {
+            fail (e.getMessage());
+        }
+
 
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());

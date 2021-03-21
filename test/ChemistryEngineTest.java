@@ -7,6 +7,7 @@ import player.position.Position;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,13 +17,13 @@ class ChemistryEngineTest {
     PlayerLoader pl;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
     }
 
     @Test
-    void calculateChemistryRandom11_v1() {
+    void test_calculateChemistryRandom11_v1() {
         long seed = new Long(10);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -32,7 +33,7 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void calculateChemistryRandom11_v2() {
+    void test_calculateChemistryRandom11_v2() {
         long seed = new Long(11);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -42,7 +43,7 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void calculateChemistryRandomNation11_v1() {
+    void test_calculateChemistryRandomNation11_v1() {
         long seed = new Long(13);
         ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
         Squad s = new Squad(randos);
@@ -52,7 +53,7 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void calculateChemistryRandom11_v4() {
+    void test_calculateChemistryRandom11_v4() {
         long seed = new Long(10);
         ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
         Squad s = new Squad(randos);
@@ -61,7 +62,7 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void positionChem1() {
+    void test_positionChem1() {
         // place a LB at LWB -> should be on 2 chem
         Position p1 = new Position("LWB");
         Position p2 = new Position("LB");
@@ -70,7 +71,7 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void positionChem2() {
+    void test_positionChem2() {
         // place a LM at CM -> should be on 1 chem
         Position p1 = new Position("CM");
         Position p2 = new Position("LM");
@@ -79,7 +80,7 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void positionChem3() {
+    void test_positionChem3() {
         // place a CAM at CAM -> should be on 3 chem
         Position p1 = new Position("CAM");
         Position p2 = new Position("CAM");

@@ -50,8 +50,6 @@ class F_41212 implements Formation {
         positions.add(rst);
         positions.add(cam);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rb, rm);
         graph.addEdge(rb, rcb);
@@ -72,8 +70,6 @@ class F_41212 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
-        this.graph = graph;
 
     }
 
@@ -121,8 +117,6 @@ class F_3412 implements Formation {
         positions.add(lst);
         positions.add(rst);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rm);
         graph.addEdge(lcb, lm);
@@ -143,8 +137,6 @@ class F_3412 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
-        this.graph = graph;
 
     }
 
@@ -190,8 +182,6 @@ class F_3421 implements Formation {
         positions.add(rf);
         positions.add(st);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rm);
         graph.addEdge(rcb, ccb);
@@ -212,8 +202,6 @@ class F_3421 implements Formation {
         graph.addEdge(rcm, rf);
         graph.addEdge(rf, st);
         graph.addEdge(lf, st);
-
-        this.graph = graph;
 
     }
 
@@ -259,8 +247,6 @@ class F_3142 implements Formation {
         positions.add(lst);
         positions.add(rst);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rm);
         graph.addEdge(rcb, ccb);
@@ -281,8 +267,6 @@ class F_3142 implements Formation {
         graph.addEdge(rcm, cdm);
         graph.addEdge(rcm, rst);
         graph.addEdge(lst, rst);
-
-        this.graph = graph;
 
     }
 
@@ -328,8 +312,6 @@ class F_343 implements Formation {
         positions.add(lw);
         positions.add(st);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rm);
         graph.addEdge(rcb, ccb);
@@ -349,8 +331,6 @@ class F_343 implements Formation {
         graph.addEdge(rcm, st);
         graph.addEdge(rw, st);
         graph.addEdge(lw, st);
-
-        this.graph = graph;
 
     }
 
@@ -467,8 +447,6 @@ class F_412122 implements Formation {
         positions.add(rst);
         positions.add(cam);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rb, rcm);
         graph.addEdge(rb, rcb);
@@ -489,8 +467,6 @@ class F_412122 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
-        this.graph = graph;
 
     }
 
@@ -536,8 +512,6 @@ class F_4141 implements Formation {
         positions.add(rm);
         positions.add(st);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rcm);
         graph.addEdge(rcb, gk);
@@ -559,8 +533,6 @@ class F_4141 implements Formation {
         graph.addEdge(rcm, st);
         graph.addEdge(lm, st);
         graph.addEdge(rm, st);
-
-        this.graph = graph;
 
     }
 
@@ -606,8 +578,6 @@ class F_4231 implements Formation {
         positions.add(rcam);
         positions.add(st);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rb);
         graph.addEdge(rcb, rcdm);
@@ -627,8 +597,6 @@ class F_4231 implements Formation {
         graph.addEdge(ccam, st);
         graph.addEdge(lcam, st);
         graph.addEdge(rcam, st);
-
-        this.graph = graph;
 
     }
 
