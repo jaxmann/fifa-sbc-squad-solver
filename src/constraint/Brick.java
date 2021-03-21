@@ -1,6 +1,6 @@
 package constraint;
 
-import player.position.Position;
+import player.Position;
 
 public class Brick {
 

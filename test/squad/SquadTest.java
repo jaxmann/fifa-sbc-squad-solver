@@ -1,3 +1,5 @@
+package squad;
+
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import player.Player;
@@ -21,12 +23,11 @@ class SquadTest {
     }
 
     @Test
-    void getRatings() {
+    void test_getRatings() {
     }
 
     @Test
-    void getSquadPrice() {
-
+    void test_getSquadPrice() {
         long seed = new Long(13);
         ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
         Squad s = new Squad(randos);
@@ -35,22 +36,22 @@ class SquadTest {
     }
 
     @Test
-    void printSquad() {
+    void test_printSquad() {
     }
 
     @Test
-    void getLineup() {
+    void test_getLineup() {
     }
 
     @Test
-    void getPositions() {
+    void test_getPositions() {
     }
 
     @Test
-    void getPlayers() {
+    void test_getPlayers() {
     }
 
     @Test
-    void getGraph() {
+    void test_getGraph() {
     }
 }

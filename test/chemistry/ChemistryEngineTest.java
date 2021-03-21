@@ -1,9 +1,10 @@
+package chemistry;
+
 import chemistry.ChemistryEngine;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import player.Player;
 import player.PlayerLoader;
-import player.position.Position;
+import player.Position;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ChemistryEngineTest {
 
-    PlayerLoader pl;
+    private PlayerLoader pl;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         PlayerLoader pl = new PlayerLoader();
         pl.loadPlayers(true);
     }
@@ -49,7 +50,6 @@ class ChemistryEngineTest {
         Squad s = new Squad(randos);
 
         assertEquals(53, ChemistryEngine.calculateChemistry(s));
-
     }
 
     @Test

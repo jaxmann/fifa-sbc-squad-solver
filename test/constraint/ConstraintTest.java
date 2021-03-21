@@ -1,11 +1,13 @@
+package constraint;
+
 import constraint.Brick;
 import constraint.Constraint;
 import constraint.ConstraintType;
 import player.CardType;
 import player.Player;
-import player.position.ActualPosition;
-import player.position.BasePosition;
-import player.position.Position;
+import player.ActualPosition;
+import player.BasePosition;
+import player.Position;
 import squad.Squad;
 import org.junit.Test;
 import squad.SquadHelper;
@@ -552,5 +554,4 @@ public class ConstraintTest {
 
         assertFalse(s.doesSquadSatisfyConstraint(exactOfLeagueConstraint));
     }
-
 }

@@ -1,6 +1,6 @@
 package squad.formation;
 
-import player.position.Position;
+import player.Position;
 
 import java.io.*;
 import java.util.ArrayList;

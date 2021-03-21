@@ -1,9 +1,11 @@
+package player;
+
 import org.junit.jupiter.api.BeforeEach;
 import player.Player;
 import org.junit.jupiter.api.Test;
 import player.PlayerLoader;
-import player.position.ActualPosition;
-import player.position.BasePosition;
+import player.ActualPosition;
+import player.BasePosition;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,11 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerLoaderTest {
 
-    private static boolean setUpIsDone = false;
     private PlayerLoader pl;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         pl = new PlayerLoader();
         pl.loadPlayers(true);
     }
@@ -115,8 +116,8 @@ class PlayerLoaderTest {
         assertTrue(byPos.containsKey("LM"));
 
         // validate custom positions do not exist
-        assertFalse(byPos.containsKey(ActualPosition.MCAM));
-        assertFalse(byPos.containsKey(ActualPosition.RCDM));
+        assertFalse(byPos.containsKey(ActualPosition.MCAM.toString()));
+        assertFalse(byPos.containsKey(ActualPosition.RCDM.toString()));
     }
 
     @Test
@@ -128,6 +129,5 @@ class PlayerLoaderTest {
         assertTrue(byRating.containsKey(90));
         assertTrue(byRating.containsKey(88));
         assertTrue(byRating.containsKey(54));
-
     }
 }

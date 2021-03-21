@@ -1,4 +1,4 @@
-package player.position;
+package player;
 
 import java.io.*;
 

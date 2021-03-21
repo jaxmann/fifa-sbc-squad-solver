@@ -1,8 +1,5 @@
 package player;
 
-import player.position.BasePosition;
-import player.position.Position;
-
 import java.io.*;
 
 public class Player implements Serializable {

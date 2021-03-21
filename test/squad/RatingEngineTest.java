@@ -1,3 +1,5 @@
+package squad;
+
 import player.Player;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
@@ -41,7 +43,6 @@ class RatingEngineTest {
         Squad s = new Squad(r1);
 
         assertEquals(83.0, s.getSquadRating());
-
     }
 
     @Test
@@ -78,7 +79,5 @@ class RatingEngineTest {
         Squad s = new Squad(r2);
 
         assertEquals(84.0, s.getSquadRating());
-
     }
-
 }

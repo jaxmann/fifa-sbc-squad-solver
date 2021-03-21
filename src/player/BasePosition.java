@@ -1,4 +1,4 @@
-package player.position;
+package player;
 
 public enum BasePosition {
     ST,

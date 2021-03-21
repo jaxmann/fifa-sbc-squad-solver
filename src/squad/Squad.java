@@ -3,15 +3,14 @@ package squad;
 import chemistry.ChemistryEngine;
 import constraint.Brick;
 import constraint.Constraint;
-import constraint.ConstraintType;
 import constraint.Constraints;
 import player.CardType;
-import player.position.ActualPosition;
+import player.ActualPosition;
 import squad.formation.Formation;
 import squad.formation.FormationFactory;
 import squad.formation.Graph;
 import player.Player;
-import player.position.Position;
+import player.Position;
 
 import java.io.Serializable;
 import java.util.ArrayList;

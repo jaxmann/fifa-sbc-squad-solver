@@ -1,7 +1,8 @@
 package chemistry;
 
+import player.BasePosition;
 import player.Player;
-import player.position.*;
+import player.Position;
 import squad.Squad;
 
 import java.util.ArrayList;
@@ -150,11 +151,7 @@ public class ChemistryEngine {
 
             totalChem += playerChem;
 
-
         }
-
-
-
         return totalChem;
     }
 
@@ -322,5 +319,4 @@ public class ChemistryEngine {
         }
         return 0;
     }
-
 }

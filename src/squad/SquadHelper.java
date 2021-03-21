@@ -3,11 +3,11 @@ package squad;
 import player.CardType;
 import player.PlayerLoader;
 import player.PlayerNotFoundException;
-import player.position.BasePosition;
+import player.BasePosition;
 import squad.formation.Formation;
 import squad.formation.FormationFactory;
 import player.Player;
-import player.position.Position;
+import player.Position;
 
 import java.io.*;
 import java.util.ArrayList;

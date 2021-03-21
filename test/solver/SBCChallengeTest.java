@@ -1,3 +1,5 @@
+package solver;
+
 import chemistry.ChemistryEngine;
 import constraint.Constraint;
 import constraint.ConstraintType;
@@ -13,7 +15,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.fail;
-
 
 public class SBCChallengeTest {
 
@@ -47,7 +48,6 @@ public class SBCChallengeTest {
 
         SBCChallenge sbc = new SBCChallenge(constraints);
         sbc.runSimulatedAnnealing(current, availablePlayers, true, false);
-
     }
 
     @Test
@@ -126,7 +126,7 @@ public class SBCChallengeTest {
     }
 
     @Test
-    public void get87defaultSquadTest() {
+    public void test_get87defaultSquad() {
         Squad s = null;
         try {
             s = SquadHelper.create87DefaultSquad();
@@ -140,7 +140,7 @@ public class SBCChallengeTest {
     }
 
     @Test
-    public void get85defaultSquadTest() {
+    public void test_get85defaultSquad() {
         Squad s = null;
         try {
             s = SquadHelper.create85DefaultSquad();
@@ -154,7 +154,7 @@ public class SBCChallengeTest {
     }
 
     @Test
-    public void get83defaultSquadTest() {
+    public void test_get83defaultSquad() {
         Squad s = null;
         try {
             s = SquadHelper.create83DefaultSquad();
@@ -168,7 +168,7 @@ public class SBCChallengeTest {
     }
 
     @Test
-    public void get75defaultSquadTest() {
+    public void test_get75defaultSquad() {
         Squad s = null;
         try {
             s = SquadHelper.create75DefaultSquad();
@@ -176,37 +176,36 @@ public class SBCChallengeTest {
             fail (e.getMessage());
         }
 
-
         for (Player p: s.getPlayers()) {
             System.out.println(p.toString());
         }
     }
 
     @Test
-    public void getFitnessScore() {
+    public void test_getFitnessScore() {
     }
 
     @Test
-    public void getSquad() {
+    public void test_getSquad() {
     }
 
     @Test
-    public void setSquad() {
+    public void test_setSquad() {
     }
 
     @Test
-    public void getMinRating() {
+    public void test_getMinRating() {
     }
 
     @Test
-    public void setMinRating() {
+    public void test_setMinRating() {
     }
 
     @Test
-    public void getMinChem() {
+    public void test_getMinChem() {
     }
 
     @Test
-    public void setMinChem() {
+    public void test_setMinChem() {
     }
 }

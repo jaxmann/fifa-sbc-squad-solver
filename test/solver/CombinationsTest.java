@@ -1,3 +1,5 @@
+package solver;
+
 import solver.Combinations;
 import squad.Squad;
 import squad.SquadHelper;
@@ -20,7 +22,6 @@ class CombinationsTest {
         int k = 2;
         Combinations c = new Combinations();
 //        c.combinations(p, k, 0, new Object[k]);
-
 
     }
 }

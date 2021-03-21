@@ -1,6 +1,6 @@
 package squad.formation;
 
-import player.position.Position;
+import player.Position;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,6 @@ public class FormationFactory {
 
         return null;
     }
-
 }
 
 class F_41212 implements Formation {
@@ -24,7 +23,6 @@ class F_41212 implements Formation {
     private ArrayList<Position> positions;
 
     public F_41212() {
-
         Position rb = new Position("RB");
         Position lb = new Position("LB");
         Position gk = new Position("GK");
@@ -70,7 +68,6 @@ class F_41212 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -80,7 +77,6 @@ class F_41212 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 //Matt changes begin here
@@ -91,7 +87,6 @@ class F_3412 implements Formation {
     private ArrayList<Position> positions;
 
     public F_3412() {
-
         Position gk = new Position("GK");
         Position lcb = new Position("CB", "LCB");
         Position rcb = new Position("CB", "RCB");
@@ -137,7 +132,6 @@ class F_3412 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -147,7 +141,6 @@ class F_3412 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_3421 implements Formation {
@@ -156,7 +149,6 @@ class F_3421 implements Formation {
     private ArrayList<Position> positions;
 
     public F_3421() {
-
         Position gk = new Position("GK");
         Position lcb = new Position("CB", "LCB");
         Position rcb = new Position("CB", "RCB");
@@ -202,7 +194,6 @@ class F_3421 implements Formation {
         graph.addEdge(rcm, rf);
         graph.addEdge(rf, st);
         graph.addEdge(lf, st);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -212,7 +203,6 @@ class F_3421 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_3142 implements Formation {
@@ -221,7 +211,6 @@ class F_3142 implements Formation {
     private ArrayList<Position> positions;
 
     public F_3142() {
-
         Position gk = new Position("GK");
         Position lcb = new Position("CB", "LCB");
         Position rcb = new Position("CB", "RCB");
@@ -267,7 +256,6 @@ class F_3142 implements Formation {
         graph.addEdge(rcm, cdm);
         graph.addEdge(rcm, rst);
         graph.addEdge(lst, rst);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -277,7 +265,6 @@ class F_3142 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_343 implements Formation {
@@ -286,7 +273,6 @@ class F_343 implements Formation {
     private ArrayList<Position> positions;
 
     public F_343() {
-
         Position gk = new Position("GK");
         Position lcb = new Position("CB", "LCB");
         Position rcb = new Position("CB", "RCB");
@@ -331,7 +317,6 @@ class F_343 implements Formation {
         graph.addEdge(rcm, st);
         graph.addEdge(rw, st);
         graph.addEdge(lw, st);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -341,7 +326,6 @@ class F_343 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_352 implements Formation {
@@ -350,7 +334,6 @@ class F_352 implements Formation {
     private ArrayList<Position> positions;
 
     public F_352() {
-
         Position gk = new Position("GK");
         Position lcb = new Position("CB", "LCB");
         Position rcb = new Position("CB", "RCB");
@@ -376,8 +359,6 @@ class F_352 implements Formation {
         positions.add(lst);
         positions.add(rst);
 
-        this.positions = positions;
-
         graph = new Graph(this.positions);
         graph.addEdge(rcb, rm);
         graph.addEdge(rcb, ccb);
@@ -400,9 +381,6 @@ class F_352 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
-        this.graph = graph;
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -412,7 +390,6 @@ class F_352 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_412122 implements Formation {
@@ -421,7 +398,6 @@ class F_412122 implements Formation {
     private ArrayList<Position> positions;
 
     public F_412122() {
-
         Position rb = new Position("RB");
         Position lb = new Position("LB");
         Position gk = new Position("GK");
@@ -467,7 +443,6 @@ class F_412122 implements Formation {
         graph.addEdge(cam, lst);
         graph.addEdge(cam, rst);
         graph.addEdge(lst, rst);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -477,7 +452,6 @@ class F_412122 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_4141 implements Formation {
@@ -486,7 +460,6 @@ class F_4141 implements Formation {
     private ArrayList<Position> positions;
 
     public F_4141() {
-
         Position rb = new Position("RB");
         Position lb = new Position("LB");
         Position gk = new Position("GK");
@@ -533,7 +506,6 @@ class F_4141 implements Formation {
         graph.addEdge(rcm, st);
         graph.addEdge(lm, st);
         graph.addEdge(rm, st);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -543,7 +515,6 @@ class F_4141 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
 
 class F_4231 implements Formation {
@@ -552,7 +523,6 @@ class F_4231 implements Formation {
     private ArrayList<Position> positions;
 
     public F_4231() {
-
         Position rb = new Position("RB");
         Position lb = new Position("LB");
         Position gk = new Position("GK");
@@ -597,7 +567,6 @@ class F_4231 implements Formation {
         graph.addEdge(ccam, st);
         graph.addEdge(lcam, st);
         graph.addEdge(rcam, st);
-
     }
 
     public ArrayList<Position> getPositions() {
@@ -607,5 +576,4 @@ class F_4231 implements Formation {
     public Graph getGraph() {
         return this.graph;
     }
-
 }
