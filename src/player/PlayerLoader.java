@@ -17,7 +17,7 @@ public class PlayerLoader {
     private ArrayList<Player> allPlayers;
 
     public void loadPlayers(boolean exclude100kPlus) throws IOException {
-        String csvFile = "./resources/fifa19/FutBinCards19.csv";
+        String csvFile = "./resources/fifa21/FutBinCards21.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -28,7 +28,6 @@ public class PlayerLoader {
         byPos = new HashMap<>();
         byRating = new HashMap<>();
         allPlayers = new ArrayList<>();
-
 
         try {
 
@@ -139,14 +138,15 @@ public class PlayerLoader {
     public static double convertStringPriceToDouble(String price) {
 
         double price_stripped = 0.0;
-        if (price.contains("M")) {
+        if (price.matches("^[0-9]+\\.?[0-9]*?[Mm]$")) {
             String price_temp = price.replace("M","");
             price_stripped = 1000000*Double.parseDouble(price_temp);
-        } else if (price.contains("K")) {
+        } else if (price.matches("^[0-9]+\\.?[0-9]*?[Kk]$")) {
             String price_temp = price.replace("K", "");
             price_stripped = 1000*Double.parseDouble(price_temp);
         } else if (price.matches(".*[a-zA-Z].*")) {
-            price_stripped = 1000000;
+            // probably an CSV crawling error to make a string appear in this position, but likely means it's untradeable anyway
+            price_stripped = 15000000;
         } else {
             price_stripped = Double.parseDouble(price);
         }
