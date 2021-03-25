@@ -27,6 +27,21 @@ public class Position implements Serializable {
         this.actual = actual;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Position p = (Position) o;
+        if (o != null && this.getBasePos() == p.getBasePos() && this.getActualPosition() == p.getActualPosition()) {
+            return true;
+        }
+        return false;
+    }
+
+    // need to override this to get hashset to dedupe properly https://stackoverflow.com/questions/6187294/java-set-collection-override-equals-method
+    @Override
+    public int hashCode() {
+        return getBasePos().hashCode() ^ getActualPosition().hashCode();
+    }
+
     public Position deepClone() {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

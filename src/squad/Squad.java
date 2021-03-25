@@ -13,14 +13,12 @@ import player.Player;
 import player.Position;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Map;
 
 public class Squad implements Serializable {
 
@@ -31,15 +29,26 @@ public class Squad implements Serializable {
     private ArrayList<Player> players;
     private Graph graph;
 
-    public Squad(ArrayList<Position> positions, ArrayList<Player> players, Formation formation) {
+    public Squad(ArrayList<Position> positions, ArrayList<Player> players, Formation formation) throws Exception {
+        // to make sure LB = Mendy, for instance, make sure the index of LB = index of Mendy in each respective arraylist
         this.positions = positions;
         this.players = players;
         this.lineup = new HashMap<>();
         this.graph = formation.getGraph();
 
+        // validate each requested position exists in formation
+        if (!positions.stream().allMatch(position -> formation.getPositions().contains(position))) {
+            throw new Exception("Invalid squad positions or formation generated");
+        }
+
+        if (!(new HashSet<>(positions).size() == positions.size())) {
+            throw new Exception("11 unique positions required - at least one position was repeated");
+        }
+
         for (int i = 0; i < this.positions.size(); i++) {
             this.lineup.put(this.positions.get(i), this.players.get(i));
         }
+
     }
 
     // make squad with random assortment of positions in 41212

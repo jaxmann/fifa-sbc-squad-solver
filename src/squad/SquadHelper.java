@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class SquadHelper implements Serializable {
 
-    public static Squad create87DefaultSquad() throws IOException {
+    public static Squad create87DefaultSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
@@ -57,51 +57,7 @@ public class SquadHelper implements Serializable {
         return new Squad(positions, players, f);
     }
 
-    public static Squad create71ChemSquad() throws IOException {
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
-        ArrayList<Player> players = new ArrayList<>();
-        FormationFactory ff = new FormationFactory();
-        Formation f = ff.getFormation("41212");
-        ArrayList<Position> positions = f.getPositions();
-
-        try {
-            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
-            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
-            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
-            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
-            Player david = pl.lookupPlayerByNameAndRating("david", 89);
-            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
-            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
-            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
-
-            players.add(neto); //rb
-            players.add(kagawa); //lb
-            players.add(navas); //gk
-            players.add(gimenez); //lcb
-            players.add(savic); //rcb
-            players.add(lucas); //rm
-            players.add(kroos); //cdm
-            players.add(david); //lm
-            players.add(iniesta); //lst
-            players.add(diego); //rst
-            players.add(isco); //cam
-
-            for (Player p : players) {
-                System.out.println(p.toString());
-            }
-        } catch (PlayerNotFoundException e) {
-            e.printName();
-        }
-
-        return new Squad(positions, players, f);
-    }
-
-
-    public static Squad create85DefaultSquad() throws IOException { //not implemented
+    public static Squad create71ChemSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
@@ -145,7 +101,7 @@ public class SquadHelper implements Serializable {
     }
 
 
-    public static Squad create83DefaultSquad() throws IOException { //not implemented
+    public static Squad create85DefaultSquad() throws Exception { //not implemented
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
@@ -188,7 +144,51 @@ public class SquadHelper implements Serializable {
         return new Squad(positions, players, f);
     }
 
-    public static Squad create75DefaultSquad() throws IOException {
+
+    public static Squad create83DefaultSquad() throws Exception { //not implemented
+        PlayerLoaderUtil pl = new PlayerLoaderUtil();
+        pl.loadPlayers(true);
+        ArrayList<Player> players = new ArrayList<>();
+        FormationFactory ff = new FormationFactory();
+        Formation f = ff.getFormation("41212");
+        ArrayList<Position> positions = f.getPositions();
+
+        try {
+            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
+            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
+            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
+            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
+            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
+            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
+            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
+            Player david = pl.lookupPlayerByNameAndRating("david", 89);
+            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
+            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
+            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
+
+            players.add(neto); //rb
+            players.add(kagawa); //lb
+            players.add(navas); //gk
+            players.add(gimenez); //lcb
+            players.add(savic); //rcb
+            players.add(lucas); //rm
+            players.add(kroos); //cdm
+            players.add(david); //lm
+            players.add(iniesta); //lst
+            players.add(diego); //rst
+            players.add(isco); //cam
+
+            for (Player p : players) {
+                System.out.println(p.toString());
+            }
+        } catch (PlayerNotFoundException e) {
+            e.printName();
+        }
+
+        return new Squad(positions, players, f);
+    }
+
+    public static Squad create75DefaultSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
@@ -232,7 +232,7 @@ public class SquadHelper implements Serializable {
     }
 
     // useful for testing - otherwise can run into assertion issues asserting n german players etc
-    public static Squad create75GoldNonRareTestSquad() {
+    public static Squad create75GoldNonRareTestSquad() throws Exception {
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");

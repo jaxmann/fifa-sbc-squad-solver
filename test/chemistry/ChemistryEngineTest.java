@@ -18,8 +18,18 @@ class ChemistryEngineTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
+        pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
+    }
+
+    @Test
+    void test_calculateChemistry_oneNationSquad() {
+        long seed = new Long(10);
+        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
+        Squad s = new Squad(randos);
+
+        //this could change as new player dataset is imported
+        assertEquals(6, ChemistryEngine.calculateChemistry(s));
     }
 
     @Test
@@ -58,6 +68,15 @@ class ChemistryEngineTest {
         Squad s = new Squad(randos);
 
         assertEquals(6, ChemistryEngine.calculateChemistry(s));
+    }
+
+    @Test
+    void test_numSharedLinks() {
+        // place a LB at LWB -> should be on 2 chem
+        Position p1 = new Position("LWB");
+        Position p2 = new Position("LB");
+        int c1 = ChemistryEngine.positionChem(p1, p2);
+        assertEquals(c1, 2);
     }
 
     @Test

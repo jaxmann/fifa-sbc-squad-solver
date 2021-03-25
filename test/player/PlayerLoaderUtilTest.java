@@ -172,7 +172,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtPositionAndRating_happy() throws IOException {
+    void test_getAnyPlayerAtPositionAndRating_happy() {
         // Arrange
         BasePosition expectedPos = BasePosition.GK;
         int expectedRating = 85;
@@ -186,7 +186,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtPositionAndRating_invalid() throws IOException {
+    void test_getAnyPlayerAtPositionAndRating_invalid() {
         // Arrange
         // impossible possible - no players should exist
         BasePosition expectedPos = BasePosition.INVALID;
@@ -200,7 +200,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtExactRating() throws IOException {
+    void test_getAnyPlayerAtExactRating() {
         // Arrange
         int expectedRating = 85;
 
@@ -212,7 +212,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtExactRating_invalid() throws IOException {
+    void test_getAnyPlayerAtExactRating_invalid() {
         // Arrange
         int expectedRating = 100;
 
@@ -224,7 +224,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtExactRating_happy() throws IOException {
+    void test_getNCheapestAtExactRating_happy() {
         // Arrange
         int expectedRating = 85;
         int expectedNumPlayers = 5;
@@ -244,7 +244,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtExactRating_impossibleRating() throws IOException {
+    void test_getNCheapestAtExactRating_impossibleRating() {
         // Arrange
         int expectedRating = 100;
         int expectedNumPlayers = 5;
