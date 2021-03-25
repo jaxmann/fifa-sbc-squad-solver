@@ -29,11 +29,11 @@ public class Position implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        Position p = (Position) o;
-        if (o != null && this.getBasePos() == p.getBasePos() && this.getActualPosition() == p.getActualPosition()) {
-            return true;
+        if (getClass() != o.getClass()) {
+            return false;
         }
-        return false;
+        Position p = (Position) o;
+        return o != null && this.getBasePos() == p.getBasePos() && this.getActualPosition() == p.getActualPosition();
     }
 
     // need to override this to get hashset to dedupe properly https://stackoverflow.com/questions/6187294/java-set-collection-override-equals-method

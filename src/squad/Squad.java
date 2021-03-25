@@ -70,8 +70,12 @@ public class Squad implements Serializable {
         Player brickPlayer = new Player(BRICKED_PLAYER_NAME, brick.getClub(), brick.getNation(), brick.getLeague(), brick.getPos().getBasePos());
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
             if (entry.getKey().getActualPosition().equals(brick.getPos().getActualPosition())) {
+                this.getPlayers().remove(entry.getValue());
+                this.getPlayers().add(brickPlayer);
+
                 this.getLineup().remove(entry.getKey());
                 this.getLineup().put(brick.getPos(), brickPlayer);
+
                 return true;
             }
         }
@@ -96,7 +100,6 @@ public class Squad implements Serializable {
         }
     }
 
-    //this seems super inefficient... why does it need to make a copy
     //maybe also don't pass in int as "pos", kind of confusing
     public static Squad newAtPos(Squad currentSquad, int i, Player p) {
 
@@ -104,6 +107,7 @@ public class Squad implements Serializable {
         if (currentSquad.getPlayers().get(i).getName().equals("brickedPlayer")) {
             return currentSquad;
         }
+
         Squad copy = currentSquad.deepClone();
         copy.getPlayers().set(i, p);
 
@@ -127,20 +131,17 @@ public class Squad implements Serializable {
         }
     }
 
-
-
     public void updateLineup() {
-        for (int i = 0; i < this.positions.size(); i++) {
-            this.lineup.put(this.positions.get(i), this.players.get(i));
+        for (int i = 0; i < this.getPositions().size(); i++) {
+            this.getLineup().put(this.getPositions().get(i), this.getPlayers().get(i));
         }
     }
 
-
+    // get list of rating of current lineup
     public ArrayList<Integer> getRatings() {
         ArrayList<Integer> ratings = new ArrayList<>();
-        for(HashMap.Entry<Position, Player> entry : this.lineup.entrySet()) {
-            Player player = entry.getValue();
-            ratings.add(player.getRating());
+        for(HashMap.Entry<Position, Player> entry : this.getLineup().entrySet()) {
+            ratings.add(entry.getValue().getRating());
         }
         return ratings;
     }
@@ -148,10 +149,8 @@ public class Squad implements Serializable {
     // get total price of squad
     public double getSquadPrice() {
         double totalPrice = 0.0;
-        for(HashMap.Entry<Position, Player> entry : this.lineup.entrySet()) {
-            Player player = entry.getValue();
-
-            totalPrice += player.getPrice();
+        for(HashMap.Entry<Position, Player> entry : this.getLineup().entrySet()) {
+            totalPrice += entry.getValue().getPrice();
         }
         return totalPrice;
     }
@@ -209,7 +208,7 @@ public class Squad implements Serializable {
             Position pos = entry.getKey();
             Player player = entry.getValue();
 
-            System.out.println("pos: " + pos.getActualPosition().toString() + "| player: " + player.getName() + "| rating: " + player.getRating() + "| price: " + player.getPrice());
+            System.out.println("pos: " + pos.getActualPosition().toString() + " | player: " + player.getName() + " | rating: " + player.getRating() + " | price: " + player.getPrice());
         }
     }
 

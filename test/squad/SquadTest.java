@@ -1,26 +1,21 @@
 package squad;
 
-import org.junit.Rule;
+import constraint.Brick;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.rules.ExpectedException;
-import player.Player;
-import player.PlayerLoaderUtil;
+import player.*;
 import org.junit.jupiter.api.Test;
-import player.Position;
 import squad.formation.Formation;
 import squad.formation.FormationFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SquadTest {
 
     PlayerLoaderUtil pl;
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -156,35 +151,100 @@ class SquadTest {
     }
 
     @Test
-    void test_getRatings() {
+    void test_getRatings() throws Exception {
+        int expectedRating = 75;
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, expectedRating, false);
+        assertTrue(s.getRatings().stream().allMatch(rating -> rating == expectedRating));
     }
 
     @Test
-    void test_getSquadPrice() {
-        long seed = new Long(13);
-        ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
-        Squad s = new Squad(randos);
+    void test_getSquadPrice() throws Exception {
+        double pricePerPlayer = 800;
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, pricePerPlayer, 75, false);
 
-        assertEquals(189200.0, s.getSquadPrice());
+        assertEquals(11*800, s.getSquadPrice());
+        assertTrue(s.getPlayers().stream().allMatch(player -> player.getPrice() == pricePerPlayer));
     }
 
     @Test
-    void test_printSquad() {
+    void newAtPos_cannotAddToBrick() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        s.setBrick(new Brick(new Position(BasePosition.GK)));
+        // index of brickedPlayer in createTestSquad is last index
+        Player p = new Player(85);
+        Squad newSquad = Squad.newAtPos(s, 10, p);
+
+        assertTrue(newSquad.getPlayers().stream().allMatch(player -> player != p));
     }
 
     @Test
-    void test_getLineup() {
+    void newAtPos_addNewPlayer() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        Player p = new Player(85);
+        Squad newSquad = Squad.newAtPos(s, 10, p);
+
+        assertTrue(newSquad.getPlayers().stream().anyMatch(player -> player == p));
     }
 
     @Test
-    void test_getPositions() {
+    void updateAtPos() {
     }
 
     @Test
-    void test_getPlayers() {
+    void testUpdateAtPos() {
     }
 
     @Test
-    void test_getGraph() {
+    void updateLineup() {
+    }
+
+    @Test
+    void getSquadPrice() {
+    }
+
+    @Test
+    void getSquadRating() {
+    }
+
+    @Test
+    void getFractionalSquadRating() {
+    }
+
+    @Test
+    void getPlayersAsString() {
+    }
+
+    @Test
+    void getPlayerAtPosition() {
+    }
+
+    @Test
+    void getNumOfCardType() {
+    }
+
+    @Test
+    void getNumOfNation() {
+    }
+
+    @Test
+    void getNumOfLeague() {
+    }
+
+    @Test
+    void getNumOfTeam() {
+    }
+
+    @Test
+    void getNumPlayers() {
+    }
+
+    @Test
+    void getNumOfClub() {
+    }
+
+    @Test
+    void getGraph() {
     }
 }

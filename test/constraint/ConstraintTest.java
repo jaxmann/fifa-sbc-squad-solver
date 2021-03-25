@@ -1,8 +1,5 @@
 package constraint;
 
-import constraint.Brick;
-import constraint.Constraint;
-import constraint.ConstraintType;
 import player.CardType;
 import player.Player;
 import player.ActualPosition;
@@ -115,7 +112,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -132,7 +129,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }          Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
@@ -153,7 +150,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }          s.setBrick(brick1);
@@ -174,7 +171,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -199,7 +196,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -222,7 +219,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -245,7 +242,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -268,7 +265,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -291,7 +288,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -314,7 +311,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -337,7 +334,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -360,7 +357,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -383,7 +380,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -406,7 +403,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -429,7 +426,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -452,7 +449,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -475,7 +472,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -498,7 +495,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -521,7 +518,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -544,7 +541,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }

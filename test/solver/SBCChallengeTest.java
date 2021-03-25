@@ -5,6 +5,8 @@ import constraint.Constraint;
 import constraint.ConstraintType;
 import constraint.Constraints;
 import org.junit.Ignore;
+import player.BasePosition;
+import player.CardType;
 import player.Player;
 import player.PlayerLoaderUtil;
 import squad.Squad;
@@ -23,7 +25,7 @@ public class SBCChallengeTest {
         Squad current = null;
         ArrayList<Player> availablePlayers = null;
         try {
-            current = SquadHelper.create75GoldNonRareTestSquad();
+            current = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
             PlayerLoaderUtil pl = new PlayerLoaderUtil();
             pl.loadPlayers(true);
             availablePlayers = pl.getAll86Plus();

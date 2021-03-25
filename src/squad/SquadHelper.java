@@ -232,23 +232,23 @@ public class SquadHelper implements Serializable {
     }
 
     // useful for testing - otherwise can run into assertion issues asserting n german players etc
-    public static Squad create75GoldNonRareTestSquad() throws Exception {
+    public static Squad createTestSquad(String team, String nation, String league, BasePosition position, CardType cardType, double pricePerPlayer, int rating, boolean loyalty) throws Exception {
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
 
-        Player rb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rb
-        Player lb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lb
-        Player gk = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //gk
-        Player lcb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lcb
-        Player rcb = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rcb
-        Player rm = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rm
-        Player cdm = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //cdm
-        Player lm = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lm
-        Player lst = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //lst
-        Player rst = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //rst
-        Player cam = new Player("test player", "fake team", "fake nation", "fake league", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false); //cam
+        Player rb = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //rb
+        Player lb = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //lb
+        Player gk = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //gk
+        Player lcb = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //lcb
+        Player rcb = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //rcb
+        Player rm = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //rm
+        Player cdm = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //cdm
+        Player lm = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //lm
+        Player lst = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //lst
+        Player rst = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //rst
+        Player cam = new Player("test player", team, nation, league, position, cardType, pricePerPlayer, rating, loyalty); //cam
 
         players.add(rb); //rb
         players.add(lb); //lb
@@ -261,10 +261,6 @@ public class SquadHelper implements Serializable {
         players.add(lst); //lst
         players.add(rst); //rst
         players.add(cam); //cam
-
-        for (Player p : players) {
-            System.out.println(p.toString());
-        }
 
         return new Squad(positions, players, f);
     }

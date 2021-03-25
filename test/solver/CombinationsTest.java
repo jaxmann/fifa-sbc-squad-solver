@@ -1,6 +1,7 @@
 package solver;
 
-import solver.Combinations;
+import player.BasePosition;
+import player.CardType;
 import squad.Squad;
 import squad.SquadHelper;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ class CombinationsTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create75GoldNonRareTestSquad();
+            s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
         }
