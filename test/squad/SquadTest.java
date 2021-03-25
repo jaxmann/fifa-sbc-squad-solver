@@ -20,7 +20,7 @@ class SquadTest {
     @BeforeEach
     public void setUp() throws IOException {
         pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
+        pl.loadPlayers(false);
     }
 
     @Test

@@ -81,7 +81,7 @@ public class Player implements Serializable {
         this.rating = rating;
     }
 
-    public boolean isLoyalty() {
+    public boolean getLoyalty() {
         return loyalty;
     }
 

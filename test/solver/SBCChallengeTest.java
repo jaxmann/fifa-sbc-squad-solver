@@ -27,7 +27,7 @@ public class SBCChallengeTest {
         try {
             current = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
             PlayerLoaderUtil pl = new PlayerLoaderUtil();
-            pl.loadPlayers(true);
+            pl.loadPlayers(false);
             availablePlayers = pl.getAll86Plus();
         } catch (Exception e) {
             fail(e.getMessage());
@@ -50,6 +50,7 @@ public class SBCChallengeTest {
         sbc.runSimulatedAnnealing(current, availablePlayers, true, false);
     }
 
+    @Ignore
     @Test
     public void solver() {
 
@@ -60,7 +61,7 @@ public class SBCChallengeTest {
         try {
             s = SquadHelper.create87DefaultSquad();
             pl = new PlayerLoaderUtil();
-            pl.loadPlayers(true);
+            pl.loadPlayers(false);
             allPlayers = pl.getAllPlayers();
         } catch (Exception e) {
             fail(e.getMessage());
@@ -123,62 +124,6 @@ public class SBCChallengeTest {
 //        System.out.println(Chemistry.ChemistryEngine.calculateChemistry(s));
 //        System.out.println(s.getSquadRating());
 
-    }
-
-    @Test
-    public void test_get87defaultSquad() {
-        Squad s = null;
-        try {
-            s = SquadHelper.create87DefaultSquad();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-
-        for (Player p: s.getPlayers()) {
-            System.out.println(p.toString());
-        }
-    }
-
-    @Test
-    public void test_get85defaultSquad() {
-        Squad s = null;
-        try {
-            s = SquadHelper.create85DefaultSquad();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-
-        for (Player p: s.getPlayers()) {
-            System.out.println(p.toString());
-        }
-    }
-
-    @Test
-    public void test_get83defaultSquad() {
-        Squad s = null;
-        try {
-            s = SquadHelper.create83DefaultSquad();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-
-        for (Player p: s.getPlayers()) {
-            System.out.println(p.toString());
-        }
-    }
-
-    @Test
-    public void test_get75defaultSquad() {
-        Squad s = null;
-        try {
-            s = SquadHelper.create75DefaultSquad();
-        } catch (Exception e) {
-            fail (e.getMessage());
-        }
-
-        for (Player p: s.getPlayers()) {
-            System.out.println(p.toString());
-        }
     }
 
     @Test

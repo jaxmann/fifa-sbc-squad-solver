@@ -158,14 +158,14 @@ public class ChemistryEngine {
     public static int numSharedLinks(Player p1, Player p2) {
         int links = 0;
 
-        if (p1.getNation().equals(p2.getNation())) {
-            links += 1;
+        if (p1.getNation().toLowerCase().equals(p2.getNation().toLowerCase())) {
+            links++;
         }
-        if (p1.getLeague().equals(p2.getLeague())) {
-            links += 1;
+        if (p1.getLeague().toLowerCase().equals(p2.getLeague().toLowerCase())) {
+            links++;
         }
-        if (p1.getTeam().equals(p2.getTeam())) {
-            links += 1;
+        if (p1.getTeam().toLowerCase().equals(p2.getTeam().toLowerCase())) {
+            links++;
         }
 
         return links;
@@ -176,32 +176,24 @@ public class ChemistryEngine {
         if (slot.getBasePos().equals(BasePosition.GK)) {
             if (actual.getBasePos().equals(BasePosition.GK)) {
               return 3;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.CB)) {
             if (actual.getBasePos().equals(BasePosition.CB)) {
                 return 3;
-            } else if (actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.RB)) {
+            } else if (actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.RB) || actual.getBasePos().equals(BasePosition.CDM)) {
                 return 1;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.RB)) {
             if (actual.getBasePos().equals(BasePosition.RB)) {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.CB) || actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.RM)) {
                 return 1;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.LB)) {
             if (actual.getBasePos().equals(BasePosition.LB)) {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.CB) || actual.getBasePos().equals(BasePosition.RB) || actual.getBasePos().equals(BasePosition.LM)) {
                 return 1;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.CDM)) {
             if (actual.getBasePos().equals(BasePosition.CDM)) {
@@ -210,8 +202,6 @@ public class ChemistryEngine {
                 return 1;
             } else if (actual.getBasePos().equals(BasePosition.CM)) {
                 return 2;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.CAM)) {
             if (actual.getBasePos().equals(BasePosition.CAM)) {
@@ -220,8 +210,6 @@ public class ChemistryEngine {
                 return 2;
             } else if (actual.getBasePos().equals(BasePosition.CDM)) {
                 return 1;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.CM)) {
             if (actual.getBasePos().equals(BasePosition.CM)) {
@@ -230,31 +218,29 @@ public class ChemistryEngine {
                 return 2;
             } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.RM)) {
                 return 1;
-            } else {
-                return 0;
             }
         } else if (slot.getBasePos().equals(BasePosition.CF)) {
             if (actual.getBasePos().equals(BasePosition.ST) || actual.getBasePos().equals(BasePosition.CAM)) {
                 return 2;
             } else if (actual.getBasePos().equals(BasePosition.CF)) {
                 return 3;
-            } else {
-                return 0;
+            } else if (actual.getBasePos().equals(BasePosition.LF) || actual.getBasePos().equals(BasePosition.RF)) {
+                return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.ST)) {
             if (actual.getBasePos().equals(BasePosition.ST)) {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.CF)) {
                 return 2;
-            } else {
-                return 0;
+            } else if (actual.getBasePos().equals(BasePosition.LF) || actual.getBasePos().equals(BasePosition.RF)) {
+                return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.RM)) {
             if (actual.getBasePos().equals(BasePosition.RM)) {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.RW)) {
                 return 2;
-            } else if (actual.getBasePos().equals(BasePosition.RF) || actual.getBasePos().equals(BasePosition.RB) || actual.getBasePos().equals(BasePosition.CM)) {
+            } else if (actual.getBasePos().equals(BasePosition.RF) || actual.getBasePos().equals(BasePosition.RB) || actual.getBasePos().equals(BasePosition.CM) || actual.getBasePos().equals(BasePosition.LM)) {
                 return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.LM)) {
@@ -262,7 +248,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.LW)) {
                 return 2;
-            } else if (actual.getBasePos().equals(BasePosition.LF) || actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.CM)) {
+            } else if (actual.getBasePos().equals(BasePosition.LF) || actual.getBasePos().equals(BasePosition.LB) || actual.getBasePos().equals(BasePosition.CM) || actual.getBasePos().equals(BasePosition.RM)) {
                 return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.LW)) {
@@ -270,7 +256,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.LF)) {
                 return 2;
-            } else if (actual.getBasePos().equals(BasePosition.LWB)) {
+            } else if (actual.getBasePos().equals(BasePosition.LWB) || actual.getBasePos().equals(BasePosition.RW)) {
                 return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.RW)) {
@@ -278,7 +264,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.RM) || actual.getBasePos().equals(BasePosition.RF)) {
                 return 2;
-            } else if (actual.getBasePos().equals(BasePosition.RWB)) {
+            } else if (actual.getBasePos().equals(BasePosition.RWB) || actual.getBasePos().equals(BasePosition.LW)) {
                 return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.LF)) {
@@ -286,7 +272,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.LW)) {
                 return 2;
-            } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.ST)) {
+            } else if (actual.getBasePos().equals(BasePosition.LM) || actual.getBasePos().equals(BasePosition.ST) || actual.getBasePos().equals(BasePosition.CF)) {
                 return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.RF)) {
@@ -294,7 +280,7 @@ public class ChemistryEngine {
                 return 3;
             } else if (actual.getBasePos().equals(BasePosition.RW)) {
                 return 2;
-            } else if (actual.getBasePos().equals(BasePosition.RM) || actual.getBasePos().equals(BasePosition.ST)) {
+            } else if (actual.getBasePos().equals(BasePosition.RM) || actual.getBasePos().equals(BasePosition.ST) || actual.getBasePos().equals(BasePosition.CF)) {
                 return 1;
             }
         } else if (slot.getBasePos().equals(BasePosition.RWB)) {

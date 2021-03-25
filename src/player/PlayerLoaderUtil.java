@@ -46,7 +46,7 @@ public class PlayerLoaderUtil {
                     int rating = Integer.parseInt(player[4]);
                     CardType version = mapVersionToCardType(player[6], rating);
 
-                    if (!team.equals("Icons") && ((price < 100000 && exclude100kPlus) || !exclude100kPlus)) {
+                    if ((price < 100000 && exclude100kPlus) || !exclude100kPlus) {
 
                         Player p = new Player(name, team, nation, league, pos, version, price, rating, false);
 
@@ -255,7 +255,7 @@ public class PlayerLoaderUtil {
         return cheapestPlayers;
     }
 
-    public Player lookupPlayerByNameAndRating(String nameSubstring, int rating, String nation, String position, String team, String league) throws PlayerNotFoundException {
+    public Player lookupPlayer(String nameSubstring, int rating, String nation, String position, String team, String league) throws PlayerNotFoundException {
         boolean namePresent = false;
         boolean ratingPresent = false;
         boolean nationPresent = false;
@@ -297,9 +297,9 @@ public class PlayerLoaderUtil {
         throw new PlayerNotFoundException(nameSubstring);
     }
 
-    public Player lookupPlayerByNameAndRating(String nameSubstring, int rating) throws PlayerNotFoundException {
+    public Player lookupPlayer(String nameSubstring, int rating) throws PlayerNotFoundException {
 
-        for (Player player: this.allPlayers) {
+        for (Player player: this.getAllPlayers()) {
             if (player.getName().toLowerCase().contains(nameSubstring.toLowerCase()) && player.getRating() == rating) {
                 return player;
             }

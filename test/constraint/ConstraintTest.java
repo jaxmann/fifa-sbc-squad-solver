@@ -19,11 +19,11 @@ public class ConstraintTest {
     @Test
     public void test_minChemConstraintSatisfied() {
         Constraint minChemConstraint = new Constraint(ConstraintType.MINCHEM);
-        minChemConstraint.setMinChem(71);
+        minChemConstraint.setMinChem(38);
 
         Squad s = null;
         try {
-            s = SquadHelper.create71ChemSquad();
+            s = SquadHelper.create39ChemSquad();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -38,7 +38,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create71ChemSquad();
+            s = SquadHelper.create39ChemSquad();
         } catch (Exception e) {
             fail(e.getMessage());
         }

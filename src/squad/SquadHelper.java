@@ -16,40 +16,37 @@ public class SquadHelper implements Serializable {
 
     public static Squad create87DefaultSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
+        pl.loadPlayers(false);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
-            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
-            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
-            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
-            Player david = pl.lookupPlayerByNameAndRating("david", 89);
-            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
-            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
-            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
+            Player p1 = pl.lookupPlayer("alisson", 90);
+            Player p2 = pl.lookupPlayer("laporte", 87);
+            Player p3 = pl.lookupPlayer("gikie", 84);
+            Player p4 = pl.lookupPlayer("vela", 83);
+            Player p5 = pl.lookupPlayer("matuidi", 83);
+            Player p6 = pl.lookupPlayer("casemiro", 89);
+            Player p7 = pl.lookupPlayer("ter stegen", 90);
+            Player p8 = pl.lookupPlayer("grimaldo", 87);
+            Player p9 = pl.lookupPlayer("rafa", 83);
+            Player p10 = pl.lookupPlayer("strakosha", 83);
+            Player p11 = pl.lookupPlayer("gonzalo", 83);
 
-            players.add(neto); //rb
-            players.add(kagawa); //lb
-            players.add(navas); //gk
-            players.add(gimenez); //lcb
-            players.add(savic); //rcb
-            players.add(lucas); //rm
-            players.add(kroos); //cdm
-            players.add(david); //lm
-            players.add(iniesta); //lst
-            players.add(diego); //rst
-            players.add(isco); //cam
+            players.add(p1); //rb
+            players.add(p2); //lb
+            players.add(p3); //gk
+            players.add(p4); //lcb
+            players.add(p5); //rcb
+            players.add(p6); //rm
+            players.add(p7); //cdm
+            players.add(p8); //lm
+            players.add(p9); //lst
+            players.add(p10); //rst
+            players.add(p11); //cam
 
-            for (Player p : players) {
-                System.out.println(p.toString());
-            }
         } catch (PlayerNotFoundException e) {
             e.printName();
         }
@@ -57,42 +54,39 @@ public class SquadHelper implements Serializable {
         return new Squad(positions, players, f);
     }
 
-    public static Squad create71ChemSquad() throws Exception {
+    public static Squad create39ChemSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
+        pl.loadPlayers(false);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
-            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
-            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
-            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
-            Player david = pl.lookupPlayerByNameAndRating("david", 89);
-            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
-            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
-            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
+            Player p1 = pl.lookupPlayer("alisson", 90);
+            Player p2 = pl.lookupPlayer("laporte", 87);
+            Player p3 = pl.lookupPlayer("gikie", 84);
+            Player p4 = pl.lookupPlayer("vela", 83);
+            Player p5 = pl.lookupPlayer("matuidi", 83);
+            Player p6 = pl.lookupPlayer("casemiro", 89);
+            Player p7 = pl.lookupPlayer("ter stegen", 90);
+            Player p8 = pl.lookupPlayer("grimaldo", 87);
+            Player p9 = pl.lookupPlayer("rafa", 83);
+            Player p10 = pl.lookupPlayer("strakosha", 83);
+            Player p11 = pl.lookupPlayer("gonzalo", 83);
 
-            players.add(neto); //rb
-            players.add(kagawa); //lb
-            players.add(navas); //gk
-            players.add(gimenez); //lcb
-            players.add(savic); //rcb
-            players.add(lucas); //rm
-            players.add(kroos); //cdm
-            players.add(david); //lm
-            players.add(iniesta); //lst
-            players.add(diego); //rst
-            players.add(isco); //cam
+            players.add(p3); //rb
+            players.add(p8); //lb
+            players.add(p1); //gk
+            players.add(p7); //lcb
+            players.add(p2); //rcb
+            players.add(p4); //rm
+            players.add(p5); //cdm
+            players.add(p9); //lm
+            players.add(p11); //lst
+            players.add(p10); //rst
+            players.add(p6); //cam
 
-            for (Player p : players) {
-                System.out.println(p.toString());
-            }
         } catch (PlayerNotFoundException e) {
             e.printName();
         }
@@ -103,40 +97,37 @@ public class SquadHelper implements Serializable {
 
     public static Squad create85DefaultSquad() throws Exception { //not implemented
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
+        pl.loadPlayers(false);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
-            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
-            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
-            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
-            Player david = pl.lookupPlayerByNameAndRating("david", 89);
-            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
-            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
-            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
+            Player p1 = pl.lookupPlayer("alisson", 90);
+            Player p2 = pl.lookupPlayer("laporte", 87);
+            Player p3 = pl.lookupPlayer("gikie", 84);
+            Player p4 = pl.lookupPlayer("vela", 83);
+            Player p5 = pl.lookupPlayer("matuidi", 83);
+            Player p6 = pl.lookupPlayer("guedes", 81);
+            Player p7 = pl.lookupPlayer("varane", 86);
+            Player p8 = pl.lookupPlayer("grimaldo", 87);
+            Player p9 = pl.lookupPlayer("rafa", 83);
+            Player p10 = pl.lookupPlayer("strakosha", 83);
+            Player p11 = pl.lookupPlayer("gonzalo", 83);
 
-            players.add(neto); //rb
-            players.add(kagawa); //lb
-            players.add(navas); //gk
-            players.add(gimenez); //lcb
-            players.add(savic); //rcb
-            players.add(lucas); //rm
-            players.add(kroos); //cdm
-            players.add(david); //lm
-            players.add(iniesta); //lst
-            players.add(diego); //rst
-            players.add(isco); //cam
+            players.add(p1); //rb
+            players.add(p2); //lb
+            players.add(p3); //gk
+            players.add(p4); //lcb
+            players.add(p5); //rcb
+            players.add(p6); //rm
+            players.add(p7); //cdm
+            players.add(p8); //lm
+            players.add(p9); //lst
+            players.add(p10); //rst
+            players.add(p11); //cam
 
-            for (Player p : players) {
-                System.out.println(p.toString());
-            }
         } catch (PlayerNotFoundException e) {
             e.printName();
         }
@@ -145,42 +136,39 @@ public class SquadHelper implements Serializable {
     }
 
 
-    public static Squad create83DefaultSquad() throws Exception { //not implemented
+    public static Squad create83DefaultSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
+        pl.loadPlayers(false);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
-            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
-            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
-            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
-            Player david = pl.lookupPlayerByNameAndRating("david", 89);
-            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
-            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
-            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
+            Player p1 = pl.lookupPlayer("volland", 81);
+            Player p2 = pl.lookupPlayer("boateng", 82);
+            Player p3 = pl.lookupPlayer("gikie", 84);
+            Player p4 = pl.lookupPlayer("vela", 83);
+            Player p5 = pl.lookupPlayer("matuidi", 83);
+            Player p6 = pl.lookupPlayer("guedes", 81);
+            Player p7 = pl.lookupPlayer("varane", 86);
+            Player p8 = pl.lookupPlayer("mendy", 83);
+            Player p9 = pl.lookupPlayer("rafa", 83);
+            Player p10 = pl.lookupPlayer("strakosha", 83);
+            Player p11 = pl.lookupPlayer("gonzalo", 83);
 
-            players.add(neto); //rb
-            players.add(kagawa); //lb
-            players.add(navas); //gk
-            players.add(gimenez); //lcb
-            players.add(savic); //rcb
-            players.add(lucas); //rm
-            players.add(kroos); //cdm
-            players.add(david); //lm
-            players.add(iniesta); //lst
-            players.add(diego); //rst
-            players.add(isco); //cam
+            players.add(p1); //rb
+            players.add(p2); //lb
+            players.add(p3); //gk
+            players.add(p4); //lcb
+            players.add(p5); //rcb
+            players.add(p6); //rm
+            players.add(p7); //cdm
+            players.add(p8); //lm
+            players.add(p9); //lst
+            players.add(p10); //rst
+            players.add(p11); //cam
 
-            for (Player p : players) {
-                System.out.println(p.toString());
-            }
         } catch (PlayerNotFoundException e) {
             e.printName();
         }
@@ -190,43 +178,35 @@ public class SquadHelper implements Serializable {
 
     public static Squad create75DefaultSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(true);
+        pl.loadPlayers(false);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
         ArrayList<Position> positions = f.getPositions();
 
-        try {
-            Player rb = pl.lookupPlayerByNameAndRating("toljan", 75); //rb
-            Player lb = pl.lookupPlayerByNameAndRating("zeegelaar", 75); //lb
-            Player gk = pl.lookupPlayerByNameAndRating("olsen", 75); //gk
-            Player lcb = pl.lookupPlayerByNameAndRating("mbemba", 75); //lcb
-            Player rcb = pl.lookupPlayerByNameAndRating("sebastian", 75); //rcb
-            Player rm = pl.lookupPlayerByNameAndRating("conti", 75); //rm
-            Player cdm = pl.lookupPlayerByNameAndRating("sanches", 75); //cdm
-            Player lm = pl.lookupPlayerByNameAndRating("bruno", 75); //lm
-            Player lst = pl.lookupPlayerByNameAndRating("niasse", 75); //lst
-            Player rst = pl.lookupPlayerByNameAndRating("diaby", 75); //rst
-            Player cam = pl.lookupPlayerByNameAndRating("winks", 75); //cam
+        Player p1 = pl.getAnyPlayerAtExactRating(75);
+        Player p2 = pl.getAnyPlayerAtExactRating(75);
+        Player p3 = pl.getAnyPlayerAtExactRating(75);
+        Player p4 = pl.getAnyPlayerAtExactRating(75);
+        Player p5 = pl.getAnyPlayerAtExactRating(75);
+        Player p6 = pl.getAnyPlayerAtExactRating(75);
+        Player p7 = pl.getAnyPlayerAtExactRating(75);
+        Player p8 = pl.getAnyPlayerAtExactRating(75);
+        Player p9 = pl.getAnyPlayerAtExactRating(75);
+        Player p10 = pl.getAnyPlayerAtExactRating(75);
+        Player p11 = pl.getAnyPlayerAtExactRating(75);
 
-            players.add(rb); //rb
-            players.add(lb); //lb
-            players.add(gk); //gk
-            players.add(lcb); //lcb
-            players.add(rcb); //rcb
-            players.add(rm); //rm
-            players.add(cdm); //cdm
-            players.add(lm); //lm
-            players.add(lst); //lst
-            players.add(rst); //rst
-            players.add(cam); //cam
-
-            for (Player p : players) {
-                System.out.println(p.toString());
-            }
-        } catch (PlayerNotFoundException e) {
-            e.printName();
-        }
+        players.add(p1); //rb
+        players.add(p2); //lb
+        players.add(p3); //gk
+        players.add(p4); //lcb
+        players.add(p5); //rcb
+        players.add(p6); //rm
+        players.add(p7); //cdm
+        players.add(p8); //lm
+        players.add(p9); //lst
+        players.add(p10); //rst
+        players.add(p11); //cam
 
         return new Squad(positions, players, f);
     }
