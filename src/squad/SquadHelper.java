@@ -23,17 +23,17 @@ public class SquadHelper implements Serializable {
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.getPlayer("neto", 84);
-            Player kagawa = pl.getPlayer("kagawa", 83);
-            Player navas = pl.getPlayer("navas", 87);
-            Player gimenez = pl.getPlayer("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.getPlayer("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.getPlayer("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.getPlayer("kroos", 90);
-            Player david = pl.getPlayer("david", 89);
-            Player iniesta = pl.getPlayer("iniesta", 87);
-            Player diego = pl.getPlayer("costa", 85);
-            Player isco = pl.getPlayer("isco", 89);
+            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
+            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
+            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
+            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
+            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
+            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
+            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
+            Player david = pl.lookupPlayerByNameAndRating("david", 89);
+            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
+            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
+            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
 
             players.add(neto); //rb
             players.add(kagawa); //lb
@@ -66,17 +66,17 @@ public class SquadHelper implements Serializable {
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.getPlayer("neto", 84);
-            Player kagawa = pl.getPlayer("kagawa", 83);
-            Player navas = pl.getPlayer("navas", 87);
-            Player gimenez = pl.getPlayer("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.getPlayer("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.getPlayer("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.getPlayer("kroos", 90);
-            Player david = pl.getPlayer("david", 89);
-            Player iniesta = pl.getPlayer("iniesta", 87);
-            Player diego = pl.getPlayer("costa", 85);
-            Player isco = pl.getPlayer("isco", 89);
+            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
+            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
+            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
+            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
+            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
+            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
+            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
+            Player david = pl.lookupPlayerByNameAndRating("david", 89);
+            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
+            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
+            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
 
             players.add(neto); //rb
             players.add(kagawa); //lb
@@ -110,17 +110,17 @@ public class SquadHelper implements Serializable {
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.getPlayer("neto", 84);
-            Player kagawa = pl.getPlayer("kagawa", 83);
-            Player navas = pl.getPlayer("navas", 87);
-            Player gimenez = pl.getPlayer("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.getPlayer("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.getPlayer("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.getPlayer("kroos", 90);
-            Player david = pl.getPlayer("david", 89);
-            Player iniesta = pl.getPlayer("iniesta", 87);
-            Player diego = pl.getPlayer("costa", 85);
-            Player isco = pl.getPlayer("isco", 89);
+            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
+            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
+            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
+            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
+            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
+            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
+            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
+            Player david = pl.lookupPlayerByNameAndRating("david", 89);
+            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
+            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
+            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
 
             players.add(neto); //rb
             players.add(kagawa); //lb
@@ -154,17 +154,17 @@ public class SquadHelper implements Serializable {
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player neto = pl.getPlayer("neto", 84);
-            Player kagawa = pl.getPlayer("kagawa", 83);
-            Player navas = pl.getPlayer("navas", 87);
-            Player gimenez = pl.getPlayer("", 84, "uruguay", "CB", "madrid", "");
-            Player savic = pl.getPlayer("", 83, "montenegro", "CB", "madrid", "laliga");
-            Player lucas = pl.getPlayer("lucas", 83, "spain", "", "madrid", "laliga");
-            Player kroos = pl.getPlayer("kroos", 90);
-            Player david = pl.getPlayer("david", 89);
-            Player iniesta = pl.getPlayer("iniesta", 87);
-            Player diego = pl.getPlayer("costa", 85);
-            Player isco = pl.getPlayer("isco", 89);
+            Player neto = pl.lookupPlayerByNameAndRating("neto", 84);
+            Player kagawa = pl.lookupPlayerByNameAndRating("kagawa", 83);
+            Player navas = pl.lookupPlayerByNameAndRating("navas", 87);
+            Player gimenez = pl.lookupPlayerByNameAndRating("", 84, "uruguay", "CB", "madrid", "");
+            Player savic = pl.lookupPlayerByNameAndRating("", 83, "montenegro", "CB", "madrid", "laliga");
+            Player lucas = pl.lookupPlayerByNameAndRating("lucas", 83, "spain", "", "madrid", "laliga");
+            Player kroos = pl.lookupPlayerByNameAndRating("kroos", 90);
+            Player david = pl.lookupPlayerByNameAndRating("david", 89);
+            Player iniesta = pl.lookupPlayerByNameAndRating("iniesta", 87);
+            Player diego = pl.lookupPlayerByNameAndRating("costa", 85);
+            Player isco = pl.lookupPlayerByNameAndRating("isco", 89);
 
             players.add(neto); //rb
             players.add(kagawa); //lb
@@ -197,17 +197,17 @@ public class SquadHelper implements Serializable {
         ArrayList<Position> positions = f.getPositions();
 
         try {
-            Player rb = pl.getPlayer("toljan", 75); //rb
-            Player lb = pl.getPlayer("zeegelaar", 75); //lb
-            Player gk = pl.getPlayer("olsen", 75); //gk
-            Player lcb = pl.getPlayer("mbemba", 75); //lcb
-            Player rcb = pl.getPlayer("sebastian", 75); //rcb
-            Player rm = pl.getPlayer("conti", 75); //rm
-            Player cdm = pl.getPlayer("sanches", 75); //cdm
-            Player lm = pl.getPlayer("bruno", 75); //lm
-            Player lst = pl.getPlayer("niasse", 75); //lst
-            Player rst = pl.getPlayer("diaby", 75); //rst
-            Player cam = pl.getPlayer("winks", 75); //cam
+            Player rb = pl.lookupPlayerByNameAndRating("toljan", 75); //rb
+            Player lb = pl.lookupPlayerByNameAndRating("zeegelaar", 75); //lb
+            Player gk = pl.lookupPlayerByNameAndRating("olsen", 75); //gk
+            Player lcb = pl.lookupPlayerByNameAndRating("mbemba", 75); //lcb
+            Player rcb = pl.lookupPlayerByNameAndRating("sebastian", 75); //rcb
+            Player rm = pl.lookupPlayerByNameAndRating("conti", 75); //rm
+            Player cdm = pl.lookupPlayerByNameAndRating("sanches", 75); //cdm
+            Player lm = pl.lookupPlayerByNameAndRating("bruno", 75); //lm
+            Player lst = pl.lookupPlayerByNameAndRating("niasse", 75); //lst
+            Player rst = pl.lookupPlayerByNameAndRating("diaby", 75); //rst
+            Player cam = pl.lookupPlayerByNameAndRating("winks", 75); //cam
 
             players.add(rb); //rb
             players.add(lb); //lb

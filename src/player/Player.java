@@ -109,11 +109,11 @@ public class Player implements Serializable {
         this.version = version;
     }
 
-    public BasePosition getPos() {
+    public BasePosition getPosBase() {
         return pos;
     }
 
-    public void setPos(BasePosition pos) {
+    public void setPosBase(BasePosition pos) {
         this.pos = pos;
     }
 

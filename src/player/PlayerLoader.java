@@ -1,19 +1,19 @@
 package player;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 
 public class PlayerLoader {
 
+    public static final int MAX_NUMBER_OF_PLAYERS = 15000;
+
     //do union of lists instead of sql queries
-    private HashMap<String, ArrayList<Player>> byTeam;
-    private HashMap<String, ArrayList<Player>> byLeague;
-    private HashMap<String, ArrayList<Player>> byNation;
-    private HashMap<String, ArrayList<Player>> byPos;
-    private HashMap<Integer, ArrayList<Player>> byRating;
+    private HashMap<String, PriorityQueue<Player>> byTeam;
+    private HashMap<String, PriorityQueue<Player>> byLeague;
+    private HashMap<String, PriorityQueue<Player>> byNation;
+    private HashMap<String, PriorityQueue<Player>> byPos;
+    private HashMap<Integer, PriorityQueue<Player>> byRating;
     private ArrayList<Player> allPlayers;
 
     public void loadPlayers(boolean exclude100kPlus) throws IOException {
@@ -47,7 +47,6 @@ public class PlayerLoader {
                     int rating = Integer.parseInt(player[4]);
                     CardType version = mapVersionToCardType(player[6], rating);
 
-
                     if (!team.equals("Icons") && ((price < 100000 && exclude100kPlus) || !exclude100kPlus)) {
 
                         Player p = new Player(name, team, nation, league, pos, version, price, rating, false);
@@ -55,33 +54,32 @@ public class PlayerLoader {
                         allPlayers.add(p);
 
                         if (!byTeam.containsKey(team)) {
-                            byTeam.put(team, new ArrayList<>());
+                            byTeam.put(team, new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator()));
                         }
                         byTeam.get(team).add(p);
 
                         if (!byLeague.containsKey(league)) {
-                            byLeague.put(league, new ArrayList<>());
+                            byLeague.put(league, new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator()));
                         }
                         byLeague.get(league).add(p);
 
                         if (!byNation.containsKey(nation)) {
-                            byNation.put(nation, new ArrayList<>());
+                            byNation.put(nation, new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator()));
                         }
                         byNation.get(nation).add(p);
 
                         if (!byPos.containsKey(pos)) {
-                            byPos.put(pos, new ArrayList<>());
+                            byPos.put(pos, new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator()));
                         }
                         byPos.get(pos).add(p);
 
                         if (!byRating.containsKey(rating)) {
-                            byRating.put(rating, new ArrayList<>());
+                            byRating.put(rating, new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator()));
                         }
                         byRating.get(rating).add(p);
                     }
                 }
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -156,11 +154,100 @@ public class PlayerLoader {
         }
 
         return price_stripped;
-
     }
 
-    public Player getPlayer(String name, int rating, String nation, String position, String team, String league) throws PlayerNotFoundException {
+    // for tests
+    public Player getAnyPlayerAtPositionAndRating(BasePosition pos, int rating) {
+        // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        PriorityQueue<Player> cachedPlayers = this.getByRating().get(rating);
+        for (Player player: cachedPlayers) {
+            // don't need to check rating
+            if (player.getPosBase() == pos) {
+                return player;
+            }
+        }
+        return null;
+    }
 
+    public Player getAnyPlayerAtExactRating(int rating) {
+        // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        if (!this.getByRating().isEmpty()) {
+            return this.getByRating().get(rating).peek();
+        }
+        return null;
+    }
+
+    public ArrayList<Player> getNCheapestAtExactRating(int numPlayers, int rating) {
+        ArrayList<Player> cheapestPlayers = new ArrayList<>();
+        // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        for (int i=0; i<numPlayers; i++) {
+            cheapestPlayers.add(this.getByRating().get(rating).remove());
+        }
+        return cheapestPlayers;
+    }
+
+    public ArrayList<Player> getNCheapestAtMinRating(int numPlayers, int rating) {
+        ArrayList<Player> cheapestPlayers = new ArrayList<>();
+        // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        for (int i=0; i<numPlayers; i++) {
+            // TODO make sure to write a test for this
+            double minPrice = Double.POSITIVE_INFINITY;
+            int minIndex = -1;
+            // each j is a priority queue of min rating "rating", peek each one, find best, remove that one and add
+            for (int j=rating; j<100; j++) {
+                if (this.getByRating().get(j).peek().getPrice() < minPrice) {
+                    minPrice = this.getByRating().get(j).peek().getPrice();
+                    minIndex = j;
+                }
+            }
+            // if minIndex is set, we found a player
+            if (minIndex > 0) {
+                cheapestPlayers.add(this.getByRating().get(minIndex).remove());
+            }
+        }
+        return cheapestPlayers;
+    }
+
+    public ArrayList<Player> getNCheapestAtExactRatingAndPosition(int numPlayers, BasePosition pos, int rating) {
+        ArrayList<Player> cheapestPlayers = new ArrayList<>();
+        // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        while (numPlayers > 0) {
+            Player currentPlayer = this.getByRating().get(rating).remove();
+            if (currentPlayer.getPosBase() == pos) {
+                cheapestPlayers.add(currentPlayer);
+                numPlayers--;
+            }
+        }
+        return cheapestPlayers;
+    }
+
+    public ArrayList<Player> getNCheapestAtMinRatingAndPosition(int numPlayers, BasePosition pos, int rating) {
+        ArrayList<Player> cheapestPlayers = new ArrayList<>();
+        // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        for (int i=0; i<numPlayers; i++) {
+            // TODO make sure to write a test for this
+            double minPrice = Double.POSITIVE_INFINITY;
+            int minIndex = -1;
+            // each j is a priority queue of min rating "rating", peek each one, find best, remove that one and add
+            for (int j=rating; j<100; j++) {
+                while (this.getByRating().get(j).peek().getPosBase() != pos) {
+                    // pop off heap if pos doesn't match - we can't use these players anyway
+                    this.getByRating().get(j).remove();
+                }
+                if (this.getByRating().get(j).peek().getPrice() < minPrice) {
+                    minPrice = this.getByRating().get(j).peek().getPrice();
+                    minIndex = j;
+                }
+            }
+            // if minIndex is set, we found a player
+            if (minIndex > 0) {
+                cheapestPlayers.add(this.getByRating().get(minIndex).remove());
+            }
+        }
+        return cheapestPlayers;
+    }
+
+    public Player lookupPlayerByNameAndRating(String nameSubstring, int rating, String nation, String position, String team, String league) throws PlayerNotFoundException {
         boolean namePresent = false;
         boolean ratingPresent = false;
         boolean nationPresent = false;
@@ -168,7 +255,7 @@ public class PlayerLoader {
         boolean teamPresent = false;
         boolean leaguePresent = false;
 
-        if (!name.equals("")) {
+        if (!nameSubstring.equals("")) {
             namePresent = true;
         }
         if (rating != 0) {
@@ -188,10 +275,10 @@ public class PlayerLoader {
         }
 
         for (Player player: this.allPlayers) {
-            if ((!namePresent || player.getName().toLowerCase().contains(name.toLowerCase())) &&
+            if ((!namePresent || player.getName().toLowerCase().contains(nameSubstring.toLowerCase())) &&
                     (!ratingPresent || player.getRating() == rating) &&
                     (!nationPresent || player.getNation().toLowerCase().contains(nation.toLowerCase()) &&
-                            (!positionPresent || player.getPos().toString().toLowerCase().equals(position.toLowerCase())) &&
+                            (!positionPresent || player.getPosBase().toString().toLowerCase().equals(position.toLowerCase())) &&
                             (!teamPresent || player.getTeam().toLowerCase().contains(team.toLowerCase())) &&
                             (!leaguePresent || player.getLeague().toLowerCase().contains(league.toLowerCase())
             ))) {
@@ -199,26 +286,26 @@ public class PlayerLoader {
             }
         }
 
-        throw new PlayerNotFoundException(name);
-
+        throw new PlayerNotFoundException(nameSubstring);
     }
 
-    public Player getPlayer(String name, int rating) throws PlayerNotFoundException {
+    public Player lookupPlayerByNameAndRating(String nameSubstring, int rating) throws PlayerNotFoundException {
 
         for (Player player: this.allPlayers) {
-            if (player.getName().toLowerCase().contains(name.toLowerCase()) && player.getRating() == rating) {
+            if (player.getName().toLowerCase().contains(nameSubstring.toLowerCase()) && player.getRating() == rating) {
                 return player;
             }
         }
 
-        throw new PlayerNotFoundException(name);
+        throw new PlayerNotFoundException(nameSubstring);
     }
+
 
     public ArrayList<Player> get11FrenchPlayers() {
         ArrayList<Player> frenchPlayers = new ArrayList<>();
 
         for (int i=0; i<11; i++) {
-            frenchPlayers.add(byNation.get("France").get(i));
+            frenchPlayers.add(getByNation().get("France").remove());
         }
 
         return frenchPlayers;
@@ -266,7 +353,6 @@ public class PlayerLoader {
         }
 
         return all82Plus;
-
     }
 
     public ArrayList<Player> getAll83Plus() {
@@ -279,7 +365,6 @@ public class PlayerLoader {
         }
 
         return all83Plus;
-
     }
 
     public ArrayList<Player> getAll84Plus() {
@@ -292,7 +377,6 @@ public class PlayerLoader {
         }
 
         return all84Plus;
-
     }
 
     public ArrayList<Player> getAll85Plus() {
@@ -305,7 +389,6 @@ public class PlayerLoader {
         }
 
         return all85Plus;
-
     }
 
     public ArrayList<Player> getAll86Plus() {
@@ -318,7 +401,6 @@ public class PlayerLoader {
         }
 
         return all86Plus;
-
     }
 
     public ArrayList<Player> getAll87Plus() {
@@ -331,7 +413,6 @@ public class PlayerLoader {
         }
 
         return all87Plus;
-
     }
 
     public ArrayList<Player> getAll81Plus() {
@@ -344,30 +425,29 @@ public class PlayerLoader {
         }
 
         return all87Plus;
-
     }
 
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }
 
-    public HashMap<Integer, ArrayList<Player>> getByRating() {
+    public HashMap<Integer, PriorityQueue<Player>> getByRating() {
         return byRating;
     }
 
-    public HashMap<String, ArrayList<Player>> getByTeam() {
+    public HashMap<String, PriorityQueue<Player>> getByTeam() {
         return byTeam;
     }
 
-    public HashMap<String, ArrayList<Player>> getByLeague() {
+    public HashMap<String, PriorityQueue<Player>> getByLeague() {
         return byLeague;
     }
 
-    public HashMap<String, ArrayList<Player>> getByNation() {
+    public HashMap<String, PriorityQueue<Player>> getByNation() {
         return byNation;
     }
 
-    public HashMap<String, ArrayList<Player>> getByPos() {
+    public HashMap<String, PriorityQueue<Player>> getByPos() {
         return byPos;
     }
 }

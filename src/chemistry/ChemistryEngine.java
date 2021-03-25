@@ -20,7 +20,7 @@ public class ChemistryEngine {
 
             int playerChem = 0;
 
-            Position cur_pos = new Position(player.getPos());
+            Position cur_pos = new Position(player.getPosBase());
             int init_positional_chem = positionChem(pos, cur_pos);
 
             int links = 0;
@@ -167,7 +167,6 @@ public class ChemistryEngine {
         if (p1.getTeam().equals(p2.getTeam())) {
             links += 1;
         }
-
 
         return links;
     }

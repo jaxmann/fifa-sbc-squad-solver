@@ -8,8 +8,8 @@ import player.ActualPosition;
 import player.BasePosition;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,20 +71,22 @@ class PlayerLoaderTest {
         assertTrue(frenchies.stream().allMatch(player -> player.getNation().equals("France")));
     }
 
+
     @Test
     void test_getByTeam() {
-        HashMap<String, ArrayList<Player>> byTeam = pl.getByTeam();
+        HashMap<String, PriorityQueue<Player>> byTeam = pl.getByTeam();
 
-        assertTrue(byTeam.containsKey("Borussia Dortmund"));
-        assertTrue(byTeam.containsKey("Juventus"));
+        ArrayList<String> expectedTeams = new ArrayList<>(Arrays.asList("Dortmund", "FC Barcelona", "Paris", "Manchester United"));
+
+        assertTrue(byTeam.containsKey("Dortmund"));
         assertTrue(byTeam.containsKey("FC Barcelona"));
-        assertTrue(byTeam.containsKey("Paris Saint-Germain"));
+        assertTrue(byTeam.containsKey("Paris"));
         assertTrue(byTeam.containsKey("Manchester United"));
     }
 
     @Test
     void test_getByLeague() {
-        HashMap<String, ArrayList<Player>> byLeague = pl.getByLeague();
+        HashMap<String, PriorityQueue<Player>> byLeague = pl.getByLeague();
 
         assertTrue(byLeague.containsKey("Serie A TIM"));
         assertTrue(byLeague.containsKey("LaLiga Santander"));
@@ -95,7 +97,7 @@ class PlayerLoaderTest {
 
     @Test
     void test_getByNation() {
-        HashMap<String, ArrayList<Player>> byNation = pl.getByNation();
+        HashMap<String, PriorityQueue<Player>> byNation = pl.getByNation();
 
         assertTrue(byNation.containsKey("France"));
         assertTrue(byNation.containsKey("Uruguay"));
@@ -106,7 +108,7 @@ class PlayerLoaderTest {
 
     @Test
     void test_getByPos() {
-        HashMap<String, ArrayList<Player>> byPos = pl.getByPos();
+        HashMap<String, PriorityQueue<Player>> byPos = pl.getByPos();
 
         // validate default positions exist
         assertTrue(byPos.containsKey(BasePosition.RB.toString()));
@@ -122,12 +124,43 @@ class PlayerLoaderTest {
 
     @Test
     void test_getByRating() {
-        HashMap<Integer, ArrayList<Player>> byRating = pl.getByRating();
+        HashMap<Integer, PriorityQueue<Player>> byRating = pl.getByRating();
 
         assertTrue(byRating.containsKey(85));
         assertTrue(byRating.containsKey(76));
         assertTrue(byRating.containsKey(90));
         assertTrue(byRating.containsKey(88));
-        assertTrue(byRating.containsKey(54));
+    }
+
+    @Test
+    void test_mapVersionToCardType() {
+    }
+
+    @Test
+    void test_convertStringPriceToDouble() {
+    }
+
+    @Test
+    void test_getAnyPlayerAtPositionAndRating() {
+    }
+
+    @Test
+    void test_getAnyPlayerAtExactRating() {
+    }
+
+    @Test
+    void test_getNCheapestAtExactRating() {
+    }
+
+    @Test
+    void test_getNCheapestAtMinRating() {
+    }
+
+    @Test
+    void test_getNCheapestAtExactRatingAndPosition() {
+    }
+
+    @Test
+    void test_getNCheapestAtMinRatingAndPosition() {
     }
 }

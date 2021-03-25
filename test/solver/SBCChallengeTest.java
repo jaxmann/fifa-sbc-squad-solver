@@ -25,20 +25,20 @@ public class SBCChallengeTest {
         Squad current = null;
         ArrayList<Player> availablePlayers = null;
         try {
-            current = SquadHelper.create75DefaultSquad();
+            current = SquadHelper.create75GoldNonRareTestSquad();
             PlayerLoader pl = new PlayerLoader();
             pl.loadPlayers(true);
-            availablePlayers = pl.getAll84Plus();
+            availablePlayers = pl.getAll86Plus();
         } catch (Exception e) {
             fail(e.getMessage());
         }
 
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
-//        Constraint.Constraint c1 = new Constraint.Constraint(Constraint.ConstraintType.MINCHEM);
-//        c1.setMinChem(80);
+//        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
+//        c1.setMinChem(60);
         Constraint c2 = new Constraint(ConstraintType.MINRATING);
-        c2.setMinRating(85);
+        c2.setMinRating(87);
 
         Constraints constraints = new Constraints();
 //        constraints.addConstraint(c1);
