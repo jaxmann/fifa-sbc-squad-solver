@@ -1,7 +1,7 @@
 package squad;
 
 import player.CardType;
-import player.PlayerLoader;
+import player.PlayerLoaderUtil;
 import player.PlayerNotFoundException;
 import player.BasePosition;
 import squad.formation.Formation;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class SquadHelper implements Serializable {
 
     public static Squad create87DefaultSquad() throws IOException {
-        PlayerLoader pl = new PlayerLoader();
+        PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
@@ -58,7 +58,7 @@ public class SquadHelper implements Serializable {
     }
 
     public static Squad create71ChemSquad() throws IOException {
-        PlayerLoader pl = new PlayerLoader();
+        PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
@@ -102,7 +102,7 @@ public class SquadHelper implements Serializable {
 
 
     public static Squad create85DefaultSquad() throws IOException { //not implemented
-        PlayerLoader pl = new PlayerLoader();
+        PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
@@ -146,7 +146,7 @@ public class SquadHelper implements Serializable {
 
 
     public static Squad create83DefaultSquad() throws IOException { //not implemented
-        PlayerLoader pl = new PlayerLoader();
+        PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
@@ -189,7 +189,7 @@ public class SquadHelper implements Serializable {
     }
 
     public static Squad create75DefaultSquad() throws IOException {
-        PlayerLoader pl = new PlayerLoader();
+        PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();

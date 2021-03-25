@@ -4,11 +4,10 @@ import java.io.*;
 import java.util.*;
 
 
-public class PlayerLoader {
+public class PlayerLoaderUtil {
 
-    public static final int MAX_NUMBER_OF_PLAYERS = 15000;
+    private static final int MAX_NUMBER_OF_PLAYERS = 15000;
 
-    //do union of lists instead of sql queries
     private HashMap<String, PriorityQueue<Player>> byTeam;
     private HashMap<String, PriorityQueue<Player>> byLeague;
     private HashMap<String, PriorityQueue<Player>> byNation;
@@ -135,22 +134,18 @@ public class PlayerLoader {
 
     public static double convertStringPriceToDouble(String price) {
 
-        double price_stripped = 0.0;
+        double price_stripped;
         if (price.matches("^[0-9]+\\.?[0-9]*?[Mm]$")) {
-            String price_temp = price.replace("M","");
+            String price_temp = price.replaceAll("[Mm]","");
             price_stripped = 1000000*Double.parseDouble(price_temp);
         } else if (price.matches("^[0-9]+\\.?[0-9]*?[Kk]$")) {
-            String price_temp = price.replace("K", "");
+            String price_temp = price.replaceAll("[Kk]", "");
             price_stripped = 1000*Double.parseDouble(price_temp);
         } else if (price.matches(".*[a-zA-Z].*")) {
             // probably an CSV crawling error to make a string appear in this position, but likely means it's untradeable anyway
             price_stripped = 15000000;
         } else {
             price_stripped = Double.parseDouble(price);
-        }
-
-        if (price_stripped < 50) {
-            price_stripped = 1000000;
         }
 
         return price_stripped;
@@ -171,7 +166,7 @@ public class PlayerLoader {
 
     public Player getAnyPlayerAtExactRating(int rating) {
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
-        if (!this.getByRating().isEmpty()) {
+        if (this.getByRating().containsKey(rating)) {
             return this.getByRating().get(rating).peek();
         }
         return null;
@@ -181,7 +176,11 @@ public class PlayerLoader {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
         for (int i=0; i<numPlayers; i++) {
-            cheapestPlayers.add(this.getByRating().get(rating).remove());
+            if (this.getByRating().containsKey(rating)) {
+                cheapestPlayers.add(this.getByRating().get(rating).remove());
+            } else {
+                continue;
+            }
         }
         return cheapestPlayers;
     }
@@ -190,14 +189,15 @@ public class PlayerLoader {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
         for (int i=0; i<numPlayers; i++) {
-            // TODO make sure to write a test for this
             double minPrice = Double.POSITIVE_INFINITY;
             int minIndex = -1;
             // each j is a priority queue of min rating "rating", peek each one, find best, remove that one and add
             for (int j=rating; j<100; j++) {
-                if (this.getByRating().get(j).peek().getPrice() < minPrice) {
-                    minPrice = this.getByRating().get(j).peek().getPrice();
-                    minIndex = j;
+                if (this.getByRating().containsKey(j) && !this.getByRating().get(j).isEmpty()) {
+                    if (this.getByRating().get(j).peek().getPrice() < minPrice) {
+                        minPrice = this.getByRating().get(j).peek().getPrice();
+                        minIndex = j;
+                    }
                 }
             }
             // if minIndex is set, we found a player
@@ -212,10 +212,17 @@ public class PlayerLoader {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
         while (numPlayers > 0) {
-            Player currentPlayer = this.getByRating().get(rating).remove();
-            if (currentPlayer.getPosBase() == pos) {
-                cheapestPlayers.add(currentPlayer);
-                numPlayers--;
+            if (this.getByRating().containsKey(rating)) {
+                Player currentPlayer = this.getByRating().get(rating).remove();
+                if (currentPlayer.getPosBase() == pos) {
+                    cheapestPlayers.add(currentPlayer);
+                    numPlayers--;
+                }
+                if (this.getByRating().get(rating).isEmpty()) {
+                    break;
+                }
+            } else {
+                break;
             }
         }
         return cheapestPlayers;
@@ -225,18 +232,19 @@ public class PlayerLoader {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
         for (int i=0; i<numPlayers; i++) {
-            // TODO make sure to write a test for this
             double minPrice = Double.POSITIVE_INFINITY;
             int minIndex = -1;
             // each j is a priority queue of min rating "rating", peek each one, find best, remove that one and add
             for (int j=rating; j<100; j++) {
-                while (this.getByRating().get(j).peek().getPosBase() != pos) {
-                    // pop off heap if pos doesn't match - we can't use these players anyway
-                    this.getByRating().get(j).remove();
-                }
-                if (this.getByRating().get(j).peek().getPrice() < minPrice) {
-                    minPrice = this.getByRating().get(j).peek().getPrice();
-                    minIndex = j;
+                if (this.getByRating().containsKey(j) && !this.getByRating().get(j).isEmpty()) {
+                    while (!this.getByRating().get(j).isEmpty() && this.getByRating().get(j).peek().getPosBase() != pos) {
+                        // pop off heap if pos doesn't match - we can't use these players anyway
+                        this.getByRating().get(j).remove();
+                    }
+                    if (!this.getByRating().get(j).isEmpty() && this.getByRating().get(j).peek().getPrice() < minPrice) {
+                        minPrice = this.getByRating().get(j).peek().getPrice();
+                        minIndex = j;
+                    }
                 }
             }
             // if minIndex is set, we found a player

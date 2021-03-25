@@ -6,9 +6,7 @@ import constraint.ConstraintType;
 import constraint.Constraints;
 import org.junit.Ignore;
 import player.Player;
-import player.PlayerLoader;
-import solver.Combinations;
-import solver.SBCChallenge;
+import player.PlayerLoaderUtil;
 import squad.Squad;
 import squad.SquadHelper;
 import org.junit.Test;
@@ -26,7 +24,7 @@ public class SBCChallengeTest {
         ArrayList<Player> availablePlayers = null;
         try {
             current = SquadHelper.create75GoldNonRareTestSquad();
-            PlayerLoader pl = new PlayerLoader();
+            PlayerLoaderUtil pl = new PlayerLoaderUtil();
             pl.loadPlayers(true);
             availablePlayers = pl.getAll86Plus();
         } catch (Exception e) {
@@ -55,11 +53,11 @@ public class SBCChallengeTest {
 
         Squad s = null;
         ArrayList<Player> allPlayers = null;
-        PlayerLoader pl = null;
+        PlayerLoaderUtil pl = null;
 
         try {
             s = SquadHelper.create87DefaultSquad();
-            pl = new PlayerLoader();
+            pl = new PlayerLoaderUtil();
             pl.loadPlayers(true);
             allPlayers = pl.getAllPlayers();
         } catch (Exception e) {

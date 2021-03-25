@@ -1,10 +1,8 @@
 package squad;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import player.Player;
-import player.PlayerLoader;
-import squad.Squad;
+import player.PlayerLoaderUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SquadTest {
 
-    PlayerLoader pl;
+    PlayerLoaderUtil pl;
 
     @BeforeEach
     public void setUp() throws IOException {
-        pl = new PlayerLoader();
+        pl = new PlayerLoaderUtil();
         pl.loadPlayers(true);
     }
 
