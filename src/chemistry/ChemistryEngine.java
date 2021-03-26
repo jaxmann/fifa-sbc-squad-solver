@@ -144,13 +144,7 @@ public class ChemistryEngine {
                 }
             }
 
-            //work in progress
-//            System.out.println("player: " + player.getName() + " has " + links + "/" + neighbors.size());
-//            System.out.println("player: " + player.getName() + " at position " + pos.getActual() + " on " + playerChem + " chem");
-
-
             totalChem += playerChem;
-
         }
         return totalChem;
     }

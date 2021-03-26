@@ -1,12 +1,12 @@
 package chemistry;
 
 import org.junit.jupiter.api.BeforeEach;
-import player.BasePosition;
-import player.Player;
-import player.PlayerLoaderUtil;
-import player.Position;
+import player.*;
 import squad.Squad;
 import org.junit.jupiter.api.Test;
+import squad.SquadHelper;
+import squad.formation.Formation;
+import squad.formation.FormationFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,51 +24,40 @@ class ChemistryEngineTest {
     }
 
     @Test
-    void test_calculateChemistry_oneNationSquad() {
-        long seed = new Long(10);
-        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
-        Squad s = new Squad(randos);
+    void test_calculateChemistry_nationLinksOnly() throws Exception {
+        ArrayList<Player> players = new ArrayList<>();
+        FormationFactory ff = new FormationFactory();
+        Formation f = ff.getFormation("41212");
+        ArrayList<Position> positions = f.getPositions();
+
+        Player p1 = new Player("name", "team1", "germany", "league1", BasePosition.RB);
+        Player p2 = new Player("name", "team2", "germany", "league2", BasePosition.LB);
+        Player p3 = new Player("name", "team3", "germany", "league3", BasePosition.GK);
+        Player p4 = new Player("name", "team4", "germany", "league4", BasePosition.CB);
+        Player p5 = new Player("name", "team5", "germany", "league5", BasePosition.CB);
+        Player p6 = new Player("name", "team6", "germany", "league6", BasePosition.RM);
+        Player p7 = new Player("name", "team7", "germany", "league7", BasePosition.CDM);
+        Player p8 = new Player("name", "team8", "germany", "league8", BasePosition.LM);
+        Player p9 = new Player("name", "team9", "germany", "league9", BasePosition.ST);
+        Player p10 = new Player("name", "team10", "germany", "league10", BasePosition.ST);
+        Player p11 = new Player("name", "team11", "germany", "league11", BasePosition.CAM);
+
+        players.add(p1); //rb
+        players.add(p2); //lb
+        players.add(p3); //gk
+        players.add(p4); //lcb
+        players.add(p5); //rcb
+        players.add(p6); //rm
+        players.add(p7); //cdm
+        players.add(p8); //lm
+        players.add(p9); //lst
+        players.add(p10); //rst
+        players.add(p11); //cam
+
+        Squad s = new Squad(positions, players, f);
 
         //this could change as new player dataset is imported
-        assertEquals(6, ChemistryEngine.calculateChemistry(s));
-    }
-
-    @Test
-    void test_calculateChemistryRandom11_v1() {
-        long seed = new Long(10);
-        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
-        Squad s = new Squad(randos);
-
-        //this could change as new player dataset is imported
-        assertEquals(6, ChemistryEngine.calculateChemistry(s));
-    }
-
-    @Test
-    void test_calculateChemistryRandom11_v2() {
-        long seed = new Long(11);
-        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
-        Squad s = new Squad(randos);
-
-        //this could change as new player dataset is imported
-        assertEquals(10, ChemistryEngine.calculateChemistry(s));
-    }
-
-    @Test
-    void test_calculateChemistryRandomNation11_v1() {
-        long seed = new Long(13);
-        ArrayList<Player> randos = pl.get11RandomPlayersFromNation(seed, "Germany");
-        Squad s = new Squad(randos);
-
-        assertEquals(53, ChemistryEngine.calculateChemistry(s));
-    }
-
-    @Test
-    void test_calculateChemistryRandom11_v4() {
-        long seed = new Long(10);
-        ArrayList<Player> randos = pl.get11RandomGoldPlayers(seed);
-        Squad s = new Squad(randos);
-
-        assertEquals(6, ChemistryEngine.calculateChemistry(s));
+        assertEquals(99, ChemistryEngine.calculateChemistry(s));
     }
 
     @Test

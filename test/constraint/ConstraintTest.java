@@ -23,7 +23,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create39ChemSquad();
+            s = SquadHelper.create43ChemSquad();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -38,7 +38,7 @@ public class ConstraintTest {
 
         Squad s = null;
         try {
-            s = SquadHelper.create39ChemSquad();
+            s = SquadHelper.create43ChemSquad();
         } catch (Exception e) {
             fail(e.getMessage());
         }

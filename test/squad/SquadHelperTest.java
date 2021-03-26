@@ -22,8 +22,8 @@ class SquadHelperTest {
 
     @Test
     void create39ChemSquad() throws Exception {
-        Squad s = SquadHelper.create39ChemSquad();
-        assertEquals(39, ChemistryEngine.calculateChemistry(s));
+        Squad s = SquadHelper.create43ChemSquad();
+        assertEquals(43, ChemistryEngine.calculateChemistry(s));
     }
 
     @Test

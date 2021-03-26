@@ -54,7 +54,7 @@ public class SquadHelper implements Serializable {
         return new Squad(positions, players, f);
     }
 
-    public static Squad create39ChemSquad() throws Exception {
+    public static Squad create43ChemSquad() throws Exception {
         PlayerLoaderUtil pl = new PlayerLoaderUtil();
         pl.loadPlayers(false);
         ArrayList<Player> players = new ArrayList<>();
@@ -73,7 +73,7 @@ public class SquadHelper implements Serializable {
             Player p8 = pl.lookupPlayer("grimaldo", 87);
             Player p9 = pl.lookupPlayer("rafa", 83);
             Player p10 = pl.lookupPlayer("strakosha", 83);
-            Player p11 = pl.lookupPlayer("gonzalo", 83);
+            Player p11 = pl.lookupPlayer("gonzalo", 83); //the juventus one
 
             players.add(p3); //rb
             players.add(p8); //lb
