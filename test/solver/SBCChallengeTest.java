@@ -4,6 +4,7 @@ import chemistry.ChemistryEngine;
 import constraint.Constraint;
 import constraint.ConstraintType;
 import constraint.Constraints;
+import org.junit.Before;
 import org.junit.Ignore;
 import player.BasePosition;
 import player.CardType;
@@ -18,6 +19,14 @@ import static org.junit.Assert.fail;
 
 public class SBCChallengeTest {
 
+    private PlayerLoaderUtil pl;
+
+    @Before
+    public void setUp() throws Exception {
+        pl = new PlayerLoaderUtil();
+        pl.loadPlayers(false);
+    }
+
     @Ignore
     @Test
     public void test_simulatedAnnealing() {
@@ -26,9 +35,9 @@ public class SBCChallengeTest {
         ArrayList<Player> availablePlayers = null;
         try {
             current = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
-            PlayerLoaderUtil pl = new PlayerLoaderUtil();
             pl.loadPlayers(false);
-            availablePlayers = pl.getAll86Plus();
+            availablePlayers = pl.getAll83Plus();
+//            availablePlayers = pl.getNCheapestAtMinRating(800, 84);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -36,13 +45,17 @@ public class SBCChallengeTest {
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
 //        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
-//        c1.setMinChem(60);
+//        c1.setMinChem(50);
         Constraint c2 = new Constraint(ConstraintType.MINRATING);
         c2.setMinRating(87);
+        Constraint c3 = new Constraint(ConstraintType.MIN_OF_CARDTYPE);
+        c3.setCardType(CardType.GOLD_IF);
+        c3.setMin_of_cardtype(1);
 
         Constraints constraints = new Constraints();
 //        constraints.addConstraint(c1);
         constraints.addConstraint(c2);
+//        constraints.addConstraint(c3);
 
         //END CONSTRAINTS
 

@@ -19,6 +19,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class Squad implements Serializable {
 
@@ -116,6 +118,46 @@ public class Squad implements Serializable {
         }
 
         return copy;
+    }
+
+    // idk why I made this function so digusting but Big Oh is best it can be I think
+    public static Squad swapNRandomPlayers(int numPlayersToSwap, Squad currentSquad, ArrayList<Player> availablePlayers) {
+
+        LinkedList<Integer> indicesToReplace = getNRandomDistinctIndicesInRange(numPlayersToSwap, 11);
+        LinkedList<Integer> playerIndicesToSwapIn = getNRandomDistinctIndicesInRange(numPlayersToSwap, availablePlayers.size());
+
+        Squad copy = currentSquad.deepClone();
+
+        int indToReplace;
+        int indToAdd;
+
+        while (!indicesToReplace.isEmpty()) {
+            indToReplace = indicesToReplace.pop();
+            indToAdd = playerIndicesToSwapIn.pop();
+            //exit early if trying to change bricked player - prob better way to do this than checking name but w/e
+            if (currentSquad.getPlayers().get(indToReplace).getName().equals("brickedPlayer")) {
+                return currentSquad;
+            }
+
+            copy.getPlayers().remove(copy.getLineup().get(copy.getPositions().get(indToReplace)));
+            copy.getPlayers().add(availablePlayers.get(indToAdd));
+            copy.getLineup().put(copy.getPositions().get(indToReplace), availablePlayers.get(indToAdd));
+
+        }
+
+        return copy;
+    }
+
+    public static LinkedList<Integer> getNRandomDistinctIndicesInRange(int numValues, int maxRange) {
+        HashSet<Integer> randomIndices = new HashSet<>();
+        Random random = new Random();
+        while (randomIndices.size() < numValues) {
+            int randNum = random.nextInt(maxRange);
+            if (!randomIndices.contains(randNum)) {
+                randomIndices.add(randNum);
+            }
+        }
+        return new LinkedList<>(randomIndices);
     }
 
     public void updateAtPos(int i, Player p) {

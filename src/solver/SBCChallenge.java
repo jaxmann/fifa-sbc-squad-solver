@@ -50,7 +50,6 @@ public class SBCChallenge {
 
     }
 
-    //pass in an "Annealing Params" instead of a bunch of variables
     public void runSimulatedAnnealing(Squad current, ArrayList<Player> availablePlayers, boolean simAnnealing, boolean hillClimbing) {
 
         Squad bestSquad = current;
@@ -60,7 +59,6 @@ public class SBCChallenge {
         double alpha = 0.95;
         int numIterations = 1000;
         int maxSwaps = 8; //max number is 11 (potentially swap all 11 players during an iteration)
-
 
         double bestScore = getFitnessScore(current);
 
@@ -80,16 +78,17 @@ public class SBCChallenge {
                 }
 
                 int numSwaps = ThreadLocalRandom.current().nextInt(1, maxSwaps + 1);
-                Squad newSquad = current;
-                while (numSwaps > 0) {
-
-                    int randomInd = SBCChallenge.getRandomNumber(11);
-                    int randomPlayer = SBCChallenge.getRandomNumber(availablePlayers.size());
-                    newSquad = Squad.newAtPos(newSquad, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
-
-                    numSwaps--;
-
-                }
+//                Squad newSquad = current;
+                // do n swaps in 1 func
+                Squad newSquad = Squad.swapNRandomPlayers(numSwaps, current, availablePlayers);
+//                while (numSwaps > 0) {
+//
+//                    int randomInd = SBCChallenge.getRandomNumber(11);
+//                    int randomPlayer = SBCChallenge.getRandomNumber(availablePlayers.size());
+//                    newSquad = Squad.newAtPos(newSquad, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
+//
+//                    numSwaps--;
+//                }
 
                 double newScore = getFitnessScore(newSquad);
 
@@ -144,11 +143,7 @@ public class SBCChallenge {
     }
 
     public static int getRandomNumber(int maxValExclusive) {
-//        long seed = new Long(10);
-
         Random randomGenerator = new Random();
-//        randomGenerator.setSeed(seed);
-
         return randomGenerator.nextInt(maxValExclusive);
     }
 

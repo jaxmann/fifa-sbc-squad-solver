@@ -189,6 +189,50 @@ class SquadTest {
     }
 
     @Test
+    void swapNRandomPlayers_cannotAddToBrick() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        s.setBrick(new Brick(new Position(BasePosition.GK)));
+        // index of brickedPlayer in createTestSquad is last index
+
+        // should end early because not possible to swap out 11 players without having to swap the 1 brick
+        Squad newSquad = Squad.swapNRandomPlayers(11, s, pl.getAll86Plus());
+
+        assertEquals(s, newSquad);
+    }
+
+    @Test
+    void swapNRandomPlayers_swap11Players() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        // should end early because not possible to swap out 11 players without having to swap the 1 brick
+        Squad newSquad = Squad.swapNRandomPlayers(11, s, pl.getAll86Plus());
+
+        assertTrue(newSquad.getPlayers().stream().allMatch(player -> !s.getPlayers().contains(player)));
+    }
+
+    @Test
+    void swapNRandomPlayers_swap0Players() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        // should end early because not possible to swap out 11 players without having to swap the 1 brick
+        Squad newSquad = Squad.swapNRandomPlayers(0, s, pl.getAll86Plus());
+
+        assertTrue(newSquad.getPlayers().stream().allMatch(player -> s.getPlayers().contains(player)));
+    }
+
+    @Test
+    void swapNRandomPlayers_swapSomePlayers() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        // should end early because not possible to swap out 11 players without having to swap the 1 brick
+        Squad newSquad = Squad.swapNRandomPlayers(6, s, pl.getAll86Plus());
+
+        assertTrue(newSquad.getPlayers().stream().anyMatch(player -> player.getRating() >= 86));
+        assertTrue(newSquad.getPlayers().stream().anyMatch(player -> player.getRating() < 86));
+    }
+
+    @Test
     void updateAtPos() {
     }
 

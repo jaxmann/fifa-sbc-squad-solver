@@ -1,6 +1,7 @@
 package player;
 
 import java.io.*;
+import java.lang.reflect.Field;
 
 public class Player implements Serializable {
 
@@ -45,6 +46,29 @@ public class Player implements Serializable {
         this.nation = nation;
         this.league = league;
         this.pos = pos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        Player p = (Player) o;
+        return this.getName().equals(p.getName()) &&
+                this.getTeam().equals(p.getTeam()) &&
+                this.getNation().equals(p.getNation()) &&
+                this.getLeague().equals(p.getLeague()) &&
+                this.getRating() == p.getRating() &&
+                this.getPrice() == p.getPrice() &&
+                this.getLoyalty() == p.getLoyalty() &&
+                this.getVersion() == p.getVersion() &&
+                this.getPosBase() == p.getPosBase();
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode() ^ getTeam().hashCode() ^ getName().hashCode() ^ getNation().hashCode() ^ getLeague().hashCode()
+                ^ getVersion().hashCode() ^ getPosBase().hashCode();
     }
 
     public Player deepClone() {

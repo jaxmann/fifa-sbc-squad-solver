@@ -135,7 +135,10 @@ public class PlayerLoaderUtil {
     public static double convertStringPriceToDouble(String price) {
 
         double price_stripped;
-        if (price.matches("^[0-9]+\\.?[0-9]*?[Mm]$")) {
+        if (price.equals("1") || price.equals("0")) {
+            // fix for now: Ligue 1 POTM that causes price to be 1 or 0
+            price_stripped = 15000000;
+        } else if (price.matches("^[0-9]+\\.?[0-9]*?[Mm]$")) {
             String price_temp = price.replaceAll("[Mm]","");
             price_stripped = 1000000*Double.parseDouble(price_temp);
         } else if (price.matches("^[0-9]+\\.?[0-9]*?[Kk]$")) {
