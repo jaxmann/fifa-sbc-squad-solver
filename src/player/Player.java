@@ -54,15 +54,21 @@ public class Player implements Serializable {
             return false;
         }
         Player p = (Player) o;
-        return this.getName().equals(p.getName()) &&
-                this.getTeam().equals(p.getTeam()) &&
-                this.getNation().equals(p.getNation()) &&
-                this.getLeague().equals(p.getLeague()) &&
-                this.getRating() == p.getRating() &&
-                this.getPrice() == p.getPrice() &&
-                this.getLoyalty() == p.getLoyalty() &&
-                this.getVersion() == p.getVersion() &&
-                this.getPosBase() == p.getPosBase();
+        try {
+            return this.getName().equals(p.getName()) &&
+                    this.getTeam().equals(p.getTeam()) &&
+                    this.getNation().equals(p.getNation()) &&
+                    this.getLeague().equals(p.getLeague()) &&
+                    this.getRating() == p.getRating() &&
+                    this.getPrice() == p.getPrice() &&
+                    this.getLoyalty() == p.getLoyalty() &&
+                    this.getVersion() == p.getVersion() &&
+                    this.getPosBase() == p.getPosBase();
+        } catch (NullPointerException e) {
+            System.out.println("Unable to compare player - NPE");
+            return false;
+        }
+
     }
 
     @Override

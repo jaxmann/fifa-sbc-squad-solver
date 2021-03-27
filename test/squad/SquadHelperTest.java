@@ -1,53 +1,55 @@
 package squad;
 
 import chemistry.ChemistryEngine;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import player.BasePosition;
 import player.CardType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class SquadHelperTest {
+public class SquadHelperTest {
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
     }
 
     @Test
-    void create87DefaultSquad() throws Exception {
+    public void create87DefaultSquad() throws Exception {
         Squad s = SquadHelper.create87DefaultSquad();
-        assertEquals(87, s.getSquadRating());
+        assertEquals(87.0, s.getSquadRating());
     }
 
     @Test
-    void create39ChemSquad() throws Exception {
+    public void create39ChemSquad() throws Exception {
         Squad s = SquadHelper.create43ChemSquad();
-        assertEquals(43, ChemistryEngine.calculateChemistry(s));
+        assertEquals(43.0, ChemistryEngine.calculateChemistry(s));
     }
 
     @Test
-    void create85DefaultSquad() throws Exception {
+    public void create85DefaultSquad() throws Exception {
         Squad s = SquadHelper.create85DefaultSquad();
-        assertEquals(85, s.getSquadRating());
+        assertEquals(85.0, s.getSquadRating());
     }
 
     @Test
-    void create83DefaultSquad() throws Exception {
+    public void create83DefaultSquad() throws Exception {
         Squad s = SquadHelper.create83DefaultSquad();
-        assertEquals(83, s.getSquadRating());
+        assertEquals(83.0, s.getSquadRating());
     }
 
     @Test
-    void create75DefaultSquad() throws Exception {
+    public void create75DefaultSquad() throws Exception {
         Squad s = SquadHelper.create75DefaultSquad();
-        assertEquals(75, s.getSquadRating());
+        assertEquals(75.0, s.getSquadRating());
     }
 
     @Test
-    void createTestSquad() throws Exception {
+    public void createTestSquad() throws Exception {
         Squad s = SquadHelper.createTestSquad("team", "germany", "bundesliga", BasePosition.GK, CardType.GOLD_IF, 800, 89, false);
-        assertEquals(89, s.getSquadRating());
+        assertEquals(89.0, s.getSquadRating());
         assertTrue(s.getPlayers().stream().allMatch(player -> player.getTeam().equals("team")));
         assertTrue(s.getPlayers().stream().allMatch(player -> player.getNation().equals("germany")));
         assertTrue(s.getPlayers().stream().allMatch(player -> player.getLeague().equals("bundesliga")));

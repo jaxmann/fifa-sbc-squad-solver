@@ -2,16 +2,19 @@ package squad;
 
 import player.Player;
 import squad.Squad;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class RatingEngineTest {
+public class RatingEngineTest {
 
     @Test
-    void test83RatingV1() {
+    public void test83RatingV1() {
 
         ArrayList<Player> r1 = new ArrayList<>();
 
@@ -46,7 +49,7 @@ class RatingEngineTest {
     }
 
     @Test
-    void test84RatingV1() {
+    public void test84RatingV1() {
 
         ArrayList<Player> r2 = new ArrayList<>();
 

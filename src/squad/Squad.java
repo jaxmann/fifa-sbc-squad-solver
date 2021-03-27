@@ -4,13 +4,10 @@ import chemistry.ChemistryEngine;
 import constraint.Brick;
 import constraint.Constraint;
 import constraint.Constraints;
-import player.CardType;
-import player.ActualPosition;
+import player.*;
 import squad.formation.Formation;
 import squad.formation.FormationFactory;
 import squad.formation.Graph;
-import player.Player;
-import player.Position;
 
 import java.io.Serializable;
 import java.util.*;
@@ -120,7 +117,38 @@ public class Squad implements Serializable {
         return copy;
     }
 
-    // idk why I made this function so digusting but Big Oh is best it can be I think
+    public static Squad replacePlayer(Squad currentSquad, Player oldPlayer, Player newPlayer) {
+
+        //exit early if player not found OR trying to change bricked player OR player already exists once
+        if (currentSquad.getPlayers().indexOf(oldPlayer) < 0 || oldPlayer.getName().equals(Squad.BRICKED_PLAYER_NAME) || currentSquad.getPlayers().indexOf(newPlayer) >= 0) {
+            return currentSquad;
+        }
+
+        Squad copy = currentSquad.deepClone();
+
+        copy.getPlayers().set(copy.getPlayers().indexOf(oldPlayer), newPlayer);
+
+        for (Map.Entry<Position, Player> entry : copy.getLineup().entrySet()) {
+            if (entry.getValue().equals(oldPlayer)) {
+                entry.setValue(newPlayer);
+            }
+        }
+
+        return copy;
+    }
+
+    public static Player getPlayerAtActualPos(Squad currentSquad, ActualPosition actualPosition) {
+
+        for (Map.Entry<Position, Player> entry : currentSquad.getLineup().entrySet()) {
+            if (entry.getKey().getActualPosition() == actualPosition) {
+                return entry.getValue();
+            }
+        }
+
+        // player not found
+        return null;
+    }
+
     public static Squad swapNRandomPlayers(int numPlayersToSwap, Squad currentSquad, ArrayList<Player> availablePlayers) {
 
         LinkedList<Integer> indicesToReplace = getNRandomDistinctIndicesInRange(numPlayersToSwap, 11);
@@ -135,7 +163,7 @@ public class Squad implements Serializable {
             indToReplace = indicesToReplace.pop();
             indToAdd = playerIndicesToSwapIn.pop();
             //exit early if trying to change bricked player - prob better way to do this than checking name but w/e
-            if (currentSquad.getPlayers().get(indToReplace).getName().equals("brickedPlayer")) {
+            if (currentSquad.getPlayers().get(indToReplace).getName().equals(Squad.BRICKED_PLAYER_NAME)) {
                 return currentSquad;
             }
 
@@ -146,6 +174,40 @@ public class Squad implements Serializable {
         }
 
         return copy;
+    }
+
+    // try to find cheaper players at same rating without affecting overall chemistry
+    public static Squad optimizeRatingWithoutReducingChem(Squad currentSquad, int numPlayersToTry) throws IOException {
+
+        double currentChemistry = ChemistryEngine.calculateChemistry(currentSquad);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
+
+        for (Map.Entry<Position, Player> entry : currentSquad.getLineup().entrySet()) {
+            Player currentPlayer = entry.getValue();
+            // make a copy of the min heap so we don't affect shared object
+            PriorityQueue<Player> playersAtRating = new PriorityQueue<>(pl.getByRating().get(currentPlayer.getRating()));
+            // try n players at player's position
+            for (int i=0; i<numPlayersToTry; i++) {
+                if (!playersAtRating.isEmpty()) {
+                    Player proposedPlayer = playersAtRating.remove();
+                    if (proposedPlayer.getPrice() > currentPlayer.getPrice() || currentPlayer.equals(proposedPlayer)) {
+                        // it's a min heap so any further players will be even more expensive, can break out of loop here
+                        break;
+                    } else {
+                        Squad proposedSquad = Squad.replacePlayer(currentSquad, currentPlayer, proposedPlayer);
+                        double newChemistry;
+                        if ((newChemistry = ChemistryEngine.calculateChemistry(proposedSquad)) >= currentChemistry) {
+                            // if found cheaper squad with player replaced (same rating -> same squad rating) but cheaper w/ same or better chem, update
+                            currentPlayer = proposedPlayer;
+                            currentSquad = proposedSquad;
+                            currentChemistry = newChemistry;
+                        }
+                    }
+                }
+            }
+        }
+
+        return currentSquad;
     }
 
     public static LinkedList<Integer> getNRandomDistinctIndicesInRange(int numValues, int maxRange) {

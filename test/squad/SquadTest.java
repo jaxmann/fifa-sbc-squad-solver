@@ -1,30 +1,33 @@
 package squad;
 
+import chemistry.ChemistryEngine;
 import constraint.Brick;
-import org.junit.jupiter.api.BeforeEach;
 import player.*;
-import org.junit.jupiter.api.Test;
 import squad.formation.Formation;
 import squad.formation.FormationFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class SquadTest {
+public class SquadTest {
 
-    PlayerLoaderUtil pl;
+    private PlayerLoaderUtil pl;
 
-    @BeforeEach
+    @Before
     public void setUp() throws IOException {
-        pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        pl = PlayerLoaderUtil.getInstance();
     }
 
     @Test
-    void test_SquadConstructor_valid() {
+    public void test_SquadConstructor_valid() {
 
         ArrayList<Position> positions;
 
@@ -63,7 +66,7 @@ class SquadTest {
     }
 
     @Test
-    void test_SquadConstructor_invalidPosition() {
+    public void test_SquadConstructor_invalidPosition() {
 
         ArrayList<Position> positions;
 
@@ -107,7 +110,7 @@ class SquadTest {
     }
 
     @Test
-    void test_SquadConstructor_invalidNumOfPositions() {
+    public void test_SquadConstructor_invalidNumOfPositions() {
 
         ArrayList<Position> positions;
 
@@ -151,27 +154,27 @@ class SquadTest {
     }
 
     @Test
-    void test_getRatings() throws Exception {
+    public void test_getRatings() throws Exception {
         int expectedRating = 75;
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, expectedRating, false);
         assertTrue(s.getRatings().stream().allMatch(rating -> rating == expectedRating));
     }
 
     @Test
-    void test_getSquadPrice() throws Exception {
+    public void test_getSquadPrice() throws Exception {
         double pricePerPlayer = 800;
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, pricePerPlayer, 75, false);
 
-        assertEquals(11*800, s.getSquadPrice());
+        assertEquals(11*800.0, s.getSquadPrice());
         assertTrue(s.getPlayers().stream().allMatch(player -> player.getPrice() == pricePerPlayer));
     }
 
     @Test
-    void newAtPos_cannotAddToBrick() throws Exception {
+    public void newAtPos_cannotAddToBrick() throws Exception {
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
 
         s.setBrick(new Brick(new Position(BasePosition.GK)));
-        // index of brickedPlayer in createTestSquad is last index
+
         Player p = new Player(85);
         Squad newSquad = Squad.newAtPos(s, 10, p);
 
@@ -179,7 +182,7 @@ class SquadTest {
     }
 
     @Test
-    void newAtPos_addNewPlayer() throws Exception {
+    public void newAtPos_addNewPlayer() throws Exception {
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
 
         Player p = new Player(85);
@@ -189,7 +192,139 @@ class SquadTest {
     }
 
     @Test
-    void swapNRandomPlayers_cannotAddToBrick() throws Exception {
+    public void test_replacePlayer_bricked() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        s.setBrick(new Brick(new Position(BasePosition.GK)));
+
+        Player p = Squad.getPlayerAtActualPos(s, ActualPosition.GK);
+        Player newPlayer = new Player(85);
+        Squad newSquad = Squad.replacePlayer(s, p, newPlayer);
+
+        assertEquals(s, newSquad);
+    }
+
+    @Test
+    public void test_replacePlayer_notfound() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        Player newPlayer = Squad.getPlayerAtActualPos(s, ActualPosition.GK);
+        Player oldPlayer = new Player(85);
+        Squad newSquad = Squad.replacePlayer(s, oldPlayer, newPlayer);
+
+        assertEquals(s, newSquad);
+    }
+
+    @Test
+    public void test_replacePlayer_happy() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        Player newPlayer = new Player(85);
+        Player oldPlayer = Squad.getPlayerAtActualPos(s, ActualPosition.GK);
+        Squad newSquad = Squad.replacePlayer(s, oldPlayer, newPlayer);
+
+        assertTrue(newSquad.getPlayers().stream().anyMatch(player -> player.getRating() == 85));
+    }
+
+    @Test
+    public void test_getPlayerAtActualPos() throws Exception {
+        // 41212
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        Player playerRetrieved = Squad.getPlayerAtActualPos(s, ActualPosition.GK);
+
+        assertSame(s.getLineup().get(new Position(BasePosition.GK)), playerRetrieved);
+    }
+
+    @Test
+    public void test_getPlayerAtActualPos_multiPartPosition() throws Exception {
+        // 41212
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+
+        Player playerRetrieved = Squad.getPlayerAtActualPos(s, ActualPosition.LCB);
+
+        assertEquals(s.getLineup().get(new Position(BasePosition.CB, ActualPosition.RCB)), playerRetrieved);
+    }
+
+    @Test
+    public void test_optimizeRatingWithoutReducingChem_fixed() throws Exception {
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
+        ArrayList<Player> players = new ArrayList<>();
+        FormationFactory ff = new FormationFactory();
+        Formation f = ff.getFormation("41212");
+        ArrayList<Position> positions = f.getPositions();
+
+        try {
+            Player p1 = pl.lookupPlayer("alisson", 90);
+            Player p2 = pl.lookupPlayer("laporte", 87);
+            Player p3 = pl.lookupPlayer("ronaldo", 98);
+            Player p4 = pl.lookupPlayer("vela", 83);
+            Player p5 = pl.lookupPlayer("matuidi", 83);
+            Player p6 = pl.lookupPlayer("casemiro", 89);
+            Player p7 = pl.lookupPlayer("ter stegen", 90);
+            Player p8 = pl.lookupPlayer("grimaldo", 87);
+            Player p9 = pl.lookupPlayer("rafa", 83);
+            Player p10 = pl.lookupPlayer("strakosha", 83);
+            Player p11 = pl.lookupPlayer("gonzalo", 83);
+
+            players.add(p1); //rb
+            players.add(p2); //lb
+            players.add(p3); //gk
+            players.add(p4); //lcb
+            players.add(p5); //rcb
+            players.add(p6); //rm
+            players.add(p7); //cdm
+            players.add(p8); //lm
+            players.add(p9); //lst
+            players.add(p10); //rst
+            players.add(p11); //cam
+
+        } catch (PlayerNotFoundException e) {
+            e.printName();
+        }
+
+        Squad oldSquad = new Squad(positions, players, f);
+
+        Squad betterSquad = Squad.optimizeRatingWithoutReducingChem(oldSquad, 2);
+
+        assertTrue(betterSquad.getFractionalSquadRating() >= oldSquad.getFractionalSquadRating());
+        assertTrue(betterSquad.getSquadPrice() <= oldSquad.getSquadPrice());
+        assertTrue(ChemistryEngine.calculateChemistry(betterSquad) >= ChemistryEngine.calculateChemistry(oldSquad));
+
+        // more iterations should be as least as good
+        Squad bestSquad = Squad.optimizeRatingWithoutReducingChem(betterSquad, 10);
+
+        assertTrue(bestSquad.getFractionalSquadRating() >= betterSquad.getFractionalSquadRating());
+        assertTrue(bestSquad.getSquadPrice() <= betterSquad.getSquadPrice());
+        assertTrue(ChemistryEngine.calculateChemistry(bestSquad) >= ChemistryEngine.calculateChemistry(betterSquad));
+    }
+
+    @Test
+    public void test_optimizeRatingWithoutReducingChem_random() throws Exception {
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
+        ArrayList<Player> players = pl.get11RandomGoldPlayers(new Random().nextLong());
+        FormationFactory ff = new FormationFactory();
+        Formation formation = ff.getFormation("41212");
+        ArrayList<Position> positions = formation.getPositions();
+
+        Squad oldSquad = new Squad(positions, players, formation);
+
+        Squad betterSquad = Squad.optimizeRatingWithoutReducingChem(oldSquad, 2);
+
+        assertTrue(betterSquad.getFractionalSquadRating() >= oldSquad.getFractionalSquadRating());
+        assertTrue(betterSquad.getSquadPrice() <= oldSquad.getSquadPrice());
+        assertTrue(ChemistryEngine.calculateChemistry(betterSquad) >= ChemistryEngine.calculateChemistry(oldSquad));
+
+        // more iterations should be as least as good
+        Squad bestSquad = Squad.optimizeRatingWithoutReducingChem(betterSquad, 10);
+
+        assertTrue(bestSquad.getFractionalSquadRating() >= betterSquad.getFractionalSquadRating());
+        assertTrue(bestSquad.getSquadPrice() <= betterSquad.getSquadPrice());
+        assertTrue(ChemistryEngine.calculateChemistry(bestSquad) >= ChemistryEngine.calculateChemistry(betterSquad));
+    }
+
+    @Test
+    public void swapNRandomPlayers_cannotAddToBrick() throws Exception {
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
 
         s.setBrick(new Brick(new Position(BasePosition.GK)));
@@ -202,7 +337,7 @@ class SquadTest {
     }
 
     @Test
-    void swapNRandomPlayers_swap11Players() throws Exception {
+    public void swapNRandomPlayers_swap11Players() throws Exception {
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
 
         // should end early because not possible to swap out 11 players without having to swap the 1 brick
@@ -212,7 +347,7 @@ class SquadTest {
     }
 
     @Test
-    void swapNRandomPlayers_swap0Players() throws Exception {
+    public void swapNRandomPlayers_swap0Players() throws Exception {
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
 
         // should end early because not possible to swap out 11 players without having to swap the 1 brick
@@ -222,7 +357,7 @@ class SquadTest {
     }
 
     @Test
-    void swapNRandomPlayers_swapSomePlayers() throws Exception {
+    public void swapNRandomPlayers_swapSomePlayers() throws Exception {
         Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
 
         // should end early because not possible to swap out 11 players without having to swap the 1 brick
@@ -233,62 +368,62 @@ class SquadTest {
     }
 
     @Test
-    void updateAtPos() {
+    public void updateAtPos() {
     }
 
     @Test
-    void testUpdateAtPos() {
+    public void testUpdateAtPos() {
     }
 
     @Test
-    void updateLineup() {
+    public void updateLineup() {
     }
 
     @Test
-    void getSquadPrice() {
+    public void getSquadPrice() {
     }
 
     @Test
-    void getSquadRating() {
+    public void getSquadRating() {
     }
 
     @Test
-    void getFractionalSquadRating() {
+    public void getFractionalSquadRating() {
     }
 
     @Test
-    void getPlayersAsString() {
+    public void getPlayersAsString() {
     }
 
     @Test
-    void getPlayerAtPosition() {
+    public void getPlayerAtPosition() {
     }
 
     @Test
-    void getNumOfCardType() {
+    public void getNumOfCardType() {
     }
 
     @Test
-    void getNumOfNation() {
+    public void getNumOfNation() {
     }
 
     @Test
-    void getNumOfLeague() {
+    public void getNumOfLeague() {
     }
 
     @Test
-    void getNumOfTeam() {
+    public void getNumOfTeam() {
     }
 
     @Test
-    void getNumPlayers() {
+    public void getNumPlayers() {
     }
 
     @Test
-    void getNumOfClub() {
+    public void getNumOfClub() {
     }
 
     @Test
-    void getGraph() {
+    public void getGraph() {
     }
 }

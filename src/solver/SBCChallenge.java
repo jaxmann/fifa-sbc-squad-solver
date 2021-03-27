@@ -1,10 +1,14 @@
 package solver;//import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import chemistry.ChemistryEngine;
+import constraint.Constraint;
+import constraint.ConstraintType;
 import constraint.Constraints;
 import player.Player;
+import player.PlayerLoaderUtil;
 import squad.Squad;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,15 +34,19 @@ public class SBCChallenge {
         double ratingDiff = Math.abs(curSquadRating - minRating);
         double chemDiff = Math.abs(curSquadChem - minChem);
 
-//        double ratingScore = 50 + ratingDiff;
-//        double chemScore = 50 + chemDiff;
         double combinedDifference = ratingDiff + chemDiff;
         double priceScore = squad.getSquadPrice();
 
 //        System.out.println("ratingScore: " + ratingScore + " chemScore: " + chemScore + " priceScore: " + priceScore);
 
         if (!squad.doesSquadSatisfyAllConstaints(this.constraints)) {
-            return 0;
+            double score = 0;
+            for (Constraint constraint : this.constraints.getConstraints()) {
+                if (squad.doesSquadSatisfyConstraint(constraint)) {
+                    score += 33.0;
+                }
+            }
+            return score;
         } else if (curSquadRating < minRating || curSquadChem < minChem) {
             return (200 - combinedDifference);
         } else {
@@ -50,7 +58,7 @@ public class SBCChallenge {
 
     }
 
-    public void runSimulatedAnnealing(Squad current, ArrayList<Player> availablePlayers, boolean simAnnealing, boolean hillClimbing) {
+    public void runSimulatedAnnealing(Squad current, ArrayList<Player> availablePlayers, boolean simAnnealing, boolean hillClimbing) throws IOException {
 
         Squad bestSquad = current;
 
@@ -58,7 +66,8 @@ public class SBCChallenge {
         double Tmin = 0.0001;
         double alpha = 0.95;
         int numIterations = 1000;
-        int maxSwaps = 8; //max number is 11 (potentially swap all 11 players during an iteration)
+        // maybe let this number decay - if a valid solution is found, don't swap out as many players from it?
+        double maxSwaps = 11.0; //max number is 11 (potentially swap all 11 players during an iteration)
 
         double bestScore = getFitnessScore(current);
 
@@ -69,25 +78,32 @@ public class SBCChallenge {
             for (int i=0; i<numIterations; i++) {
 
                 double currentScore = getFitnessScore(current);
-//                System.out.println("CUR: " + currentScore);
 
                 if (currentScore > bestScore) {
                     System.out.println("updated bestscore with: " + currentScore);
                     bestScore = currentScore;
                     bestSquad = current;
+//                    maxSwaps *=.95;
+//                    System.out.println("updating max swaps to: " + maxSwaps);
                 }
 
-                int numSwaps = ThreadLocalRandom.current().nextInt(1, maxSwaps + 1);
-//                Squad newSquad = current;
+                int numSwaps = ThreadLocalRandom.current().nextInt(1, (int) (maxSwaps + 1));
                 // do n swaps in 1 func
                 Squad newSquad = Squad.swapNRandomPlayers(numSwaps, current, availablePlayers);
-//                while (numSwaps > 0) {
+
+//                if (newSquad.getFractionalSquadRating() < 80) {
+//                    newSquad.printSquad();
+//                }
 //
-//                    int randomInd = SBCChallenge.getRandomNumber(11);
-//                    int randomPlayer = SBCChallenge.getRandomNumber(availablePlayers.size());
-//                    newSquad = Squad.newAtPos(newSquad, randomInd, availablePlayers.get(randomPlayer)); //does a deep copy
-//
-//                    numSwaps--;
+                if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(0)) && (constraints.getConstraints().get(0).getConstraintType() == ConstraintType.MINRATING)) {
+                    // optimize rating without affecting chem?
+//                    Squad.optimizeRatingWithoutReducingChem();
+//                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(0).getConstraintType() + "but RATING is: " + newSquad.getFractionalSquadRating());
+                    }
+//                else if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(1))) {
+//                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(1).getConstraintType() + "but CHEM is: " + ChemistryEngine.calculateChemistry(newSquad));
+//                } else if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(2))) {
+//                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(2).getConstraintType() + "but CHEM is: " + ChemistryEngine.calculateChemistry(newSquad));
 //                }
 
                 double newScore = getFitnessScore(newSquad);
@@ -126,25 +142,6 @@ public class SBCChallenge {
             System.out.println("SCORE: " + getFitnessScore(bestSquad));
         }
 
-    }
-
-    public static Integer[] getRandomNumsBetween(int maxValExclusive, int numNums) {
-        Integer[] output = new Integer[numNums];
-        long seed = new Long(10);
-
-        Random randomGenerator = new Random();
-        randomGenerator.setSeed(seed);
-
-        for (int i=0; i<numNums; i++) {
-            output[i] = randomGenerator.nextInt(maxValExclusive);
-        }
-
-        return output;
-    }
-
-    public static int getRandomNumber(int maxValExclusive) {
-        Random randomGenerator = new Random();
-        return randomGenerator.nextInt(maxValExclusive);
     }
 
 }

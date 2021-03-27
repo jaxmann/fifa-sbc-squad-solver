@@ -1,73 +1,72 @@
 package player;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class PlayerLoaderUtilTest {
+public class PlayerLoaderUtilTest {
 
     private PlayerLoaderUtil pl;
 
-    @BeforeEach
-    void setUp() throws IOException {
-        pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+    @Before
+   public void setUp() throws IOException {
+        pl = PlayerLoaderUtil.getInstance();
     }
 
     @Test
-    void loadPlayers() {
+   public void loadPlayers() {
         assertNotNull(pl);
     }
 
     @Test
-    void test_getAll82Plus() {
+   public void test_getAll82Plus() {
         ArrayList<Player> above82 = pl.getAll82Plus();
         assertTrue(above82.stream().allMatch(player -> player.getRating() >= 82));
     }
 
     @Test
-    void test_getAll83Plus() {
+   public void test_getAll83Plus() {
         ArrayList<Player> above83 = pl.getAll83Plus();
         assertTrue(above83.stream().allMatch(player -> player.getRating() >= 83));
     }
 
     @Test
-    void test_getAll84Plus() {
+   public void test_getAll84Plus() {
         ArrayList<Player> above84 = pl.getAll84Plus();
         assertTrue(above84.stream().allMatch(player -> player.getRating() >= 84));
     }
 
     @Test
-    void test_getAll85Plus() {
+   public void test_getAll85Plus() {
         ArrayList<Player> above85 = pl.getAll85Plus();
         assertTrue(above85.stream().allMatch(player -> player.getRating() >= 85));
     }
 
     @Test
-    void test_getAll86Plus() {
-
+   public void test_getAll86Plus() {
         ArrayList<Player> above86 = pl.getAll86Plus();
         assertTrue(above86.stream().allMatch(player -> player.getRating() >= 86));
     }
 
     @Test
-    void test_getAll87PlusTest() {
+   public void test_getAll87PlusTest() {
         ArrayList<Player> above87 = pl.getAll87Plus();
         assertTrue(above87.stream().allMatch(player -> player.getRating() >= 87));
     }
 
     @Test
-    void test_get11FrenchPlayers() {
+   public void test_get11FrenchPlayers() {
         ArrayList<Player> frenchies = pl.get11FrenchPlayers();
         assertTrue(frenchies.stream().allMatch(player -> player.getNation().equals("France")));
     }
 
     @Test
-    void test_getByTeam() {
+   public void test_getByTeam() {
         HashMap<String, PriorityQueue<Player>> byTeam = pl.getByTeam();
 
         assertTrue(byTeam.entrySet().stream().anyMatch(team -> team.getKey().toLowerCase().contains("dortmund")));
@@ -77,7 +76,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getByLeague() {
+   public void test_getByLeague() {
         HashMap<String, PriorityQueue<Player>> byLeague = pl.getByLeague();
 
         assertTrue(byLeague.containsKey("Serie A TIM"));
@@ -88,7 +87,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getByNation() {
+   public void test_getByNation() {
         HashMap<String, PriorityQueue<Player>> byNation = pl.getByNation();
 
         assertTrue(byNation.containsKey("France"));
@@ -99,7 +98,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getByPos() {
+   public void test_getByPos() {
         HashMap<String, PriorityQueue<Player>> byPos = pl.getByPos();
 
         // validate default positions exist
@@ -115,7 +114,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getByRating() {
+   public void test_getByRating() {
         HashMap<Integer, PriorityQueue<Player>> byRating = pl.getByRating();
 
         assertTrue(byRating.containsKey(85));
@@ -125,54 +124,54 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_mapVersionToCardType_gold_IF() {
+   public void test_mapVersionToCardType_gold_IF() {
         String revision = "IF";
         int rating = 75;
         assertEquals(PlayerLoaderUtil.mapVersionToCardType(revision, rating), CardType.GOLD_IF);
     }
 
     @Test
-    void test_mapVersionToCardType_silver_IF() {
+   public void test_mapVersionToCardType_silver_IF() {
         String revision = "SIF";
         int rating = 65;
         assertEquals(PlayerLoaderUtil.mapVersionToCardType(revision, rating), CardType.SILVER_IF);
     }
 
     @Test
-    void test_mapVersionToCardType_bronze_IF() {
+   public void test_mapVersionToCardType_bronze_IF() {
         String revision = "TIF";
         int rating = 55;
         assertEquals(PlayerLoaderUtil.mapVersionToCardType(revision, rating), CardType.BRONZE_IF);
     }
 
     @Test
-    void test_convertStringPriceToDouble_hundred() {
+   public void test_convertStringPriceToDouble_hundred() {
         String price = "800";
         assertEquals(800.0, PlayerLoaderUtil.convertStringPriceToDouble(price));
     }
 
     @Test
-    void test_convertStringPriceToDouble_thousand() {
+   public void test_convertStringPriceToDouble_thousand() {
         // lower case as well
         String price = "30.7k";
         assertEquals(30700.0, PlayerLoaderUtil.convertStringPriceToDouble(price));
     }
 
     @Test
-    void test_convertStringPriceToDouble_million() {
+   public void test_convertStringPriceToDouble_million() {
         String price = "1.4M";
-        assertEquals(1400000, PlayerLoaderUtil.convertStringPriceToDouble(price));
+        assertEquals(1400000.0, PlayerLoaderUtil.convertStringPriceToDouble(price));
     }
 
     @Test
-    void test_convertStringPriceToDouble_invalid() {
+   public void test_convertStringPriceToDouble_invalid() {
         // due to parsing error or w/e - not a big deal since these are untradeable anyway
         String price = "POTM";
-        assertEquals(15000000, PlayerLoaderUtil.convertStringPriceToDouble(price));
+        assertEquals(15000000.0, PlayerLoaderUtil.convertStringPriceToDouble(price));
     }
 
     @Test
-    void test_getAnyPlayerAtPositionAndRating_happy() {
+   public void test_getAnyPlayerAtPositionAndRating_happy() {
         // Arrange
         BasePosition expectedPos = BasePosition.GK;
         int expectedRating = 85;
@@ -186,7 +185,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtPositionAndRating_invalid() {
+   public void test_getAnyPlayerAtPositionAndRating_invalid() {
         // Arrange
         // impossible possible - no players should exist
         BasePosition expectedPos = BasePosition.INVALID;
@@ -200,7 +199,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtExactRating() {
+   public void test_getAnyPlayerAtExactRating() {
         // Arrange
         int expectedRating = 85;
 
@@ -212,7 +211,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getAnyPlayerAtExactRating_invalid() {
+   public void test_getAnyPlayerAtExactRating_invalid() {
         // Arrange
         int expectedRating = 100;
 
@@ -224,7 +223,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtExactRating_happy() {
+   public void test_getNCheapestAtExactRating_happy() {
         // Arrange
         int expectedRating = 85;
         int expectedNumPlayers = 5;
@@ -232,19 +231,21 @@ class PlayerLoaderUtilTest {
         // Act
         ArrayList<Player> players = pl.getNCheapestAtExactRating(expectedNumPlayers, expectedRating);
 
+        PriorityQueue<Player> cache = new PriorityQueue<>(pl.getByRating().get(expectedRating));
+
         // Assert
         assertTrue(players.stream().allMatch(player -> player.getRating() == expectedRating));
         assertEquals(players.size(), expectedNumPlayers);
         for (int i=0; i<expectedNumPlayers; i++) {
             // dump off players until N players deleted, next player should be N+1, which should be more expensive than all N returned by above func
-            pl.getByRating().get(expectedRating).remove();
+            cache.remove();
         }
-        Player nPlus1CheapestPlayer = pl.getByRating().get(expectedRating).remove();
+        Player nPlus1CheapestPlayer = cache.remove();
         assertTrue(players.stream().allMatch(player -> player.getPrice() < nPlus1CheapestPlayer.getPrice()));
     }
 
     @Test
-    void test_getNCheapestAtExactRating_impossibleRating() {
+   public void test_getNCheapestAtExactRating_impossibleRating() {
         // Arrange
         int expectedRating = 100;
         int expectedNumPlayers = 5;
@@ -257,7 +258,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtMinRating_happy() {
+   public void test_getNCheapestAtMinRating_happy() {
         // Arrange
         int expectedMinRating = 85;
         int expectedNumPlayers = 500;
@@ -272,7 +273,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtMinRating_impossibleRating() {
+   public void test_getNCheapestAtMinRating_impossibleRating() {
         // Arrange
         int expectedMinRating = 99;
         int expectedNumPlayers = 500;
@@ -285,7 +286,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtExactRatingAndPosition_happy() {
+   public void test_getNCheapestAtExactRatingAndPosition_happy() {
         // Arrange
         int expectedRating = 83;
         int expectedNumPlayers = 2;
@@ -293,6 +294,7 @@ class PlayerLoaderUtilTest {
 
         // Act
         ArrayList<Player> players = pl.getNCheapestAtExactRatingAndPosition(expectedNumPlayers, expectedPos, expectedRating);
+        PriorityQueue<Player> cache = new PriorityQueue<>(pl.getByRating().get(expectedRating));
 
         // Assert
         assertTrue(players.stream().allMatch(player -> player.getRating() == expectedRating));
@@ -300,20 +302,20 @@ class PlayerLoaderUtilTest {
         assertEquals(players.size(), expectedNumPlayers);
         while (expectedNumPlayers > 0) {
             // dump off players until N players deleted, next player should be N+1, which should be more expensive than all N returned by above func
-            Player player = pl.getByRating().get(expectedRating).remove();
+            Player player = cache.remove();
             if (player.getPosBase() == expectedPos) {
-                pl.getByRating().get(expectedRating).remove();
+                cache.remove();
                 expectedNumPlayers--;
             } else {
-                pl.getByRating().get(expectedRating).remove();
+                cache.remove();
             }
         }
-        Player nPlus1CheapestPlayer = pl.getByRating().get(expectedRating).remove();
-        assertTrue(players.stream().allMatch(player -> player.getPrice() < nPlus1CheapestPlayer.getPrice()));
+        Player nPlus1CheapestPlayer = cache.remove();
+        assertTrue(players.stream().allMatch(player -> player.getPrice() <= nPlus1CheapestPlayer.getPrice()));
     }
 
     @Test
-    void test_getNCheapestAtExactRatingAndPosition_impossibleRating() {
+   public void test_getNCheapestAtExactRatingAndPosition_impossibleRating() {
         // Arrange
         int expectedRating = 99;
         int expectedNumPlayers = 2;
@@ -327,7 +329,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtExactRatingAndPosition_notEnoughPlayers() {
+   public void test_getNCheapestAtExactRatingAndPosition_notEnoughPlayers() {
         // Arrange
         int expectedRating = 85;
         int expectedNumPlayers = 200;
@@ -343,7 +345,7 @@ class PlayerLoaderUtilTest {
     }
 
     @Test
-    void test_getNCheapestAtMinRatingAndPosition_happy() {
+   public void test_getNCheapestAtMinRatingAndPosition_happy() {
         // Arrange
         int expectedMinRating = 83;
         int expectedNumPlayers = 20;

@@ -2,9 +2,11 @@ package player;
 
 import java.io.*;
 import java.util.*;
-
+import org.apache.commons.lang3.SerializationUtils; // to deep copy hashmap
 
 public class PlayerLoaderUtil {
+
+    private static PlayerLoaderUtil playerLoadUtilInstance = null;
 
     private static final int MAX_NUMBER_OF_PLAYERS = 15000;
 
@@ -14,6 +16,17 @@ public class PlayerLoaderUtil {
     private HashMap<String, PriorityQueue<Player>> byPos;
     private HashMap<Integer, PriorityQueue<Player>> byRating;
     private ArrayList<Player> allPlayers;
+
+    private PlayerLoaderUtil() throws IOException {
+        loadPlayers(false);
+    }
+
+    public static PlayerLoaderUtil getInstance() throws IOException {
+        if (playerLoadUtilInstance == null) {
+            playerLoadUtilInstance = new PlayerLoaderUtil();
+        }
+        return playerLoadUtilInstance;
+    }
 
     public void loadPlayers(boolean exclude100kPlus) throws IOException {
         String csvFile = "./resources/fifa21/FutBinCards21.csv";
@@ -157,7 +170,7 @@ public class PlayerLoaderUtil {
     // for tests
     public Player getAnyPlayerAtPositionAndRating(BasePosition pos, int rating) {
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
-        PriorityQueue<Player> cachedPlayers = this.getByRating().get(rating);
+        PriorityQueue<Player> cachedPlayers = new PriorityQueue<>(this.getByRating().get(rating));
         for (Player player: cachedPlayers) {
             // don't need to check rating
             if (player.getPosBase() == pos) {
@@ -178,11 +191,15 @@ public class PlayerLoaderUtil {
     public ArrayList<Player> getNCheapestAtExactRating(int numPlayers, int rating) {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        if (!this.getByRating().containsKey(rating)) {
+            return cheapestPlayers;
+        }
+        PriorityQueue<Player> cache = new PriorityQueue<>(this.getByRating().get(rating)); // make copy so don't affect actual min heap
         for (int i=0; i<numPlayers; i++) {
-            if (this.getByRating().containsKey(rating)) {
-                cheapestPlayers.add(this.getByRating().get(rating).remove());
+            if (!cache.isEmpty()) {
+                cheapestPlayers.add(cache.remove());
             } else {
-                continue;
+                break;
             }
         }
         return cheapestPlayers;
@@ -191,21 +208,22 @@ public class PlayerLoaderUtil {
     public ArrayList<Player> getNCheapestAtMinRating(int numPlayers, int rating) {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        HashMap<Integer, PriorityQueue<Player>> cache = SerializationUtils.clone(this.getByRating());
         for (int i=0; i<numPlayers; i++) {
             double minPrice = Double.POSITIVE_INFINITY;
             int minIndex = -1;
             // each j is a priority queue of min rating "rating", peek each one, find best, remove that one and add
             for (int j=rating; j<100; j++) {
-                if (this.getByRating().containsKey(j) && !this.getByRating().get(j).isEmpty()) {
-                    if (this.getByRating().get(j).peek().getPrice() < minPrice) {
-                        minPrice = this.getByRating().get(j).peek().getPrice();
+                if (cache.containsKey(j) && !cache.get(j).isEmpty()) {
+                    if (cache.get(j).peek().getPrice() < minPrice) {
+                        minPrice = cache.get(j).peek().getPrice();
                         minIndex = j;
                     }
                 }
             }
             // if minIndex is set, we found a player
             if (minIndex > 0) {
-                cheapestPlayers.add(this.getByRating().get(minIndex).remove());
+                cheapestPlayers.add(cache.get(minIndex).remove());
             }
         }
         return cheapestPlayers;
@@ -214,14 +232,18 @@ public class PlayerLoaderUtil {
     public ArrayList<Player> getNCheapestAtExactRatingAndPosition(int numPlayers, BasePosition pos, int rating) {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        if (!this.getByRating().containsKey(rating)) {
+            return cheapestPlayers;
+        }
+        PriorityQueue<Player> cache = new PriorityQueue<>(this.getByRating().get(rating));
         while (numPlayers > 0) {
-            if (this.getByRating().containsKey(rating)) {
-                Player currentPlayer = this.getByRating().get(rating).remove();
+            if (!cache.isEmpty()) {
+                Player currentPlayer = cache.remove();
                 if (currentPlayer.getPosBase() == pos) {
                     cheapestPlayers.add(currentPlayer);
                     numPlayers--;
                 }
-                if (this.getByRating().get(rating).isEmpty()) {
+                if (cache.isEmpty()) {
                     break;
                 }
             } else {
@@ -234,25 +256,26 @@ public class PlayerLoaderUtil {
     public ArrayList<Player> getNCheapestAtMinRatingAndPosition(int numPlayers, BasePosition pos, int rating) {
         ArrayList<Player> cheapestPlayers = new ArrayList<>();
         // all players for every rating int are pre-cached by loadPlayers into Min Heap
+        HashMap<Integer, PriorityQueue<Player>> cache = SerializationUtils.clone(this.getByRating());
         for (int i=0; i<numPlayers; i++) {
             double minPrice = Double.POSITIVE_INFINITY;
             int minIndex = -1;
             // each j is a priority queue of min rating "rating", peek each one, find best, remove that one and add
             for (int j=rating; j<100; j++) {
-                if (this.getByRating().containsKey(j) && !this.getByRating().get(j).isEmpty()) {
-                    while (!this.getByRating().get(j).isEmpty() && this.getByRating().get(j).peek().getPosBase() != pos) {
+                if (cache.containsKey(j) && !cache.get(j).isEmpty()) {
+                    while (!cache.get(j).isEmpty() && cache.get(j).peek().getPosBase() != pos) {
                         // pop off heap if pos doesn't match - we can't use these players anyway
-                        this.getByRating().get(j).remove();
+                        cache.get(j).remove();
                     }
-                    if (!this.getByRating().get(j).isEmpty() && this.getByRating().get(j).peek().getPrice() < minPrice) {
-                        minPrice = this.getByRating().get(j).peek().getPrice();
+                    if (!cache.get(j).isEmpty() && cache.get(j).peek().getPrice() < minPrice) {
+                        minPrice = cache.get(j).peek().getPrice();
                         minIndex = j;
                     }
                 }
             }
             // if minIndex is set, we found a player
             if (minIndex > 0) {
-                cheapestPlayers.add(this.getByRating().get(minIndex).remove());
+                cheapestPlayers.add(cache.get(minIndex).remove());
             }
         }
         return cheapestPlayers;
@@ -314,9 +337,9 @@ public class PlayerLoaderUtil {
 
     public ArrayList<Player> get11FrenchPlayers() {
         ArrayList<Player> frenchPlayers = new ArrayList<>();
-
+        PriorityQueue<Player> cache = this.getByNation().get("France");
         for (int i=0; i<11; i++) {
-            frenchPlayers.add(getByNation().get("France").remove());
+            frenchPlayers.add(cache.remove());
         }
 
         return frenchPlayers;

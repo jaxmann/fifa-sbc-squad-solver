@@ -4,18 +4,22 @@ import chemistry.ChemistryEngine;
 import constraint.Constraint;
 import constraint.ConstraintType;
 import constraint.Constraints;
-import org.junit.Before;
-import org.junit.Ignore;
 import player.BasePosition;
 import player.CardType;
 import player.Player;
 import player.PlayerLoaderUtil;
 import squad.Squad;
 import squad.SquadHelper;
-import org.junit.Test;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import org.junit.Ignore;
 
 public class SBCChallengeTest {
 
@@ -23,18 +27,17 @@ public class SBCChallengeTest {
 
     @Before
     public void setUp() throws Exception {
-        pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        pl = PlayerLoaderUtil.getInstance();
     }
 
     @Ignore
     @Test
-    public void test_simulatedAnnealing() {
+    public void test_simulatedAnnealing() throws IOException {
 
         Squad current = null;
         ArrayList<Player> availablePlayers = null;
         try {
-            current = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+            current = SquadHelper.create83DefaultSquad();
             pl.loadPlayers(false);
             availablePlayers = pl.getAll83Plus();
 //            availablePlayers = pl.getNCheapestAtMinRating(800, 84);
@@ -44,8 +47,8 @@ public class SBCChallengeTest {
 
         //fit {(750000, 100), (500000, 105), (200000, 110), (100000, 120), (50000, 140), (25000, 160), (15000, 180), (10000, 190), (5000, 200)}
         //CONSTRAINTS
-//        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
-//        c1.setMinChem(50);
+        Constraint c1 = new Constraint(ConstraintType.MINCHEM);
+        c1.setMinChem(50);
         Constraint c2 = new Constraint(ConstraintType.MINRATING);
         c2.setMinRating(87);
         Constraint c3 = new Constraint(ConstraintType.MIN_OF_CARDTYPE);
@@ -65,16 +68,14 @@ public class SBCChallengeTest {
 
     @Ignore
     @Test
-    public void solver() {
+    public void solver() throws IOException {
 
         Squad s = null;
         ArrayList<Player> allPlayers = null;
-        PlayerLoaderUtil pl = null;
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
 
         try {
             s = SquadHelper.create87DefaultSquad();
-            pl = new PlayerLoaderUtil();
-            pl.loadPlayers(false);
             allPlayers = pl.getAllPlayers();
         } catch (Exception e) {
             fail(e.getMessage());

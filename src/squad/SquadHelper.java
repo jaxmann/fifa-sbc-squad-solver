@@ -15,8 +15,7 @@ import java.util.ArrayList;
 public class SquadHelper implements Serializable {
 
     public static Squad create87DefaultSquad() throws Exception {
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
@@ -55,8 +54,7 @@ public class SquadHelper implements Serializable {
     }
 
     public static Squad create43ChemSquad() throws Exception {
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
@@ -96,8 +94,7 @@ public class SquadHelper implements Serializable {
 
 
     public static Squad create85DefaultSquad() throws Exception { //not implemented
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
@@ -137,8 +134,7 @@ public class SquadHelper implements Serializable {
 
 
     public static Squad create83DefaultSquad() throws Exception {
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
@@ -177,8 +173,7 @@ public class SquadHelper implements Serializable {
     }
 
     public static Squad create75DefaultSquad() throws Exception {
-        PlayerLoaderUtil pl = new PlayerLoaderUtil();
-        pl.loadPlayers(false);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
         Formation f = ff.getFormation("41212");
@@ -212,6 +207,7 @@ public class SquadHelper implements Serializable {
     }
 
     // useful for testing - otherwise can run into assertion issues asserting n german players etc
+    // not the "position" param doesn't actually match where it will be inserted into the lineup
     public static Squad createTestSquad(String team, String nation, String league, BasePosition position, CardType cardType, double pricePerPlayer, int rating, boolean loyalty) throws Exception {
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();

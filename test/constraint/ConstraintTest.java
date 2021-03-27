@@ -6,13 +6,15 @@ import player.ActualPosition;
 import player.BasePosition;
 import player.Position;
 import squad.Squad;
-import org.junit.Test;
 import squad.SquadHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
+import static org.junit.Assert.fail;
 
 public class ConstraintTest {
 

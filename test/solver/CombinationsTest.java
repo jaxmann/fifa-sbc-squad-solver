@@ -4,14 +4,17 @@ import player.BasePosition;
 import player.CardType;
 import squad.Squad;
 import squad.SquadHelper;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.Before;
+import org.junit.Test;
+import static junit.framework.TestCase.*;
+import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class CombinationsTest {
+public class CombinationsTest {
 
     @Test
-    void test_combinations2() {
+    public void test_combinations2() {
 
         Squad s = null;
         try {
