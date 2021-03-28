@@ -67,7 +67,7 @@ public class SBCChallenge {
         double alpha = 0.95;
         int numIterations = 1000;
         // maybe let this number decay - if a valid solution is found, don't swap out as many players from it?
-        double maxSwaps = 11.0; //max number is 11 (potentially swap all 11 players during an iteration)
+        double maxSwaps = 8.0; //max number is 11 (potentially swap all 11 players during an iteration)
 
         double bestScore = getFitnessScore(current);
 
@@ -96,6 +96,7 @@ public class SBCChallenge {
 //                }
 //
                 if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(0)) && (constraints.getConstraints().get(0).getConstraintType() == ConstraintType.MINRATING)) {
+                    newSquad = Squad.optimizeRatingWithoutReducingChem(newSquad, 3);
                     // optimize rating without affecting chem?
 //                    Squad.optimizeRatingWithoutReducingChem();
 //                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(0).getConstraintType() + "but RATING is: " + newSquad.getFractionalSquadRating());

@@ -8,7 +8,6 @@ import squad.formation.FormationFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import org.junit.Before;
@@ -425,5 +424,28 @@ public class SquadTest {
 
     @Test
     public void getGraph() {
+    }
+
+    @Test
+    public void test_getPossibleCombinationsForSquadRating() throws Exception {
+        for (int rating=81; rating<=90; rating++) {
+            ArrayList<ArrayList<Integer>> combinations = Squad.getPossibleCombinationsForSquadRating(rating);
+            for (ArrayList<Integer> list : combinations) {ArrayList<Player> players = new ArrayList<>();
+                FormationFactory ff = new FormationFactory();
+                Formation f = ff.getFormation("41212");
+                ArrayList<Position> positions = f.getPositions();
+                for (int value : list) {
+                    Player p = new Player(value);
+                    players.add(p);
+                }
+                Squad s = new Squad(positions, players, f);
+                assertEquals((double)rating, s.getSquadRating());
+                System.out.println("Matched expected rating of: [" + rating + "] ratings: " + list.toString());
+            }
+        }
+    }
+
+    @Test
+    public void test_shuffleSquadForBetterChemistry() {
     }
 }
