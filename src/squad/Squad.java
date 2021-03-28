@@ -208,6 +208,14 @@ public class Squad implements Serializable {
         return currentSquad;
     }
 
+
+    // try to fix problem of not being able to swap out CB Joe Gomez, for instance, b/c he links to alisson and CB Walker, although way too expensive
+    // 1. try to swap random players around in squad (maybe use shuffle function) - maybe should be higher level
+    // 2. for any strong (double) links, get all players with same links and try to swap them in, and replace if rating/price is better
+    public static Squad optimizeChemWithoutReducingRating(Squad currentSquad, int numPlayersToTry) {
+        return null;
+    }
+
     // return possible ways to generate N rated squad
     public static ArrayList<ArrayList<Integer>> getPossibleCombinationsForSquadRating(int rating) {
         // pattern is very simple if you have any list of combinations - rating for 89 is just 1 less than all ratings for 90 etc

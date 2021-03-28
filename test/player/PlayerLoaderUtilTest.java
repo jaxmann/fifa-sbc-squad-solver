@@ -3,6 +3,7 @@ package player;
 import java.io.IOException;
 import java.util.*;
 
+import chemistry.ChemistryEngine;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
@@ -360,4 +361,122 @@ public class PlayerLoaderUtilTest {
         assertTrue(players.stream().allMatch(player -> player.getPosBase() == expectedPos));
         assertEquals(players.size(), expectedNumPlayers);
     }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_nation() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "nation");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 1);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_league() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "league");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 1);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_team() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "team");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 1);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_invalid() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        try {
+            PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "blah");
+            fail("Should have thrown exception on invalid input");
+        } catch (Exception e) {
+            assertTrue(e.getMessage().contains("invalid player field"));
+        }
+
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_nation_team() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "nation", "team");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) == 3);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_nation_league() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "nation", "league");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 2);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_league_team() throws Exception {
+        // this is really a repeated case, but test that it is redirected properly
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "league", "team");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 2);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_nation_team_switchOrder() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "team", "nation");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) == 3);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_nation_league_switchOrder() throws Exception {
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "league", "nation");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 2);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs_league_team_switchOrder() throws Exception {
+        // this is really a repeated case, but test that it is redirected properly
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "team", "league");
+        for (Player p : sameLinks) {
+            assertTrue(ChemistryEngine.numSharedLinks(player, p) >= 2);
+        }
+    }
+
+    @Test
+    public void getAllPlayersWithSameLinksAs2_invalid() throws Exception {
+        // this is really a repeated case, but test that it is redirected properly
+        Player player = pl.lookupPlayer("reus", 87);
+        // team, nation, league - others don't affect links
+        try {
+            PriorityQueue<Player> sameLinks = pl.getAllPlayersWithSameLinksAs(player, "nation", "blah");    fail("Should have thrown exception on invalid input");
+        } catch (Exception e) {
+            assertTrue(e.getMessage().contains("invalid player field"));
+        }
+    }
+
 }

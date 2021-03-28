@@ -58,6 +58,8 @@ public class SBCChallenge {
 
     }
 
+    // high level - generate 3-5 'seed' squads, branch out in some type of BFS/genetic algorithm, try each squad, then start at seed=1 again etc
+    // TODO add plotting to track what is actually working
     public void runSimulatedAnnealing(Squad current, ArrayList<Player> availablePlayers, boolean simAnnealing, boolean hillClimbing) throws IOException {
 
         Squad bestSquad = current;
@@ -95,17 +97,12 @@ public class SBCChallenge {
 //                    newSquad.printSquad();
 //                }
 //
-                if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(0)) && (constraints.getConstraints().get(0).getConstraintType() == ConstraintType.MINRATING)) {
-                    newSquad = Squad.optimizeRatingWithoutReducingChem(newSquad, 3);
-                    // optimize rating without affecting chem?
-//                    Squad.optimizeRatingWithoutReducingChem();
-//                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(0).getConstraintType() + "but RATING is: " + newSquad.getFractionalSquadRating());
+                for (Constraint constraint : constraints.getConstraints()) {
+                    if (constraint.getConstraintType() == ConstraintType.MINRATING && newSquad.doesSquadSatisfyConstraint(constraint)) {
+                        newSquad = Squad.optimizeRatingWithoutReducingChem(newSquad, 3);
                     }
-//                else if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(1))) {
-//                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(1).getConstraintType() + "but CHEM is: " + ChemistryEngine.calculateChemistry(newSquad));
-//                } else if (newSquad.doesSquadSatisfyConstraint(constraints.getConstraints().get(2))) {
-//                    System.out.println("satisfied constraint: " + constraints.getConstraints().get(2).getConstraintType() + "but CHEM is: " + ChemistryEngine.calculateChemistry(newSquad));
-//                }
+                }
+
 
                 double newScore = getFitnessScore(newSquad);
 

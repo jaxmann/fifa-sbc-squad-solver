@@ -86,7 +86,8 @@ public class ConstraintTest {
             s = SquadHelper.create87DefaultSquad();
         } catch (Exception e) {
             fail(e.getMessage());
-        }        s.setBrick(brick);
+        }
+        s.setBrick(brick);
 
         assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));
     }
@@ -134,7 +135,8 @@ public class ConstraintTest {
             s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
-        }          Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
+        }
+        Player incorrectBrickedPlayer = new Player(Squad.BRICKED_PLAYER_NAME, "Bayern", "Germany", "Premier League", BasePosition.GK);
         s.updateAtPos(ActualPosition.GK, incorrectBrickedPlayer);
 
         assertFalse(s.doesSquadSatisfyConstraint(brickConstraint));
@@ -155,7 +157,8 @@ public class ConstraintTest {
             s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
         } catch (Exception e) {
             fail(e.getMessage());
-        }          s.setBrick(brick1);
+        }
+        s.setBrick(brick1);
         s.setBrick(brick2);
 
         assertTrue(s.doesSquadSatisfyConstraint(brickConstraint));

@@ -56,7 +56,7 @@ public class SBCChallengeTest {
         c3.setMin_of_cardtype(1);
 
         Constraints constraints = new Constraints();
-//        constraints.addConstraint(c1);
+        constraints.addConstraint(c1);
         constraints.addConstraint(c2);
 //        constraints.addConstraint(c3);
 

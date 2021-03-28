@@ -1,6 +1,7 @@
 package player;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.*;
 import org.apache.commons.lang3.SerializationUtils; // to deep copy hashmap
 
@@ -165,6 +166,72 @@ public class PlayerLoaderUtil {
         }
 
         return price_stripped;
+    }
+
+    public PriorityQueue<Player> getAllPlayersWithSameLinksAs(Player player, String field) throws Exception {
+        // nation
+        if (field.equals(("nation"))) {
+            if (this.getByNation().containsKey(player.getNation())) {
+                return this.getByNation().get(player.getNation());
+            }
+            return null;
+        }
+
+        // league
+        if (field.equals("league")) {
+            if (this.getByLeague().containsKey(player.getLeague())) {
+                return this.getByLeague().get(player.getLeague());
+            }
+            return null;
+        }
+
+        // team
+        if (field.equals("team")) {
+            if (this.getByTeam().containsKey(player.getTeam())) {
+                return this.getByTeam().get(player.getTeam());
+            }
+            return null;
+        }
+        throw new Exception("invalid player field specified");
+    }
+
+    public PriorityQueue<Player> getAllPlayersWithSameLinksAs(Player player, String field1, String field2) throws Exception {
+        Set<String> VALID_FIELDS = new HashSet<>(Arrays.asList("nation", "league", "team"));
+        if (field1.equals(field2) || !VALID_FIELDS.contains(field1) || !VALID_FIELDS.contains(field2)) {
+            throw new Exception("invalid player field specified");
+        }
+
+        if (field1.equals("nation") || field2.equals("nation")) {
+            // OR eliminates chance of league+team, handled below
+            if (field2.equals("team")) {
+                // nation and team (this is a triple link)
+
+                // make copies of both heaps so we don't affect either
+                Set<Player> nationLinks = new HashSet<>(this.getByNation().get(player.getNation()));
+                Set<Player> teamLinks = new HashSet<>(this.getByTeam().get(player.getTeam()));
+                nationLinks.retainAll(teamLinks);
+                PriorityQueue<Player> pq = new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator());
+                pq.addAll(nationLinks);
+                return pq;
+            } else if (field2.equals("league")) {
+                // nation and league
+
+                // make copies of both heaps so we don't affect either
+                Set<Player> nationLinks = new HashSet<>(this.getByNation().get(player.getNation()));
+                Set<Player> leagueLinks = new HashSet<>(this.getByLeague().get(player.getLeague()));
+                nationLinks.retainAll(leagueLinks);
+                PriorityQueue<Player> pq = new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator());
+                pq.addAll(nationLinks);
+                return pq;
+            } else {
+                // flip order and try again
+                return getAllPlayersWithSameLinksAs(player, field2, field1);
+            }
+        }
+
+        // only remaining possibility is...
+        // league and team, which is handled in single field case since league is already encapsulated by team
+        return getAllPlayersWithSameLinksAs(player, "team");
     }
 
     // for tests
