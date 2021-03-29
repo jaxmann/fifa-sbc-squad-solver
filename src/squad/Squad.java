@@ -212,8 +212,58 @@ public class Squad implements Serializable {
     // try to fix problem of not being able to swap out CB Joe Gomez, for instance, b/c he links to alisson and CB Walker, although way too expensive
     // 1. try to swap random players around in squad (maybe use shuffle function) - maybe should be higher level
     // 2. for any strong (double) links, get all players with same links and try to swap them in, and replace if rating/price is better
-    public static Squad optimizeChemWithoutReducingRating(Squad currentSquad, int numPlayersToTry) {
-        return null;
+    public static Squad optimizeChemWithoutReducingRating(Squad currentSquad, int numPlayersToTry) throws Exception {
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
+        Squad outputSquad = currentSquad.deepClone();
+        int SEARCH_DEPTH = 10;
+        Graph g = currentSquad.getGraph();
+        for (Map.Entry<Position, ArrayList<Position>> entry : g.getAdjList().entrySet()) {
+            for (Position pos : entry.getValue()) {
+                // for each adjacent player...
+                Player adjacentPlayer = Squad.getPlayerAtActualPos(currentSquad, pos.getActualPosition());
+                Player currentPlayer= Squad.getPlayerAtActualPos(currentSquad, entry.getKey().getActualPosition());
+                // check how many shared links
+                ArrayList<String> sharedLinks = ChemistryEngine.determineSharedLinks(currentPlayer, adjacentPlayer);
+                int numShared = ChemistryEngine.numSharedLinks(currentPlayer, adjacentPlayer);
+                if (numShared == 0) {
+                    continue;
+                } else if (numShared == 1) {
+                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAs(currentPlayer, sharedLinks.get(0));
+                    Squad proposedSquad = outputSquad.deepClone();
+                    for (int i=0; i<SEARCH_DEPTH; i++) {
+                        Player proposedPlayer = possiblePlayers.remove();
+                        proposedSquad.updateAtPos(entry.getKey().getActualPosition(), proposedPlayer);
+                        if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                            outputSquad = proposedSquad;
+                            break;
+                        }
+                    }
+                } else if (numShared == 2) {
+                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAs(currentPlayer, sharedLinks.get(0), sharedLinks.get(1));
+                    Squad proposedSquad = outputSquad.deepClone();
+                    for (int i=0; i<SEARCH_DEPTH; i++) {
+                        Player proposedPlayer = possiblePlayers.remove();
+                        proposedSquad.updateAtPos(entry.getKey().getActualPosition(), proposedPlayer);
+                        if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                            outputSquad = proposedSquad;
+                            break;
+                        }
+                    }
+                } else if (numShared == 3) {
+                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAs(currentPlayer, "nation", "team");
+                    Squad proposedSquad = outputSquad.deepClone();
+                    for (int i=0; i<SEARCH_DEPTH; i++) {
+                        Player proposedPlayer = possiblePlayers.remove();
+                        proposedSquad.updateAtPos(entry.getKey().getActualPosition(), proposedPlayer);
+                        if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                            outputSquad = proposedSquad;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return outputSquad;
     }
 
     // return possible ways to generate N rated squad
@@ -429,10 +479,15 @@ public class Squad implements Serializable {
         this.updateLineup();
     }
 
+    // TODO test changes
     public void updateAtPos(ActualPosition uniqueActualPos, Player p) {
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
             if (entry.getKey().getActualPosition().equals(uniqueActualPos)) {
+                this.getLineup().remove(entry.getKey());
                 this.getLineup().put(entry.getKey(), p);
+
+                this.getPlayers().remove(Squad.getPlayerAtActualPos(this, entry.getKey().getActualPosition()));
+                this.getPlayers().add(p);
             }
         }
     }

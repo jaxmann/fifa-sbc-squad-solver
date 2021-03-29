@@ -165,6 +165,27 @@ public class ChemistryEngine {
         return links;
     }
 
+    // TODO add test
+    public static ArrayList<String> determineSharedLinks(Player p1, Player p2) {
+        ArrayList<String> sharedLinks = new ArrayList<String>();
+        if (numSharedLinks(p1, p2) == 0) {
+            return sharedLinks;
+        }
+
+        if (p1.getNation().toLowerCase().equals(p2.getNation().toLowerCase())) {
+            sharedLinks.add("nation");
+        }
+        if (p1.getLeague().toLowerCase().equals(p2.getLeague().toLowerCase()) && !p1.getTeam().toLowerCase().equals(p2.getTeam().toLowerCase())) {
+            // only if league and NOT team
+            sharedLinks.add("league");
+        }
+        if (p1.getTeam().toLowerCase().equals(p2.getTeam().toLowerCase())) {
+            sharedLinks.add("team");
+        }
+
+        return sharedLinks;
+    }
+
     public static int positionChem(Position slot, Position actual) {
 
         if (slot.getBasePos().equals(BasePosition.GK)) {

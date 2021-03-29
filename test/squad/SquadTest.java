@@ -448,4 +448,10 @@ public class SquadTest {
     @Test
     public void test_shuffleSquadForBetterChemistry() {
     }
+
+    @Test
+    public void optimizeChemWithoutReducingRating() throws Exception {
+        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
+        Squad optimizedSquad = Squad.optimizeChemWithoutReducingRating(s, 10);
+    }
 }
