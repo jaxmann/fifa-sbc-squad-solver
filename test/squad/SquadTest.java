@@ -279,7 +279,7 @@ public class SquadTest {
             players.add(p11); //cam
 
         } catch (PlayerNotFoundException e) {
-            e.printName();
+            System.out.println(e.getMessage());
         }
 
         Squad oldSquad = new Squad(positions, players, f);
@@ -451,7 +451,45 @@ public class SquadTest {
 
     @Test
     public void optimizeChemWithoutReducingRating() throws Exception {
-        Squad s = SquadHelper.createTestSquad("bayern", "germany", "bundesliga", BasePosition.RB, CardType.GOLD_NON_RARE, 800, 75, false);
-        Squad optimizedSquad = Squad.optimizeChemWithoutReducingRating(s, 10);
+        PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
+        ArrayList<Player> players = new ArrayList<>();
+        FormationFactory ff = new FormationFactory();
+        Formation f = ff.getFormation("41212");
+        ArrayList<Position> positions = f.getPositions();
+
+        try {
+            Player p1 = pl.lookupPlayer("", 87, "uruguay", "", "", "");
+            Player p2 = pl.lookupPlayer("shaw", 86);
+            Player p3 = pl.lookupPlayer("alisson", 90);
+            Player p4 = pl.lookupPlayer("gomez", 85);
+            Player p5 = pl.lookupPlayer("walker", 86);
+            Player p6 = pl.lookupPlayer("ilkay", 83);
+            Player p7 = pl.lookupPlayer("kroos", 88);
+            Player p8 = pl.lookupPlayer("reus", 87);
+            Player p9 = pl.lookupPlayer("niklas", 84);
+            Player p10 = pl.lookupPlayer("n'golo", 88);
+            Player p11 = pl.lookupPlayer("sterling", 88);
+
+            players.add(p1); //rb
+            players.add(p2); //lb
+            players.add(p3); //gk
+            players.add(p4); //lcb
+            players.add(p5); //rcb
+            players.add(p6); //rm
+            players.add(p7); //cdm
+            players.add(p8); //lm
+            players.add(p9); //lst
+            players.add(p10); //rst
+            players.add(p11); //cam
+
+        } catch (PlayerNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Squad currentSquad = new Squad(positions, players, f);
+        Squad optimizedSquad = Squad.optimizeChemWithoutReducingRating(currentSquad, 30);
+        Squad doubleOptimized = Squad.optimizeRatingWithoutReducingChem(optimizedSquad, 10);
+
+        assertEquals(currentSquad, Squad.optimizeRatingWithoutReducingChem(optimizedSquad, 10));
     }
 }

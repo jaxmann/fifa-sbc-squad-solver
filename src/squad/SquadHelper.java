@@ -47,7 +47,7 @@ public class SquadHelper implements Serializable {
             players.add(p11); //cam
 
         } catch (PlayerNotFoundException e) {
-            e.printName();
+            System.out.println(e.getMessage());
         }
 
         return new Squad(positions, players, f);
@@ -86,7 +86,7 @@ public class SquadHelper implements Serializable {
             players.add(p6); //cam
 
         } catch (PlayerNotFoundException e) {
-            e.printName();
+            System.out.println(e.getMessage());
         }
 
         return new Squad(positions, players, f);
@@ -126,7 +126,7 @@ public class SquadHelper implements Serializable {
             players.add(p11); //cam
 
         } catch (PlayerNotFoundException e) {
-            e.printName();
+            System.out.println(e.getMessage());
         }
 
         return new Squad(positions, players, f);
@@ -166,7 +166,7 @@ public class SquadHelper implements Serializable {
             players.add(p11); //cam
 
         } catch (PlayerNotFoundException e) {
-            e.printName();
+            System.out.println(e.getMessage());
         }
 
         return new Squad(positions, players, f);

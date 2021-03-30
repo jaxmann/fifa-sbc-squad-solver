@@ -63,6 +63,7 @@ public class Squad implements Serializable {
     }
 
     // return true if match found
+    // TODO possibly refactor to avoid ConcurrendModificationException?
     public boolean setBrick(Brick brick) {
         Player brickPlayer = new Player(BRICKED_PLAYER_NAME, brick.getClub(), brick.getNation(), brick.getLeague(), brick.getPos().getBasePos());
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
@@ -70,7 +71,7 @@ public class Squad implements Serializable {
                 this.getPlayers().remove(entry.getValue());
                 this.getPlayers().add(brickPlayer);
 
-                this.getLineup().remove(entry.getKey());
+//                this.getLineup().remove(entry.getKey());
                 this.getLineup().put(brick.getPos(), brickPlayer);
 
                 return true;
@@ -210,54 +211,75 @@ public class Squad implements Serializable {
 
 
     // try to fix problem of not being able to swap out CB Joe Gomez, for instance, b/c he links to alisson and CB Walker, although way too expensive
-    // 1. try to swap random players around in squad (maybe use shuffle function) - maybe should be higher level
-    // 2. for any strong (double) links, get all players with same links and try to swap them in, and replace if rating/price is better
-    public static Squad optimizeChemWithoutReducingRating(Squad currentSquad, int numPlayersToTry) throws Exception {
+    // e.g. for any strong (double) links, get all players with same links and try to swap them in, and replace if rating/price is better
+    public static Squad optimizeChemWithoutReducingRating(Squad currentSquad, int searchDepth) throws Exception {
         PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         Squad outputSquad = currentSquad.deepClone();
-        int SEARCH_DEPTH = 10;
+        int allowedRatingDifference = 2;
         Graph g = currentSquad.getGraph();
         for (Map.Entry<Position, ArrayList<Position>> entry : g.getAdjList().entrySet()) {
+            // for each adjacent player...
             for (Position pos : entry.getValue()) {
-                // for each adjacent player...
                 Player adjacentPlayer = Squad.getPlayerAtActualPos(currentSquad, pos.getActualPosition());
+                // can't set currentPlayer outside this 'for' loop b/c it can change during iteration
                 Player currentPlayer= Squad.getPlayerAtActualPos(currentSquad, entry.getKey().getActualPosition());
-                // check how many shared links
+                // check shared links
                 ArrayList<String> sharedLinks = ChemistryEngine.determineSharedLinks(currentPlayer, adjacentPlayer);
                 int numShared = ChemistryEngine.numSharedLinks(currentPlayer, adjacentPlayer);
                 if (numShared == 0) {
-                    continue;
-                } else if (numShared == 1) {
-                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAs(currentPlayer, sharedLinks.get(0));
+                    // possible players is ALL players at player's rating or above
+                    PriorityQueue<Player> possiblePlayers = pl.getByRating().get(currentPlayer.getRating());
                     Squad proposedSquad = outputSquad.deepClone();
-                    for (int i=0; i<SEARCH_DEPTH; i++) {
+                    for (int i=0; i<searchDepth; i++) {
                         Player proposedPlayer = possiblePlayers.remove();
-                        proposedSquad.updateAtPos(entry.getKey().getActualPosition(), proposedPlayer);
-                        if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
-                            outputSquad = proposedSquad;
-                            break;
+                        if (proposedSquad.updateAtPos(pos.getActualPosition(), proposedPlayer)) {
+                            if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                                outputSquad = proposedSquad;
+                                break;
+                            }
+                        }
+                    }
+                } else if (numShared == 1) {
+                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAsAndMinRating(currentPlayer, sharedLinks.get(0), currentPlayer.getRating() - allowedRatingDifference);
+                    Squad proposedSquad = outputSquad.deepClone();
+                    for (int i=0; i<searchDepth; i++) {
+                        Player proposedPlayer = possiblePlayers.remove();
+                        if (proposedSquad.updateAtPos(pos.getActualPosition(), proposedPlayer)) {
+                            if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                                outputSquad = proposedSquad;
+                                break;
+                            }
                         }
                     }
                 } else if (numShared == 2) {
-                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAs(currentPlayer, sharedLinks.get(0), sharedLinks.get(1));
+                    PriorityQueue<Player> possiblePlayers;
+                    if (sharedLinks.size() == 1) {
+                        // case where sharedLink is team which counts as 2 links
+                        possiblePlayers = pl.getAllPlayersWithSameLinksAsAndMinRating(currentPlayer, sharedLinks.get(0), currentPlayer.getRating() - allowedRatingDifference);
+                    } else {
+                        possiblePlayers = pl.getAllPlayersWithSameLinksAsAndMinRating(currentPlayer, sharedLinks.get(0), sharedLinks.get(1), currentPlayer.getRating() - allowedRatingDifference);
+                    }
                     Squad proposedSquad = outputSquad.deepClone();
-                    for (int i=0; i<SEARCH_DEPTH; i++) {
+                    for (int i=0; i<searchDepth; i++) {
                         Player proposedPlayer = possiblePlayers.remove();
-                        proposedSquad.updateAtPos(entry.getKey().getActualPosition(), proposedPlayer);
-                        if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
-                            outputSquad = proposedSquad;
-                            break;
+                        if (proposedSquad.updateAtPos(pos.getActualPosition(), proposedPlayer)) {
+                            if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                                outputSquad = proposedSquad;
+                                break;
+                            }
                         }
                     }
                 } else if (numShared == 3) {
-                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAs(currentPlayer, "nation", "team");
+                    // can hardcode because this is the only combination that gives 3 links
+                    PriorityQueue<Player> possiblePlayers = pl.getAllPlayersWithSameLinksAsAndMinRating(currentPlayer, "nation", "team", currentPlayer.getRating() - allowedRatingDifference);
                     Squad proposedSquad = outputSquad.deepClone();
-                    for (int i=0; i<SEARCH_DEPTH; i++) {
+                    for (int i=0; i<searchDepth; i++) {
                         Player proposedPlayer = possiblePlayers.remove();
-                        proposedSquad.updateAtPos(entry.getKey().getActualPosition(), proposedPlayer);
-                        if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
-                            outputSquad = proposedSquad;
-                            break;
+                        if (proposedSquad.updateAtPos(pos.getActualPosition(), proposedPlayer)) {
+                            if (proposedSquad.getSquadRating() >= currentSquad.getSquadRating() && proposedSquad.getSquadPrice() <= currentSquad.getSquadPrice() && ChemistryEngine.calculateChemistry(proposedSquad) >= ChemistryEngine.calculateChemistry(currentSquad)) {
+                                outputSquad = proposedSquad;
+                                break;
+                            }
                         }
                     }
                 }
@@ -479,17 +501,21 @@ public class Squad implements Serializable {
         this.updateLineup();
     }
 
-    // TODO test changes
-    public void updateAtPos(ActualPosition uniqueActualPos, Player p) {
+    // TODO test changes and add test for player already exists
+    public boolean updateAtPos(ActualPosition uniqueActualPos, Player p)  {
+        // if player of any version already exists, equals method ignores version when comparing player types
+        if (this.getPlayers().contains(p)) {
+            return false;
+        }
         for (Map.Entry<Position, Player> entry : this.getLineup().entrySet()) {
             if (entry.getKey().getActualPosition().equals(uniqueActualPos)) {
-                this.getLineup().remove(entry.getKey());
-                this.getLineup().put(entry.getKey(), p);
-
                 this.getPlayers().remove(Squad.getPlayerAtActualPos(this, entry.getKey().getActualPosition()));
                 this.getPlayers().add(p);
+
+                this.getLineup().put(entry.getKey(), p);
             }
         }
+        return true;
     }
 
     public void updateLineup() {

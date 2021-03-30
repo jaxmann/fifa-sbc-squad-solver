@@ -168,6 +168,37 @@ public class PlayerLoaderUtil {
         return price_stripped;
     }
 
+    // return min heap of all players at or above min rating that have the same links of the type specified as the player specified
+    public PriorityQueue<Player> getAllPlayersWithSameLinksAsAndMinRating(Player player, String field, int minRating) throws Exception {
+        Set<Player> minRatingPlayers = new HashSet<>(this.getByRating().get(minRating));
+        for (int curRating=minRating+1; curRating<100; curRating++) {
+            if (this.getByRating().containsKey(curRating)) {
+                Set<Player> nextPlayers = new HashSet<>(this.getByRating().get(curRating));
+                minRatingPlayers.addAll(nextPlayers);
+            }
+        }
+        Set<Player> playersWithSameLinks = new HashSet<>(getAllPlayersWithSameLinksAs(player, field));
+        minRatingPlayers.retainAll(playersWithSameLinks);
+        PriorityQueue<Player> pq = new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator());
+        pq.addAll(minRatingPlayers);
+        return pq;
+    }
+
+    public PriorityQueue<Player> getAllPlayersWithSameLinksAsAndMinRating(Player player, String field1, String field2, int minRating) throws Exception {
+        Set<Player> minRatingPlayers = new HashSet<>(this.getByRating().get(minRating));
+        for (int curRating=minRating+1; curRating<100; curRating++) {
+            if (this.getByRating().containsKey(curRating)) {
+                Set<Player> nextPlayers = new HashSet<>(this.getByRating().get(curRating));
+                minRatingPlayers.addAll(nextPlayers);
+            }
+        }
+        Set<Player> playersWithSameLinks = new HashSet<>(getAllPlayersWithSameLinksAs(player, field1, field2));
+        minRatingPlayers.retainAll(playersWithSameLinks);
+        PriorityQueue<Player> pq = new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator());
+        pq.addAll(minRatingPlayers);
+        return pq;
+    }
+
     public PriorityQueue<Player> getAllPlayersWithSameLinksAs(Player player, String field) throws Exception {
         // nation
         if (field.equals(("nation"))) {
@@ -195,6 +226,7 @@ public class PlayerLoaderUtil {
         throw new Exception("invalid player field specified");
     }
 
+    // this returns all players with AT LEAST as many links as player, of types field1 and field2
     public PriorityQueue<Player> getAllPlayersWithSameLinksAs(Player player, String field1, String field2) throws Exception {
         Set<String> VALID_FIELDS = new HashSet<>(Arrays.asList("nation", "league", "team"));
         if (field1.equals(field2) || !VALID_FIELDS.contains(field1) || !VALID_FIELDS.contains(field2)) {
@@ -212,6 +244,7 @@ public class PlayerLoaderUtil {
                 nationLinks.retainAll(teamLinks);
                 PriorityQueue<Player> pq = new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator());
                 pq.addAll(nationLinks);
+                // this is already triple links
                 return pq;
             } else if (field2.equals("league")) {
                 // nation and league
@@ -220,8 +253,12 @@ public class PlayerLoaderUtil {
                 Set<Player> nationLinks = new HashSet<>(this.getByNation().get(player.getNation()));
                 Set<Player> leagueLinks = new HashSet<>(this.getByLeague().get(player.getLeague()));
                 nationLinks.retainAll(leagueLinks);
+                Set<Player> teamLinks = new HashSet<>(this.getByTeam().get(player.getTeam()));
+                // add team links so those are all 2+ links
+                nationLinks.addAll(teamLinks);
                 PriorityQueue<Player> pq = new PriorityQueue<>(MAX_NUMBER_OF_PLAYERS, new PlayerComparator());
                 pq.addAll(nationLinks);
+                // this is intersection of same nation and same league, unioned with same team
                 return pq;
             } else {
                 // flip order and try again
@@ -346,6 +383,10 @@ public class PlayerLoaderUtil {
             }
         }
         return cheapestPlayers;
+    }
+
+    public String downcaseSpecialCharacters(String s) {
+        return null;
     }
 
     public Player lookupPlayer(String nameSubstring, int rating, String nation, String position, String team, String league) throws PlayerNotFoundException {

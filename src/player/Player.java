@@ -48,6 +48,7 @@ public class Player implements Serializable {
         this.pos = pos;
     }
 
+    // TODO add test to verify equals ignores version when comparing players
     @Override
     public boolean equals(Object o) {
         if (getClass() != o.getClass()) {
@@ -60,9 +61,9 @@ public class Player implements Serializable {
                     this.getNation().equals(p.getNation()) &&
                     this.getLeague().equals(p.getLeague()) &&
                     this.getRating() == p.getRating() &&
-                    this.getPrice() == p.getPrice() &&
+                    // also ignore price b/c it could be because of CL vs non-CL cards
                     this.getLoyalty() == p.getLoyalty() &&
-                    this.getVersion() == p.getVersion() &&
+                    // intentionally ignore version when comparing players
                     this.getPosBase() == p.getPosBase();
         } catch (NullPointerException e) {
             System.out.println("Unable to compare player - NPE");
