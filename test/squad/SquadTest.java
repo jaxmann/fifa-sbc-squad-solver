@@ -450,7 +450,7 @@ public class SquadTest {
     }
 
     @Test
-    public void optimizeChemWithoutReducingRating() throws Exception {
+    public void test_optimizeChemWithoutReducingRating() throws Exception {
         PlayerLoaderUtil pl = PlayerLoaderUtil.getInstance();
         ArrayList<Player> players = new ArrayList<>();
         FormationFactory ff = new FormationFactory();
@@ -487,9 +487,17 @@ public class SquadTest {
         }
 
         Squad currentSquad = new Squad(positions, players, f);
-        Squad optimizedSquad = Squad.optimizeChemWithoutReducingRating(currentSquad, 30);
-        Squad doubleOptimized = Squad.optimizeRatingWithoutReducingChem(optimizedSquad, 10);
+        Squad betterSquad = Squad.optimizeChemWithoutReducingRating(currentSquad, 10);
 
-        assertEquals(currentSquad, Squad.optimizeRatingWithoutReducingChem(optimizedSquad, 10));
+        assertTrue(betterSquad.getFractionalSquadRating() >= currentSquad.getFractionalSquadRating());
+        assertTrue(betterSquad.getSquadPrice() <= currentSquad.getSquadPrice());
+        assertTrue(ChemistryEngine.calculateChemistry(betterSquad) >= ChemistryEngine.calculateChemistry(currentSquad));
+
+        // more iterations should be as least as good
+        Squad bestSquad = Squad.optimizeChemWithoutReducingRating(currentSquad, 30);
+
+        assertTrue(bestSquad.getFractionalSquadRating() >= currentSquad.getFractionalSquadRating());
+        assertTrue(bestSquad.getSquadPrice() <= currentSquad.getSquadPrice());
+        assertTrue(ChemistryEngine.calculateChemistry(bestSquad) >= ChemistryEngine.calculateChemistry(currentSquad));
     }
 }
